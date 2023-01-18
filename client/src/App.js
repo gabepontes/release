@@ -10,6 +10,10 @@ function App() {
       fetch(`/members/${summonerName}`)
         .then(res => res.json())
         .then(data => {
+          if(data.error) {
+            alert(`Error: ${data.error}`);
+            return;
+          }
           setPlayer(data);
         })
     }
@@ -28,10 +32,20 @@ function App() {
         <div>
           <p>Name: {player.name}</p>
           <p>Level: {player.level}</p>
+          {player.sorted_champion_stats.error ? <p>{player.sorted_champion_stats.error}</p> : 
+          <div>
+            <h3>Sorted Best Champ List:</h3>
+            <ul>
+              {Object.entries(player.sorted_champion_stats).map(([champion, stats]) => (
+                <li key={champion}>
+                  Champion: {champion} | Win rate: {(stats.wins / (stats.wins + stats.losses) * 100).toFixed(2)}% | Games played: {stats.games}
+                </li>
+              ))}
+            </ul>
+          </div>
+          }
         </div>
-      ) : (
-        <p>Enter a summoner name to get player info</p>
-      )}
+      ) : null}
     </div>
   )
 }
