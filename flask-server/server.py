@@ -38,26 +38,37 @@ def members(summoner_name):
             if response.status_code == 200:
                 match_s = response.json()
                 for match_single in match_s["info"]["participants"]:
-                    champion = match_single['championName']
                     if match_single['summonerId'] == player_id:
-                        
+                        champion = match_single['championName']
+                        kills = match_single['kills']
+                        deaths = match_single['deaths']
+                        assists = match_single['assists']
+                        kda = (kills + assists) / deaths if deaths != 0 else (kills + assists)
+                        items = match_single['items']
+                        farm = match_single['farm']
                         if champion in champion_stats:
                             champion_stats[champion]['games'] += 1
                             if match_single['win']:
                                 champion_stats[champion]['wins'] += 1
                             else:
                                 champion_stats[champion]['losses'] += 1
+                            champion_stats[champion]['kills'] += kills
+                            champion_stats[champion]['deaths'] += deaths
+                            champion_stats[champion]['assists'] += assists
+                            champion_stats[champion]['kda'] = (champion_stats[champion]['kills'] + champion_stats[champion]['assists']) / champion_stats[champion]['deaths'] if champion_stats[champion]['deaths'] != 0 else (champion_stats[champion]['kills'] + champion_stats[champion]['assists'])
+                            champion_stats[champion]['items'] = items
+                            champion_stats[champion]['farm'] = farm
                         else:
                             if match_single['win']:
-                                champion_stats[champion] = {'games': 1, 'wins': 1, 'losses': 0}
+                                champion_stats[champion] = {'games': 1, 'wins': 1, 'losses': 0, 'kills': kills, 'deaths': deaths, 'assists': assists, 'kda': kda, 'items': items, 'farm': farm}
                             else:
-                                champion_stats[champion] = {'games': 1, 'wins': 0, 'losses': 1}
+                                champion_stats[champion] = {'games': 1, 'wins': 0, 'losses': 1, 'kills': kills, 'deaths': deaths, 'assists': assists, 'kda': kda, 'items': items, 'farm': farm}
     else:
         champion_stats = {"error":"No match history found"}
    
     sorted_champion_stats = dict(sorted(champion_stats.items(), key=lambda item: (8 * item[1]['wins'] / (item[1]['wins'] + item[1]['losses']) + 2 * item[1]['games']) / 10, reverse=True))
 
-    return jsonify(name=player_name, level=player_level, match_history=match_history, sorted_champion_stats=sorted_champion_stats)
+    return jsonify(name=player_name, level=player_level, match_history=match_history, sorted_champion_stats=sorted_champion_stats,kills=kills, deaths=deaths, assists=assists, kda=kda, items=items, farm=farm)
 
 if __name__ == "__main__":
     app.run(debug=True)
