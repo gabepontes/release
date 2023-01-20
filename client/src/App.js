@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import 'bulma/css/bulma.min.css';
 
 function App() {
   const [player, setPlayer] = useState({});
@@ -20,13 +21,15 @@ function App() {
   }
 
   return (
+    <div class="section">
+
     <div className="App">
       <form>
         <label>
           Summoner Name:
           <input type="text" value={summonerName} onChange={e => setSummonerName(e.target.value)} />
         </label>
-        <button type="submit" onClick={handleSubmit}>Get Player Info</button>
+        <button class="button is-info" type="submit" onClick={handleSubmit}>Get Player Info</button>
       </form>
       {player.name ? (
         <div>
@@ -34,9 +37,9 @@ function App() {
           <p>Level: {player.level}</p>
           <div>
             <h3>Match History:</h3>
-            <table>
+            <table class="table is-bordered is-fullwidth is-striped">
               <thead>
-                <tr>
+                <tr class="is-selected">
                   <th>Match ID</th>
                   <th>Champion</th>
                   <th>Outcome</th>
@@ -68,9 +71,9 @@ function App() {
           {player.sorted_champion_stats.error ? <p>{player.sorted_champion_stats.error}</p> : 
           <div>
             <h3>Sorted Best Champ List:</h3>
-            <table>
+            <table class="table is-bordered is-fullwidth is-striped">
               <thead>
-                <tr>
+                <tr class="is-selected">
                   <th>Champion</th>
                   <th>Champion</th>
                   <th>Games</th>
@@ -99,6 +102,7 @@ function App() {
           }
         </div>
       ) : null}
+    </div>
     </div>
   )
 }
