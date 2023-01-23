@@ -5,7 +5,7 @@ import requests
 app = Flask(__name__)
 
 # API key for the league server
-api_key = "RGAPI-5a96be10-43f2-4fac-a80c-1d0465293996"
+api_key = "RGAPI-77155b7b-f094-4bc7-949f-c9e5bc2e5e63"
 
 # Members API route
 @app.route("/members/<summoner_name>")
@@ -41,7 +41,34 @@ def members(summoner_name):
     player_info = response.json()
     player_id = player_info['id']
     puu_id = player_info['puuid']
+    url= f'https://{region}.api.riotgames.com/lol/league/v4/entries/by-summoner/{player_id}'
+    headers = {'X-Riot-Token': api_key}
+    player_response = requests.get(url, headers=headers)
+    if player_response.status_code != 200:
+        return jsonify(error=player_response.status_code)
+    player = player_response.json()
+    print(player)
+    queueType = player[0]['queueType']
+    tier = player[0]["tier"]
+    rank = player[0]["rank"]
+    summonerId = player[0]["summonerId"]
+    summonerName = player[0]["summonerName"]
+    leaguePoints = player[0]["leaguePoints"]
+    wins = player[0]["wins"]
+    losses = player[0]["losses"]
+    veteran = player[0]["veteran"]
+    inactive = player[0]["inactive"]
+    freshBlood = player[0]["freshBlood"]
+    hotStreak = player[0]["hotStreak"]
+    if 0 != player[0]["losses"]:
+        winrate = player[0]["wins"]//player[0]["losses"]
+    else:
+        winrate = 100
 
+    player_data = {"queueType": queueType, "tier": tier, "rank": rank,
+                    "summonerId": summonerId, "summonerName": summonerName, "leaguePoints": leaguePoints,
+                    "wins": wins, "losses": losses, "veteran": veteran,
+                    "inactive": inactive, "freshBlood": freshBlood, "hotStreak": hotStreak, "winrate" : winrate}
     region = 'americas'
     url = f'https://{region}.api.riotgames.com/lol/match/v5/matches/by-puuid/{puu_id}/ids?type=ranked&start=0&count=10'
     headers = {'X-Riot-Token': api_key}
@@ -90,7 +117,7 @@ def members(summoner_name):
     cursor.close()
     cnx.close()
 
-    return jsonify([{'match_id': match[0], 'summoner_name': match[1], 'champion_name': match[2], 'kills': match[3], 'deaths': match[4], 
+    return jsonify(player_data,[{'match_id': match[0], 'summoner_name': match[1], 'champion_name': match[2], 'kills': match[3], 'deaths': match[4], 
         'assists': match[5], 'total_minions_killed': match[6], 'item0': match[7], 'item1': match[8], 'item2': match[9], 'item3': match[10], 
         'item4': match[11], 'item5': match[12]} for match in match_data])
 
