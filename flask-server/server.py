@@ -75,7 +75,7 @@ def members(summoner_name):
         freshBlood = i["freshBlood"]
         hotStreak = i["hotStreak"]
         if 0 != i["losses"]:
-          winrate = ((i["wins"]/(i["losses"]+i["wins"])) * 100)//1
+          winrate = round(((i["wins"]/(i["losses"]+i["wins"])) * 100))
         else:
             winrate = 100
         if(queueType == "RANKED_SOLO_5x5"):    
@@ -88,7 +88,7 @@ def members(summoner_name):
                         "leaguePoints": leaguePoints,
                         "wins": wins, "losses": losses, "veteran": veteran,
                         "inactive": inactive, "freshBlood": freshBlood, "hotStreak": hotStreak, "winrate" : winrate}
-        conter += 1
+        counter += 1
     region = 'americas'
     url = f'https://{region}.api.riotgames.com/lol/match/v5/matches/by-puuid/{puu_id}/ids?type=ranked&start=0&count=10'
     headers = {'X-Riot-Token': api_key}

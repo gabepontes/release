@@ -26,7 +26,7 @@ function App() {
     if (summonerName) {
       fetch(`/members/${summonerName}`)
         .then(res => {
-          if(!res.ok) {
+          if (!res.ok) {
             throw Error(res.statusText);
           }
           return res.json();
@@ -36,7 +36,7 @@ function App() {
           setMatches(data.matches);
           setFlex(data.flex)
           console.log(matches);
-      })
+        })
         .catch(error => {
           console.log(error);
           alert("Error fetching data");
@@ -56,49 +56,76 @@ function App() {
         </form>
         {matches.length > 0 ? (
           <div>
-            <div class="section">
-              <div class="columns is-centered">
-                <div class="column is-1">
-                  <img src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/profileicon/${playerData.icon}.png`} alt="Player Icon"></img>
-                  <br></br>
-                  Level {playerData.level}
+            <section class="hero is-dark">
+              <div class="hero-body">
+                <div class="columns is-centered">
+                  <div class="column is-1">
+                    <img src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/profileicon/${playerData.icon}.png`} alt="Player Icon"></img>
+                    <br></br>
+                    <div class="box has-background-dark has-text-white has-text-centered has-text-weight-normal">
+                      Level {playerData.level}
+                    </div>
+                  </div>
+                  <div class="column is-11">
+                    <h1 class="title">{playerData.summonerName}</h1>
+                  </div>
                 </div>
-                <div class="column is-11">
-                  {summonerName}
-                </div>
+
               </div>
-            </div>
+            </section>
+
+            <p></p>
+            <br></br>
 
             <div class="columns is-centered">
 
               <div class="column is-one-fourth">
 
-                <div class="box has-background-link has-text-white has-text-weight-normal">
-                <h1>Ranked Solo</h1>
+                <div class="box has-background-dark has-text-white has-text-weight-normal">
+                  <h1>Ranked Solo</h1>
                   <div class="section">
                     <div class="columns is-centered">
                       <div class="column is one-fourth">
-                      {RenderImage()}
+                        {RenderImage()}
                       </div>
                       <div class="column is-two-fourths">
-                        {playerData.soloRank}
+                        <b>{playerData.tier} {playerData.rank}</b>
                         <br></br>
                         {playerData.leaguePoints} LP
                       </div>
                       <div class="column is-one-fourth">
                         {playerData.wins}W {playerData.losses}L
                         <br></br>
-                        {playerData.winrate}% Win Rate 
+                        Win Rate {playerData.winrate}%
                       </div>
                     </div>
                   </div>
                 </div>
 
-                <div class="box has-background-link has-text-white has-text-weight-normal">
+                <div class="box has-background-dark has-text-white has-text-weight-normal">
                   <h1>Ranked Flex</h1>
+                  {Flex.tier !== "none" &&
+                    < div class="section">
+                      <div class="columns is-centered">
+                        <div class="column is one-fourth">
+                          {RenderFlexImage()}
+                        </div>
+                        <div class="column is-two-fourths">
+                          <b>{Flex.tier} {Flex.rank}</b>
+                          <br></br>
+                          {Flex.leaguePoints} LP
+                        </div>
+                        <div class="column is-one-fourth">
+                          {Flex.wins}W {Flex.losses}L
+                          <br></br>
+                          Win Rate {Flex.winrate}%
+                        </div>
+                      </div>
+                    </div>
+                  }
                 </div>
 
-                <div class="box has-background-link has-text-white has-text-weight-normal">
+                <div class="box has-background-dark has-text-white has-text-weight-normal">
                   Top 5 Champions
                   <div class="columns is-centered">
                     <div class="column is-one-third">
@@ -170,13 +197,40 @@ function App() {
           </div>
         ) : null}
       </div>
-    </div>
+    </div >
   )
   function RenderImage() {
-    if(playerData.queueType != "RANKED_SOLO_5x5"){
+    if (playerData.queueType !== "RANKED_SOLO_5x5") {
       return <img src={UNRANKED} alt="Rank" />
     }
     switch (playerData.tier) {
+      case 'CHALLENGER':
+        return <img src={CHALLENGER} alt="Rank" />
+      case 'GRANDMASTER':
+        return <img src={GRANDMASTER} alt="Rank" />
+      case 'MASTER':
+        return <img src={MASTER} alt="Rank" />
+      case 'DIAMOND':
+        return <img src={DIAMOND} alt="Rank" />
+      case 'PLATINUM':
+        return <img src={PLATINUM} alt="Rank" />
+      case 'GOLD':
+        return <img src={GOLD} alt="Rank" />
+      case 'SILVER':
+        return <img src={SILVER} alt="Rank" />
+      case 'BRONZE':
+        return <img src={BRONZE} alt="Rank" />
+      case 'IRON':
+        return <img src={IRON} alt="Rank" />
+      default:
+        return <img src={UNRANKED} alt="Rank" />
+    }
+  }
+  function RenderFlexImage() {
+    if (Flex.queueType !== "RANKED_FLEX_SR") {
+      return <img src={UNRANKED} alt="Rank" />
+    }
+    switch (Flex.tier) {
       case 'CHALLENGER':
         return <img src={CHALLENGER} alt="Rank" />
       case 'GRANDMASTER':
