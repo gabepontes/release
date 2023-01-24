@@ -47,7 +47,6 @@ def members(summoner_name):
     if player_response.status_code != 200:
         return jsonify(error=player_response.status_code)
     player = player_response.json()
-    print(player)
     queueType = player[0]['queueType']
     tier = player[0]["tier"]
     rank = player[0]["rank"]
@@ -61,14 +60,14 @@ def members(summoner_name):
     freshBlood = player[0]["freshBlood"]
     hotStreak = player[0]["hotStreak"]
     if 0 != player[0]["losses"]:
-        winrate = player[0]["wins"]//player[0]["losses"]
+        winrate = ((player[0]["wins"]/(player[0]["losses"]+player[0]["wins"])) * 100)//1
     else:
         winrate = 100
 
     player_data = {"queueType": queueType, "tier": tier, "rank": rank,
                     "summonerId": summonerId, "summonerName": summonerName, "leaguePoints": leaguePoints,
                     "wins": wins, "losses": losses, "veteran": veteran,
-                    "inactive": inactive, "freshBlood": freshBlood, "hotStreak": hotStreak, "winrate" : winrate}
+                    "inactive": inactive, "freshBlood": freshBlood, "hotStreak": hotStreak, "winrate" : winrate, 'icon':player_info["profileIconId"]}
     region = 'americas'
     url = f'https://{region}.api.riotgames.com/lol/match/v5/matches/by-puuid/{puu_id}/ids?type=ranked&start=0&count=10'
     headers = {'X-Riot-Token': api_key}
@@ -117,9 +116,9 @@ def members(summoner_name):
     cursor.close()
     cnx.close()
 
-    return jsonify(player_data,[{'match_id': match[0], 'summoner_name': match[1], 'champion_name': match[2], 'kills': match[3], 'deaths': match[4], 
+    return jsonify({"player_data":player_data, "matches": [{'match_id': match[0], 'summoner_name': match[1], 'champion_name': match[2], 'kills': match[3], 'deaths': match[4], 
         'assists': match[5], 'total_minions_killed': match[6], 'item0': match[7], 'item1': match[8], 'item2': match[9], 'item3': match[10], 
-        'item4': match[11], 'item5': match[12]} for match in match_data])
+        'item4': match[11], 'item5': match[12]} for match in match_data]})
 
 if __name__ == "__main__":
     app.run(debug=True)
