@@ -1,9 +1,20 @@
 import React, { useState, useEffect } from 'react'
+import CHALLENGER from './rankimg/CHALLENGER.png'
+import GRANDMASTER from './rankimg/GRANDMASTER.png'
+import MASTER from './rankimg/MASTER.png'
+import DIAMOND from './rankimg/DIAMOND.png'
+import PLATINUM from './rankimg/PLATINUM.png'
+import GOLD from './rankimg/GOLD.png'
+import SILVER from './rankimg/SILVER.png'
+import BRONZE from './rankimg/BRONZE.png'
+import IRON from './rankimg/IRON.png'
+import UNRANKED from './rankimg/UNRANKED.png'
 import 'bulma/css/bulma.min.css';
 
 function App() {
   const [matches, setMatches] = useState({});
   const [playerData, setPlayerData] = useState({});
+  const [Flex, setFlex] = useState({});
   const [summonerName, setSummonerName] = useState('');
 
   useEffect(() => {
@@ -23,6 +34,7 @@ function App() {
         .then(data => {
           setPlayerData(data.player_data);
           setMatches(data.matches);
+          setFlex(data.flex)
           console.log(matches);
       })
         .catch(error => {
@@ -49,7 +61,7 @@ function App() {
                 <div class="column is-1">
                   <img src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/profileicon/${playerData.icon}.png`} alt="Player Icon"></img>
                   <br></br>
-                  Level
+                  Level {playerData.level}
                 </div>
                 <div class="column is-11">
                   {summonerName}
@@ -66,7 +78,7 @@ function App() {
                   <div class="section">
                     <div class="columns is-centered">
                       <div class="column is one-fourth">
-                      <img src={`${playerData.tier}.png`} alt="Rank"></img>
+                      {RenderImage()}
                       </div>
                       <div class="column is-two-fourths">
                         {playerData.soloRank}
@@ -160,5 +172,33 @@ function App() {
       </div>
     </div>
   )
+  function RenderImage() {
+    if(playerData.queueType != "RANKED_SOLO_5x5"){
+      return <img src={UNRANKED} alt="Rank" />
+    }
+    switch (playerData.tier) {
+      case 'CHALLENGER':
+        return <img src={CHALLENGER} alt="Rank" />
+      case 'GRANDMASTER':
+        return <img src={GRANDMASTER} alt="Rank" />
+      case 'MASTER':
+        return <img src={MASTER} alt="Rank" />
+      case 'DIAMOND':
+        return <img src={DIAMOND} alt="Rank" />
+      case 'PLATINUM':
+        return <img src={PLATINUM} alt="Rank" />
+      case 'GOLD':
+        return <img src={GOLD} alt="Rank" />
+      case 'SILVER':
+        return <img src={SILVER} alt="Rank" />
+      case 'BRONZE':
+        return <img src={BRONZE} alt="Rank" />
+      case 'IRON':
+        return <img src={IRON} alt="Rank" />
+      default:
+        return <img src={UNRANKED} alt="Rank" />
+    }
+  }
 }
+
 export default App;

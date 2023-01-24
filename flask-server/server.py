@@ -5,7 +5,7 @@ import requests
 app = Flask(__name__)
 
 # API key for the league server
-api_key = "RGAPI-77155b7b-f094-4bc7-949f-c9e5bc2e5e63"
+api_key = "RGAPI-9ba3c22b-f0ae-47fc-8dd4-7ba991f9836e"
 
 # Members API route
 @app.route("/members/<summoner_name>")
@@ -32,6 +32,7 @@ def members(summoner_name):
         
     cursor.execute(table_create)
     cnx.commit()
+    
     region = "NA1"
     headers = {'X-Riot-Token': api_key}
     url = f'https://{region}.api.riotgames.com/lol/summoner/v4/summoners/by-name/{summoner_name}'
@@ -41,33 +42,53 @@ def members(summoner_name):
     player_info = response.json()
     player_id = player_info['id']
     puu_id = player_info['puuid']
+
+
+    player_data_solo = {"queueType": "none", "tier": "none", "rank": "0",
+                        "summonerName": summoner_name, "leaguePoints": 0,
+                        "wins": 0, "losses": 0, "veteran": False,
+                        "inactive": False, "freshBlood": False, "hotStreak": False, "winrate" : 0, 'icon':player_info["profileIconId"],'level':player_info["summonerLevel"]}
+    player_data_flex = {"queueType": "none", "tier": "none", "rank": "0",
+                        "leaguePoints": 0,
+                        "wins": 0, "losses": 0, "veteran": False,
+                        "inactive": False, "freshBlood": False, "hotStreak": False, "winrate" : 0}
+
     url= f'https://{region}.api.riotgames.com/lol/league/v4/entries/by-summoner/{player_id}'
     headers = {'X-Riot-Token': api_key}
     player_response = requests.get(url, headers=headers)
     if player_response.status_code != 200:
         return jsonify(error=player_response.status_code)
     player = player_response.json()
-    queueType = player[0]['queueType']
-    tier = player[0]["tier"]
-    rank = player[0]["rank"]
-    summonerId = player[0]["summonerId"]
-    summonerName = player[0]["summonerName"]
-    leaguePoints = player[0]["leaguePoints"]
-    wins = player[0]["wins"]
-    losses = player[0]["losses"]
-    veteran = player[0]["veteran"]
-    inactive = player[0]["inactive"]
-    freshBlood = player[0]["freshBlood"]
-    hotStreak = player[0]["hotStreak"]
-    if 0 != player[0]["losses"]:
-        winrate = ((player[0]["wins"]/(player[0]["losses"]+player[0]["wins"])) * 100)//1
-    else:
-        winrate = 100
-
-    player_data = {"queueType": queueType, "tier": tier, "rank": rank,
-                    "summonerId": summonerId, "summonerName": summonerName, "leaguePoints": leaguePoints,
-                    "wins": wins, "losses": losses, "veteran": veteran,
-                    "inactive": inactive, "freshBlood": freshBlood, "hotStreak": hotStreak, "winrate" : winrate, 'icon':player_info["profileIconId"]}
+    counter = 0
+    for i in player:
+      if ((i["queueType"] == "RANKED_SOLO_5x5") or (i["queueType"] == "RANKED_FLEX_SR")):
+        queueType = i['queueType']
+        tier = i["tier"]
+        rank = i["rank"]
+        summonerId = i["summonerId"]
+        summonerName = i["summonerName"]
+        leaguePoints = i["leaguePoints"]
+        wins = i["wins"]
+        losses = i["losses"]
+        veteran = i["veteran"]
+        inactive = i["inactive"]
+        freshBlood = i["freshBlood"]
+        hotStreak = i["hotStreak"]
+        if 0 != i["losses"]:
+          winrate = ((i["wins"]/(i["losses"]+i["wins"])) * 100)//1
+        else:
+            winrate = 100
+        if(queueType == "RANKED_SOLO_5x5"):    
+          player_data_solo = {"queueType": queueType, "tier": tier, "rank": rank,
+                       "summonerName": summonerName, "leaguePoints": leaguePoints,
+                        "wins": wins, "losses": losses, "veteran": veteran,
+                        "inactive": inactive, "freshBlood": freshBlood, "hotStreak": hotStreak, "winrate" : winrate, 'icon':player_info["profileIconId"],'level':player_info["summonerLevel"]}
+        elif(queueType == "RANKED_FLEX_SR"):    
+          player_data_flex = {"queueType": queueType, "tier": tier, "rank": rank,
+                        "leaguePoints": leaguePoints,
+                        "wins": wins, "losses": losses, "veteran": veteran,
+                        "inactive": inactive, "freshBlood": freshBlood, "hotStreak": hotStreak, "winrate" : winrate}
+        conter += 1
     region = 'americas'
     url = f'https://{region}.api.riotgames.com/lol/match/v5/matches/by-puuid/{puu_id}/ids?type=ranked&start=0&count=10'
     headers = {'X-Riot-Token': api_key}
@@ -116,7 +137,7 @@ def members(summoner_name):
     cursor.close()
     cnx.close()
 
-    return jsonify({"player_data":player_data, "matches": [{'match_id': match[0], 'summoner_name': match[1], 'champion_name': match[2], 'kills': match[3], 'deaths': match[4], 
+    return jsonify({"flex":player_data_flex,"player_data":player_data_solo, "matches": [{'match_id': match[0], 'summoner_name': match[1], 'champion_name': match[2], 'kills': match[3], 'deaths': match[4], 
         'assists': match[5], 'total_minions_killed': match[6], 'item0': match[7], 'item1': match[8], 'item2': match[9], 'item3': match[10], 
         'item4': match[11], 'item5': match[12]} for match in match_data]})
 
