@@ -1,11 +1,13 @@
 from flask import Flask, jsonify, request
 import mysql.connector
+import os
+import json
 import requests
 
 app = Flask(__name__)
 
 # API key for the league server
-api_key = "RGAPI-9ba3c22b-f0ae-47fc-8dd4-7ba991f9836e"
+api_key = "RGAPI-7093c0ab-6eee-4471-aa62-e11f4624e40e"
 
 # Members API route
 @app.route("/members/<summoner_name>")
@@ -32,7 +34,14 @@ def members(summoner_name):
         
     cursor.execute(table_create)
     cnx.commit()
-    
+    runes_file = os.path.join(os.path.dirname(__file__), 'runes.json')
+    with open(runes_file, "r") as file:
+      json_data = file.read()
+      json_object = json.loads(json_data)
+    spells_file = os.path.join(os.path.dirname(__file__), 'spells.json')
+    with open(spells_file, "r") as file:
+      json_data2 = file.read()
+      json_object2 = json.loads(json_data2)
     region = "NA1"
     headers = {'X-Riot-Token': api_key}
     url = f'https://{region}.api.riotgames.com/lol/summoner/v4/summoners/by-name/{summoner_name}'
@@ -111,6 +120,7 @@ def members(summoner_name):
                 if response.status_code == 200:
                     match_s = response.json()
                     for match_single in match_s["info"]["participants"]:
+                        runes = []
                         summoner_name = match_single['summonerName']
                         champion_name = match_single['championName']
                         kills = match_single['kills']
@@ -128,20 +138,38 @@ def members(summoner_name):
                         item3 = items[3]
                         item4 = items[4]
                         item5 = items[5]
+                        perk = match_single['perks']
+                        for i in perk['styles']:
+                          for x in i['selections']:
+                            runes.append(x['perk'])
+                             
+                        for rune_info in json_object:
+                          for slots in rune_info['slots']:
+                            for rune in slots['runes']:
+                              if rune['id'] in runes:
+                                  index = runes.index(rune['id'])
+                                  runes[index] = rune['icon']
+                        spell1 = match_single["summoner1Id"]
+                        spell2 = match_single["summoner2Id"]
+                        for spell in json_object2:
+                          if (str)(spell1) == spell['key']:
+                            spell1 = spell["icon"]
+                          elif (str)(spell2) == spell['key']:
+                            spell2 = spell["icon"]
                         if match_single['summonerId'] == player_id:
-                            main.append((match, summoner_name, champion_name, kills, deaths, assists, total_minions_killed, item0, item1, item2, item3, item4, item5))
+                            main.append((match, summoner_name, champion_name, kills, deaths, assists, total_minions_killed, item0, item1, item2, item3, item4, item5,runes[0],runes[1],runes[2],runes[3],runes[4],runes[5],spell1,spell2))
                         # Insert the match data into the MySQL table
                         cursor.execute("INSERT INTO matches (match_id, summoner_name, champion_name, kills, deaths, assists, total_minions_killed, item0, item1, item2, item3, item4, item5) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (match, summoner_name, champion_name, kills, deaths, assists, total_minions_killed, item0, item1, item2, item3, item4, item5))
                         cnx.commit()
-                        match_data.append((match, summoner_name, champion_name, kills, deaths, assists, total_minions_killed, item0, item1, item2, item3, item4, item5))
+                        match_data.append((match, summoner_name, champion_name, kills, deaths, assists, total_minions_killed, item0, item1, item2, item3, item4, item5,runes[0],runes[1],runes[2],runes[3],runes[4],runes[5],spell1,spell2))
     cursor.close()
     cnx.close()
 
     return jsonify({"flex":player_data_flex,"player_data":player_data_solo, "matches": [{'match_id': match[0], 'summoner_name': match[1], 'champion_name': match[2], 'kills': match[3], 'deaths': match[4], 
         'assists': match[5], 'total_minions_killed': match[6], 'item0': match[7], 'item1': match[8], 'item2': match[9], 'item3': match[10], 
-        'item4': match[11], 'item5': match[12]} for match in match_data],"main": [{'match_id': match[0], 'summoner_name': match[1], 'champion_name': match[2], 'kills': match[3], 'deaths': match[4], 
+        'item4': match[11], 'item5': match[12], "rune0" : runes[0],"rune0" : match[13],"rune1" :match[14],"rune2" :match[15],"rune3" :match[16],"rune4" :match[17],"rune5" :match[18],"spell1" :match[19],"spell2" :match[20]} for match in match_data],"main": [{'match_id': match[0], 'summoner_name': match[1], 'champion_name': match[2], 'kills': match[3], 'deaths': match[4], 
         'assists': match[5], 'total_minions_killed': match[6], 'item0': match[7], 'item1': match[8], 'item2': match[9], 'item3': match[10], 
-        'item4': match[11], 'item5': match[12]} for match in main]})
+        'item4': match[11], 'item5': match[12], "rune0" : match[13],"rune1" :match[14],"rune2" :match[15],"rune3" :match[16],"rune4" :match[17],"rune5" :match[18],"spell1" :match[19],"spell2" :match[20]} for match in main]})
 
 if __name__ == "__main__":
     app.run(debug=True)

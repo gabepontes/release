@@ -1,5 +1,5 @@
 .App {
-  text-align: center;
+  
   background-color: rgb(255, 255, 255);
 }
 .layout-container {
@@ -8,40 +8,83 @@
 }
 
 .rec {
+  position: relative;
   width: 1100px; /* set width to 600px */
+  height: 150px;
   background-color: rgba(0, 117, 213, 0.475);
   margin: 0 auto; /* center element horizontally */
-  margin-bottom: 20px;
+  margin-bottom: 5px;
   /* other styles */
 }
 
-.rec-left {
-  display: flex; /* enable flexbox */
-  flex-direction: column; /* stack items vertically */
-  align-items: center; /* center items horizontally */
-}
+
 
 .champion-container {
-  display: flex; /* enable flexbox */
-  align-items: center; /* center items horizontally */
+  transform: scale(0.6);
+  position: relative;
+  top: -10px; /* set top position to 10px */
+  right: 200px; /* set left position to 10px */
 }
 
-.champion-spells-runes-container {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
+.player-info{
+  position: relative;
+  top: -700px; /* set top position to 10px */
+  right: -230px; /* set left position to 10px */
 }
-
 .items-container {
-  margin-top: 10px;
+  transform: scale(0.6);
+  position: relative;
+  align-items: left;
+  top: -570px; /* set top position to 10px */
+  right: 200px; /* set left position to 10px */
 }
 
 
-.spells-runes {
-  display: flex; /* enable flexbox */
+.spells{
+  position: relative;
+  top: -137px;
+  right: 180px;
+  display:block;
+  transform: scale(0.5);
+  }
+  .spells img{
+  
+    display:block;
+  }
+  
+
+.runes1 {
+  position: relative;
+  top: -357px;
+  right: 80px;
   align-items: center; /* center items vertically */
   justify-content: space-between; /* distribute items horizontally */
+  transform: scale(0.2);
+  margin-bottom: 0px;
+  width:50%;
+  
+}
+.runes2 {
+  position: relative;
+  top: -490px;
+  right: 40px;
+  align-items: center; /* center items vertically */
+  justify-content: space-between; /* distribute items horizontally */
+  transform: scale(0.35);
+  margin-bottom: 0px;
+  width:50%;
+  
+}
+.runes3 {
+  position: relative;
+  top: -535px;
+  right: 30px;
+  align-items: center; /* center items vertically */
+  justify-content: space-between; /* distribute items horizontally */
+  transform: scale(0.35);
+  margin-bottom: 0px;
+  width:50%;
+  
 }
 
 .rec:hover {

@@ -175,11 +175,22 @@ function App() {
    <div className="champion-container">
       <img src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/champion/${match.champion_name}.png`} alt="Champion Icon" />
    </div>
-   <div className="spells-runes">
-      <img src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/spell/${match.spell1}.png`} alt="Spell 1" />
-      <img src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/spell/${match.spell2}.png`} alt="Spell 2" />
-      <img src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/rune/${match.rune1}.png`} alt="Rune 1" />
-      <img src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/rune/${match.rune2}.png`} alt="Rune 2" />
+   <div className="spells">
+      <img src={`${match.spell1}`} alt="Spell 1" />
+      <img src={`${match.spell2}`} alt="Spell 2" />
+      </div>
+      <div className="runes1">
+      <img src={`https://ddragon.canisback.com/img/${match.rune0}`} alt="Rune 1" />
+      </div>
+      <div className="runes2">
+      <img src={`https://ddragon.canisback.com/img/${match.rune1}`} alt="Rune 2" />
+      <img src={`https://ddragon.canisback.com/img/${match.rune2}`} alt="Rune 3" />
+      <img src={`https://ddragon.canisback.com/img/${match.rune3}`} alt="Rune 4" />
+      </div>
+      <div className="runes3">
+      <img src={`https://ddragon.canisback.com/img/${match.rune4}`} alt="Rune 5" />
+      <img src={`https://ddragon.canisback.com/img/${match.rune5}`} alt="Rune 6" />
+   
    </div>
    <div className="items-container">
       {match.item0 !== 0 ? <img src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/${match.item0}.png`} alt="Item 0" /> : null}
@@ -189,18 +200,16 @@ function App() {
       {match.item4 !== 0 ? <img src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/${match.item4}.png`} alt="Item 4" /> : null}
       {match.item5 !== 0 ? <img src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/${match.item5}.png`} alt="Item 5" /> : null}
    </div>
-</div>
-</div>
-   <div className="rec-right">
-      <div className="kda">
+   <div className="player-info">
+   <div className="player-name">{match.summoner_name}</div>
+   <div className="kda">
       <span className="kills">{match.kills}</span>/<span className="deaths">{match.deaths}</span>/<span className="assists">{match.assists}</span>
 </div>
-<div className="player-info">
-   <div className="player-name">{match.summoner_name}</div>
-   <img src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/profileicon/${match.profile_icon_id}.png`} alt="Player Profile Icon" />
 </div>
 </div>
 </div>
+</div>
+
 
          
       </tr>
@@ -272,6 +281,11 @@ function App() {
       default:
         return <img src={UNRANKED} alt="Rank" />
     }
+  }
+  function runeone(rune){
+    switch(rune){
+    case 6661:
+    }  
   }
 }
 
