@@ -98,6 +98,7 @@ def members(summoner_name):
     match_history = match_history_response.json()
     select_match_id = "SELECT match_id FROM matches WHERE match_id = %s"
     match_data = []
+    main = []
     if match_history:
         for match in match_history:
             cursor.execute(select_match_id, (match,))
@@ -128,8 +129,7 @@ def members(summoner_name):
                         item4 = items[4]
                         item5 = items[5]
                         if match_single['summonerId'] == player_id:
-                            kda = (kills + assists) / deaths if deaths != 0 else (kills + assists)
-                            farm = total_minions_killed
+                            main.append((match, summoner_name, champion_name, kills, deaths, assists, total_minions_killed, item0, item1, item2, item3, item4, item5))
                         # Insert the match data into the MySQL table
                         cursor.execute("INSERT INTO matches (match_id, summoner_name, champion_name, kills, deaths, assists, total_minions_killed, item0, item1, item2, item3, item4, item5) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (match, summoner_name, champion_name, kills, deaths, assists, total_minions_killed, item0, item1, item2, item3, item4, item5))
                         cnx.commit()
@@ -139,7 +139,9 @@ def members(summoner_name):
 
     return jsonify({"flex":player_data_flex,"player_data":player_data_solo, "matches": [{'match_id': match[0], 'summoner_name': match[1], 'champion_name': match[2], 'kills': match[3], 'deaths': match[4], 
         'assists': match[5], 'total_minions_killed': match[6], 'item0': match[7], 'item1': match[8], 'item2': match[9], 'item3': match[10], 
-        'item4': match[11], 'item5': match[12]} for match in match_data]})
+        'item4': match[11], 'item5': match[12]} for match in match_data],"main": [{'match_id': match[0], 'summoner_name': match[1], 'champion_name': match[2], 'kills': match[3], 'deaths': match[4], 
+        'assists': match[5], 'total_minions_killed': match[6], 'item0': match[7], 'item1': match[8], 'item2': match[9], 'item3': match[10], 
+        'item4': match[11], 'item5': match[12]} for match in main]})
 
 if __name__ == "__main__":
     app.run(debug=True)

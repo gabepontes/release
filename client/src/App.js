@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+
 import CHALLENGER from './rankimg/CHALLENGER.png'
 import GRANDMASTER from './rankimg/GRANDMASTER.png'
 import MASTER from './rankimg/MASTER.png'
@@ -10,11 +11,13 @@ import BRONZE from './rankimg/BRONZE.png'
 import IRON from './rankimg/IRON.png'
 import UNRANKED from './rankimg/UNRANKED.png'
 import 'bulma/css/bulma.min.css';
-
+import './App.css';
 function App() {
   const [matches, setMatches] = useState({});
   const [playerData, setPlayerData] = useState({});
   const [Flex, setFlex] = useState({});
+  const [Main, setMain] = useState({});
+  const [expandedRows, setExpandedRows] = useState([]);
   const [summonerName, setSummonerName] = useState('');
 
   useEffect(() => {
@@ -33,6 +36,7 @@ function App() {
         })
         .then(data => {
           setPlayerData(data.player_data);
+          setMain(data.main);
           setMatches(data.matches);
           setFlex(data.flex)
           console.log(matches);
@@ -43,7 +47,13 @@ function App() {
         });
     }
   }
-
+  const toggleExpand = matchId => {
+    if (expandedRows.includes(matchId)) {
+      setExpandedRows(expandedRows.filter(id => id !== matchId));
+    } else {
+      setExpandedRows([...expandedRows, matchId]);
+    }
+  }
   return (
     <div class="section">
       <div className="App">
@@ -147,48 +157,51 @@ function App() {
               <div class="column is-two-thirds">
                 <div>
                   <h3>Match History:</h3>
-                  <table class="table is-bordered is-fullwidth is-striped">
-                    <thead>
-                      <tr>
-                        <th>Match ID</th>
-                        <th>Summoner Name</th>
-                        <th>Champion Name</th>
-                        <th>Kills</th>
-                        <th>Deaths</th>
-                        <th>Assists</th>
-                        <th>Total Minions Killed</th>
-                        <th>Item 0</th>
-                        <th>Item 1</th>
-                        <th>Item 2</th>
-                        <th>Item 3</th>
-                        <th>Item 4</th>
-                        <th>Item 5</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {matches.map((match, index) => (
-                        <>
-                          {index !== 0 && <div className="separator"></div>}
-                          <tr key={match.match_id}>
-                            <td>{match.match_id}</td>
-                            <td>{match.summoner_name}</td>
-                            <td>{match.champion_name}</td>
-                            <td>{match.kills}</td>
-                            <td>{match.deaths}</td>
-                            <td>{match.assists}</td>
-                            <td>{match.total_minions_killed}</td>
-                            {match.item0 !== 0 ? <td><img src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/${match.item0}.png`} alt="Item 0" /></td> : <td></td>}
-                            {match.item1 !== 0 ? <td><img src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/${match.item1}.png`} alt="Item 1" /></td> : <td></td>}
-                            {match.item2 !== 0 ? <td><img src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/${match.item2}.png`} alt="Item 2" /></td> : <td></td>}
-                            {match.item3 !== 0 ? <td><img src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/${match.item3}.png`} alt="Item 3" /></td> : <td></td>}
-                            {match.item4 !== 0 ? <td><img src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/${match.item4}.png`} alt="Item 4" /></td> : <td></td>}
-                            {match.item5 !== 0 ? <td><img src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/${match.item5}.png`} alt="Item 5" /></td> : <td></td>}
-                          </tr>
-                          <div className="separator"></div>
-                        </>
-                      ))}
-                    </tbody>
-                  </table>
+                  <tbody>
+   <div className="layout-container">
+   {Main.map((match, index) => (
+      <tr>
+         
+            <div className="rec">
+            <div className="rec-left">
+            <div className="champion-spells-runes-container">
+   <div className="champion-container">
+      <img src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/champion/${match.champion_name}.png`} alt="Champion Icon" />
+   </div>
+   <div className="spells-runes">
+      <img src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/spell/${match.spell1}.png`} alt="Spell 1" />
+      <img src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/spell/${match.spell2}.png`} alt="Spell 2" />
+      <img src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/rune/${match.rune1}.png`} alt="Rune 1" />
+      <img src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/rune/${match.rune2}.png`} alt="Rune 2" />
+   </div>
+   <div className="items-container">
+      {match.item0 !== 0 ? <img src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/${match.item0}.png`} alt="Item 0" /> : null}
+      {match.item1 !== 0 ? <img src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/${match.item1}.png`} alt="Item 1" /> : null}
+      {match.item2 !== 0 ? <img src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/${match.item2}.png`} alt="Item 2" /> : null}
+      {match.item3 !== 0 ? <img src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/${match.item3}.png`} alt="Item 3" /> : null}
+      {match.item4 !== 0 ? <img src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/${match.item4}.png`} alt="Item 4" /> : null}
+      {match.item5 !== 0 ? <img src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/${match.item5}.png`} alt="Item 5" /> : null}
+   </div>
+</div>
+</div>
+   <div className="rec-right">
+      <div className="kda">
+      <span className="kills">{match.kills}</span>/<span className="deaths">{match.deaths}</span>/<span className="assists">{match.assists}</span>
+</div>
+<div className="player-info">
+   <div className="player-name">{match.summoner_name}</div>
+   <img src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/profileicon/${match.profile_icon_id}.png`} alt="Player Profile Icon" />
+</div>
+</div>
+</div>
+
+         
+      </tr>
+   ))}
+   </div>
+</tbody>
+                
+
                 </div>
               </div>
 
