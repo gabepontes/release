@@ -28,6 +28,7 @@
 
 .player-info{
   position: relative;
+  font-weight: bold;
   top: -700px; /* set top position to 10px */
   right: -230px; /* set left position to 10px */
 }
@@ -89,4 +90,10 @@
 
 .rec:hover {
   box-shadow: 2px 2px 2px rgb(0, 0, 0);
+}
+.win{
+   background-color: green;
+}
+.loss{
+   background-color: red;
 }

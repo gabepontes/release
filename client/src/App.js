@@ -19,6 +19,7 @@ function App() {
   const [Main, setMain] = useState({});
   const [expandedRows, setExpandedRows] = useState([]);
   const [summonerName, setSummonerName] = useState('');
+  
 
   useEffect(() => {
     console.log(matches);
@@ -169,7 +170,7 @@ function App() {
    {Main.map((match, index) => (
       <tr>
          
-            <div className="rec">
+         <div className={`rec ${match.win === 1 ? "win" : "loss"}`}>
             <div className="rec-left">
             <div className="champion-spells-runes-container">
    <div className="champion-container">
@@ -184,6 +185,7 @@ function App() {
       </div>
       <div className="runes2">
       <img src={`https://ddragon.canisback.com/img/${match.rune1}`} alt="Rune 2" />
+      
       <img src={`https://ddragon.canisback.com/img/${match.rune2}`} alt="Rune 3" />
       <img src={`https://ddragon.canisback.com/img/${match.rune3}`} alt="Rune 4" />
       </div>
@@ -287,6 +289,7 @@ function App() {
     case 6661:
     }  
   }
+  
 }
 
 export default App;
