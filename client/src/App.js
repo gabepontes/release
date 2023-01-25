@@ -70,9 +70,11 @@ function App() {
               <div class="hero-body">
                 <div class="columns is-centered">
                   <div class="column is-1">
-                    <img src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/profileicon/${playerData.icon}.png`} alt="Player Icon"></img>
+                    <figure class="image is-128x128">
+                      <img class="is-rounded" src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/profileicon/${playerData.icon}.png`} alt="Player Icon"></img>
+                    </figure>
                     <br></br>
-                    <div class="box has-background-dark has-text-white has-text-centered has-text-weight-normal">
+                    <div class="box has-background-black has-text-white has-text-centered has-text-weight-normal">
                       Level {playerData.level}
                     </div>
                   </div>
@@ -93,6 +95,8 @@ function App() {
 
                 <div class="box has-background-dark has-text-white has-text-weight-normal">
                   <h1>Ranked Solo</h1>
+                  <hr></hr>
+
                   <div class="section">
                     <div class="columns is-centered">
                       <div class="column is one-fourth">
@@ -114,8 +118,11 @@ function App() {
 
                 <div class="box has-background-dark has-text-white has-text-weight-normal">
                   <h1>Ranked Flex</h1>
+                  {Flex.tier !== "none" && <hr></hr>}
                   {Flex.tier !== "none" &&
+
                     < div class="section">
+
                       <div class="columns is-centered">
                         <div class="column is one-fourth">
                           {RenderFlexImage()}
