@@ -35,6 +35,7 @@ def members(summoner_name):
     cursor.execute(table_create)
     cnx.commit()
     runes_file = os.path.join(os.path.dirname(__file__), 'runes.json')
+    champion_stats = {}
     with open(runes_file, "r") as file:
       json_data = file.read()
       json_object = json.loads(json_data)
@@ -128,10 +129,29 @@ def members(summoner_name):
                         assists = match_single['assists']
                         total_minions_killed = match_single['totalMinionsKilled']
                         items = [match_single['item0'], match_single['item1'], match_single['item2'], match_single['item3'], match_single['item4'], match_single['item5']]
+                        if match_single['summonerId'] == player_id:
+                          if champion_name in champion_stats:
+                              champion_stats[champion_name]['games'] += 1
+                              champion_stats[champion_name]['kills'] += match_single['kills']
+                              champion_stats[champion_name]['deaths'] += match_single['deaths']
+                              champion_stats[champion_name]['time'] += match_single['timePlayed']
+                              champion_stats[champion_name]['gold'] += match_single['goldEarned']
+                              champion_stats[champion_name]['assists'] += match_single['assists']
+                              if match_single['win']:
+                                  champion_stats[champion_name]['wins'] += 1
+                              else:
+                                  champion_stats[champion_name]['losses'] += 1
+                              champion_stats[champion_name]['win_rate'] = champion_stats[champion_name]['wins'] / champion_stats[champion_name]['games']
+                              champion_stats[champion_name]['KDA_ratio'] = (champion_stats[champion_name]['kills'] + champion_stats[champion_name]['assists']) / champion_stats[champion_name]['deaths']
+                          else:
+                              if match_single['win']:
+                                  champion_stats[champion_name] = {'games': 1, 'wins': 1, 'losses': 0, 'kills': match_single['kills'], 'deaths': match_single['deaths'], 'assists': match_single['assists'],'gold' : match_single['goldEarned'],'time' : match_single['timePlayed'], 'win_rate': 1, 'KDA_ratio': (match_single['kills'] + match_single['assists']) / match_single['deaths']}
+                              else:
+                                  champion_stats[champion_name] = {'games': 1, 'wins': 0, 'losses': 1, 'kills': match_single['kills'], 'deaths': match_single['deaths'], 'assists': match_single['assists'], 'win_rate': 0,'gold' : match_single['goldEarned'],'time' : match_single['timePlayed'], 'KDA_ratio': (match_single['kills'] + match_single['assists']) / match_single['deaths']}
                         for i in range(len(items)-1):
-                            for j in range(i+1,len(items)):
-                                if items[i]<items[j]:
-                                    items[i],items[j]=items[j],items[i]
+                          for j in range(i+1,len(items)):
+                            if items[i]<items[j]:
+                              items[i],items[j]=items[j],items[i]
                         item0 = items[0]
                         item1 = items[1]
                         item2 = items[2]
@@ -165,8 +185,8 @@ def members(summoner_name):
                         match_data.append((match, summoner_name, champion_name, kills, deaths, assists, total_minions_killed, item0, item1, item2, item3, item4, item5,runes[0],runes[1],runes[2],runes[3],runes[4],runes[5],spell1,spell2,win))
     cursor.close()
     cnx.close()
-
-    return jsonify({"flex":player_data_flex,"player_data":player_data_solo, "matches": [{'match_id': match[0], 'summoner_name': match[1], 'champion_name': match[2], 'kills': match[3], 'deaths': match[4], 
+    Sorted_champion_stats = dict(sorted(champion_stats.items(), key=lambda item: (8 * item[1]['wins'] / (item[1]['wins'] + item[1]['losses']) + 2 * item[1]['games']) / 10, reverse=True))
+    return jsonify({"bestChamp" : Sorted_champion_stats,"flex":player_data_flex,"player_data":player_data_solo, "matches": [{'match_id': match[0], 'summoner_name': match[1], 'champion_name': match[2], 'kills': match[3], 'deaths': match[4], 
         'assists': match[5], 'total_minions_killed': match[6], 'item0': match[7], 'item1': match[8], 'item2': match[9], 'item3': match[10], 
         'item4': match[11], 'item5': match[12], "rune0" : runes[0],"rune0" : match[13],"rune1" :match[14],"rune2" :match[15],"rune3" :match[16],"rune4" :match[17],"rune5" :match[18],"spell1" :match[19],"spell2" :match[20],"win" :match[21]} for match in match_data],"main": [{'match_id': match[0], 'summoner_name': match[1], 'champion_name': match[2], 'kills': match[3], 'deaths': match[4], 
         'assists': match[5], 'total_minions_killed': match[6], 'item0': match[7], 'item1': match[8], 'item2': match[9], 'item3': match[10], 
