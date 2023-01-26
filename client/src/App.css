@@ -17,6 +17,17 @@
   /* other styles */
 }
 
+.expanded {
+  /* Styles for expanded box */
+  position: relative;
+  height: 800px; /* adjust the height to your needs */
+}
+
+.rec + .rec {
+  /* Styles for boxes that come after an expanded box */
+  position: relative;
+  margin-top: 300px; /* adjust the margin to your needs */
+}
 
 
 .champion-container {
@@ -87,7 +98,12 @@
   width:50%;
   
 }
-
+.expanded-content {
+  width: 100%;
+  height: auto;
+  position: absolute;
+  top: 100%;
+}
 .rec:hover {
   box-shadow: 2px 2px 2px rgb(0, 0, 0);
 }

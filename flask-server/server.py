@@ -7,7 +7,7 @@ import requests
 app = Flask(__name__)
 
 # API key for the league server
-api_key = "RGAPI-7093c0ab-6eee-4471-aa62-e11f4624e40e"
+api_key = "RGAPI-e3731874-889b-4bb4-9171-dbd9410cd6c7"
 
 # Members API route
 @app.route("/members/<summoner_name>")

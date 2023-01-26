@@ -17,9 +17,16 @@ function App() {
   const [playerData, setPlayerData] = useState({});
   const [Flex, setFlex] = useState({});
   const [Main, setMain] = useState({});
-  const [expandedRows, setExpandedRows] = useState([]);
   const [summonerName, setSummonerName] = useState('');
+  const [expandedIndex, setExpandedIndex] = useState(-1);
   
+  function handleExpand(index) {
+    if (expandedIndex === index) {
+       setExpandedIndex(-1);
+    } else {
+       setExpandedIndex(index);
+    }
+ }
 
   useEffect(() => {
     console.log(matches);
@@ -48,13 +55,8 @@ function App() {
         });
     }
   }
-  const toggleExpand = matchId => {
-    if (expandedRows.includes(matchId)) {
-      setExpandedRows(expandedRows.filter(id => id !== matchId));
-    } else {
-      setExpandedRows([...expandedRows, matchId]);
-    }
-  }
+  
+
   return (
     <div class="section">
       <div className="App">
@@ -165,7 +167,7 @@ function App() {
               <div class="column is-two-thirds">
                 <div>
                   <h3>Match History:</h3>
-                  <tbody>
+  <tbody>
    <div className="layout-container">
    {Main.map((match, index) => (
       <tr>
@@ -202,11 +204,44 @@ function App() {
       {match.item4 !== 0 ? <img src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/${match.item4}.png`} alt="Item 4" /> : null}
       {match.item5 !== 0 ? <img src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/${match.item5}.png`} alt="Item 5" /> : null}
    </div>
+   
+            
    <div className="player-info">
    <div className="player-name">{match.summoner_name}</div>
    <div className="kda">
       <span className="kills">{match.kills}</span>/<span className="deaths">{match.deaths}</span>/<span className="assists">{match.assists}</span>
 </div>
+<div key={index} className="expand-button-container">
+   <button onClick={() => handleExpand(index)} className="expand-button">
+      {expandedIndex === index ? "Collapse" : "Expand"}
+   </button>
+</div>
+{expandedIndex === index ? (
+   <div className="expanded-content">
+         <tbody>
+         <div className="layout-container">
+       <div className={`rec ${match.win === 1 ? "win" : "loss"}`}>
+            <div className="rec-left">
+            <tr>
+               <td>Gold Earned</td>
+               <td>{match.gold_earned}</td>
+            </tr>
+            <tr>
+               <td>Damage Dealt</td>
+               <td>{match.damage_dealt}</td>
+            </tr>
+            <tr>
+               <td>Minions Killed</td>
+               <td>{match.minions_killed}</td>
+            </tr>
+            </div>
+</div>
+</div>
+         </tbody>
+      
+   </div>
+) : null}
+      
 </div>
 </div>
 </div>
@@ -283,11 +318,6 @@ function App() {
       default:
         return <img src={UNRANKED} alt="Rank" />
     }
-  }
-  function runeone(rune){
-    switch(rune){
-    case 6661:
-    }  
   }
   
 }
