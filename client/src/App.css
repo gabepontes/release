@@ -16,17 +16,19 @@
   margin-bottom: 5px;
   /* other styles */
 }
-
-.expanded {
-  /* Styles for expanded box */
+.xec {
   position: relative;
-  height: 800px; /* adjust the height to your needs */
+  top:55px;
+  left: -230px;
+  width: 1100px; /* set width to 600px */
+  height: 350px;
+  background-color: rgba(0, 117, 213, 0.475);
+  margin: 0 auto; /* center element horizontally */
+  margin-bottom: 5px;
+  /* other styles */
 }
-
-.rec + .rec {
-  /* Styles for boxes that come after an expanded box */
-  position: relative;
-  margin-top: 300px; /* adjust the margin to your needs */
+.move-down{
+  margin-bottom:360px;
 }
 
 
@@ -98,12 +100,7 @@
   width:50%;
   
 }
-.expanded-content {
-  width: 100%;
-  height: auto;
-  position: absolute;
-  top: 100%;
-}
+
 .rec:hover {
   box-shadow: 2px 2px 2px rgb(0, 0, 0);
 }

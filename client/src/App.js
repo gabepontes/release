@@ -12,14 +12,17 @@ import IRON from './rankimg/IRON.png'
 import UNRANKED from './rankimg/UNRANKED.png'
 import 'bulma/css/bulma.min.css';
 import './App.css';
+
+  
 function App() {
   const [matches, setMatches] = useState({});
   const [playerData, setPlayerData] = useState({});
   const [Flex, setFlex] = useState({});
   const [Main, setMain] = useState({});
   const [summonerName, setSummonerName] = useState('');
+  const [showExtraContent, setShowExtraContent] = useState(false);
   const [expandedIndex, setExpandedIndex] = useState(-1);
-  
+
   function handleExpand(index) {
     if (expandedIndex === index) {
        setExpandedIndex(-1);
@@ -27,7 +30,11 @@ function App() {
        setExpandedIndex(index);
     }
  }
-
+  const handleButtonClick = (index) => {
+    const element = document.getElementsByClassName("rec")[index];
+    element.classList.toggle("move-down");
+}
+  
   useEffect(() => {
     console.log(matches);
   }, [matches]);
@@ -167,14 +174,17 @@ function App() {
               <div class="column is-two-thirds">
                 <div>
                   <h3>Match History:</h3>
+  
+  
   <tbody>
    <div className="layout-container">
    {Main.map((match, index) => (
       <tr>
          
-         <div className={`rec ${match.win === 1 ? "win" : "loss"}`}>
+         <div className={`rec ${match.win === 1 ? "win" : "loss"} ${showExtraContent ? 'move-down' : ''}`}>
             <div className="rec-left">
             <div className="champion-spells-runes-container">
+           
    <div className="champion-container">
       <img src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/champion/${match.champion_name}.png`} alt="Champion Icon" />
    </div>
@@ -211,16 +221,23 @@ function App() {
    <div className="kda">
       <span className="kills">{match.kills}</span>/<span className="deaths">{match.deaths}</span>/<span className="assists">{match.assists}</span>
 </div>
-<div key={index} className="expand-button-container">
-   <button onClick={() => handleExpand(index)} className="expand-button">
-      {expandedIndex === index ? "Collapse" : "Expand"}
-   </button>
-</div>
+
+<button 
+  onClick={() => {
+    handleExpand(index);
+    handleButtonClick(index);
+  }} 
+  className="expand-button"
+>
+  {expandedIndex === index ? "Collapse" : "Expand"}
+</button>
+
+
 {expandedIndex === index ? (
    <div className="expanded-content">
          <tbody>
          <div className="layout-container">
-       <div className={`rec ${match.win === 1 ? "win" : "loss"}`}>
+       <div className={`xec ${match.win === 1 ? "win" : "loss"}`}>
             <div className="rec-left">
             <tr>
                <td>Gold Earned</td>
@@ -241,7 +258,6 @@ function App() {
       
    </div>
 ) : null}
-      
 </div>
 </div>
 </div>
@@ -252,8 +268,9 @@ function App() {
       </tr>
    ))}
    </div>
+   
 </tbody>
-                
+       
 
                 </div>
               </div>
