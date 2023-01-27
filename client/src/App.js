@@ -21,19 +21,25 @@ function App() {
   const [Main, setMain] = useState({});
   const [summonerName, setSummonerName] = useState('');
   const [showExtraContent, setShowExtraContent] = useState(false);
-  const [expandedIndex, setExpandedIndex] = useState(-1);
+  const [expandedIndexes, setExpandedIndexes] = useState([]);
 
-  function handleExpand(index) {
-    if (expandedIndex === index) {
-       setExpandedIndex(-1);
+function handleExpand(index) {
+    if (expandedIndexes.includes(index)) {
+        setExpandedIndexes(expandedIndexes.filter(i => i !== index));
     } else {
-       setExpandedIndex(index);
+        setExpandedIndexes([...expandedIndexes, index]);
     }
- }
-  const handleButtonClick = (index) => {
-    const element = document.getElementsByClassName("rec")[index];
-    element.classList.toggle("move-down");
 }
+
+const handleButtonClick = (index) => {
+    const element = document.getElementsByClassName("rec")[index];
+    if(expandedIndexes.includes(index)){
+    element.classList.remove("move-down");
+    }else{
+        element.classList.add("move-down");
+    }
+}
+
   
   useEffect(() => {
     console.log(matches);
@@ -222,18 +228,12 @@ function App() {
       <span className="kills">{match.kills}</span>/<span className="deaths">{match.deaths}</span>/<span className="assists">{match.assists}</span>
 </div>
 
-<button 
-  onClick={() => {
-    handleExpand(index);
-    handleButtonClick(index);
-  }} 
-  className="expand-button"
->
-  {expandedIndex === index ? "Collapse" : "Expand"}
+<button onClick={() => {handleButtonClick(index); handleExpand(index)}} className="expand-button">
+      {expandedIndexes.includes(index) ? "Collapse" : "Expand"}
 </button>
 
 
-{expandedIndex === index ? (
+{expandedIndexes.includes(index) ? (
    <div className="expanded-content">
          <tbody>
          <div className="layout-container">
