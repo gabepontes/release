@@ -1,3 +1,5 @@
+
+import { BrowserRouter , Route} from "react-router-dom";
 import React, { useState, useEffect } from 'react'
 
 import CHALLENGER from './rankimg/CHALLENGER.png'
@@ -7,19 +9,43 @@ import DIAMOND from './rankimg/DIAMOND.png'
 import PLATINUM from './rankimg/PLATINUM.png'
 import GOLD from './rankimg/GOLD.png'
 import SILVER from './rankimg/SILVER.png'
+import logo from './rankimg/logo.png'
 import BRONZE from './rankimg/BRONZE.png'
 import IRON from './rankimg/IRON.png'
 import UNRANKED from './rankimg/UNRANKED.png'
+import styles from './initial-page.module.css';
 import 'bulma/css/bulma.min.css';
 import './App.css';
 
-  
-function App() {
+function InitialPage() {
+  const [searchQuery, setSearchQuery] = useState('');
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    if (searchQuery) {
+      window.location.assign(`/other-page?summonerName=${searchQuery}`);
+    }
+  }
+
+  return (
+    <div style={{ background: 'radial-gradient(circle at center, black, rgba(0, 0, 0, 0.906))', display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+      <img src={logo} alt="Logo" className={styles.logo} />
+      <form onSubmit={handleSubmit} className={styles.container}>
+        <input type="text" placeholder="" onChange={(e) => setSearchQuery(e.target.value)} className={styles.searchInput} />
+        <button type="submit" className={styles.searchButton}></button>
+      </form>
+    </div>
+  );
+}
+
+function OtherPage() {
   const [matches, setMatches] = useState({});
   const [playerData, setPlayerData] = useState({});
   const [Flex, setFlex] = useState({});
   const [Main, setMain] = useState({});
   const [summonerName, setSummonerName] = useState('');
+  const [top1, setTop1] = useState('');
+  const [loading, setLoading] = useState(true);
   const [showExtraContent, setShowExtraContent] = useState(false);
   const [expandedIndexes, setExpandedIndexes] = useState([]);
 
@@ -41,62 +67,109 @@ const handleButtonClick = (index) => {
 }
 
   
-  useEffect(() => {
-    console.log(matches);
-  }, [matches]);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (summonerName) {
-      fetch(`/members/${summonerName}`)
-        .then(res => {
-          if (!res.ok) {
-            throw Error(res.statusText);
-          }
-          return res.json();
-        })
-        .then(data => {
-          setPlayerData(data.player_data);
-          setMain(data.main);
-          setMatches(data.matches);
-          setFlex(data.flex)
-          console.log(matches);
-        })
-        .catch(error => {
-          console.log(error);
-          alert("Error fetching data");
-        });
-    }
+useEffect(() => {
+  const params = new URLSearchParams(window.location.search);
+  const name = params.get('summonerName');
+  if (name && summonerName !== name) {
+    setSummonerName(name);
+    setLoading(true);
+    fetch(`/members/${name}`)
+      .then(res => {
+        if (!res.ok) {
+          throw Error(res.statusText);
+        }
+        return res.json();
+      })
+      .then(data => {
+        setPlayerData(data.player_data);
+        setMain(data.main);
+        setMatches(data.matches);
+        setFlex(data.flex);
+        setTop1(data.top1);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.log(error);
+        setLoading(false);
+        alert("Error fetching data");
+      });
   }
+}, [summonerName]);
+
+
+const handleSubmit = (e) => {
+  e.preventDefault();
+  setLoading(true);
+  fetch(`/members/${summonerName}`)
+    .then(res => {
+      if (!res.ok) {
+        throw Error(res.statusText);
+      }
+      return res.json();
+    })
+    .then(data => {
+      setPlayerData(data.player_data);
+      setMain(data.main);
+      setMatches(data.matches);
+      setFlex(data.flex)
+      setTop1(data.top1)
+      console.log(matches);
+      setLoading(false);
+    })
+    .catch(error => {
+      console.log(error);
+      setLoading(false);
+      alert("Error fetching data");
+    });
+};
+
   
 
   return (
+    <>
+    {loading ? (
+      <div className="loading-indicator">
+        <img class="yuumiLoad" src={`https://media.tenor.com/OZMr10f-fnoAAAAi/yuumi.gif`} alt="yuumi"></img>
+        <div class = "load">
+        Loading...
+        </div>
+      </div>
+    ) : (
+      <>
+        {
     <div class="section">
+      
+     
       <div className="App">
-        <form>
-          <label>
-            Summoner Name:
-            <input type="text" value={summonerName} onChange={e => setSummonerName(e.target.value)} />
-          </label>
-          <button class="button is-info" type="submit" onClick={handleSubmit}>Get Player Info</button>
-        </form>
+      <div id="top-bar">
+  <div id="search-container">
+    <form>
+    <input type="text" id="search-bar" value={summonerName} onChange={e => setSummonerName(e.target.value)} />
+    <button class="button is-info" id="search-button" type="submit" onClick={handleSubmit}></button>
+    </form>
+  </div>
+</div>
+
         {matches.length > 0 ? (
           <div>
             <section class="hero is-dark">
-              <div class="hero-body">
+              <div class="hero-body" style={{backgroundImage:`url('http://ddragon.leagueoflegends.com/cdn/img/champion/splash/${top1}_0.jpg')`}}>
                 <div class="columns is-centered">
                   <div class="column is-1">
                     <figure class="image is-128x128">
                       <img class="is-rounded" src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/profileicon/${playerData.icon}.png`} alt="Player Icon"></img>
-                    </figure>
-                    <br></br>
-                    <div class="box has-background-black has-text-white has-text-centered has-text-weight-normal">
+                      <div class="leo">
                       Level {playerData.level}
                     </div>
-                  </div>
-                  <div class="column is-11">
+                    <div class="columnis-11">
                     <h1 class="title">{playerData.summonerName}</h1>
                   </div>
+                    </figure>
+                   
+                    <br></br>
+                    
+                  </div>
+                  
                 </div>
 
               </div>
@@ -187,7 +260,8 @@ const handleButtonClick = (index) => {
    {Main.map((match, index) => (
       <tr>
          
-         <div className={`rec ${match.win === 1 ? "win" : "loss"} ${showExtraContent ? 'move-down' : ''}`}>
+         <div onClick={() => {handleButtonClick(index); handleExpand(index)}} className={`rec ${match.win === 1 ? "win" : "loss"} ${showExtraContent ? 'move-down' : ''}`}>
+  
             <div className="rec-left">
             <div className="champion-spells-runes-container">
            
@@ -228,15 +302,12 @@ const handleButtonClick = (index) => {
       <span className="kills">{match.kills}</span>/<span className="deaths">{match.deaths}</span>/<span className="assists">{match.assists}</span>
 </div>
 
-<button onClick={() => {handleButtonClick(index); handleExpand(index)}} className="expand-button">
-      {expandedIndexes.includes(index) ? "Collapse" : "Expand"}
-</button>
-
 
 {expandedIndexes.includes(index) ? (
    <div className="expanded-content">
          <tbody>
          <div className="layout-container">
+          
        <div className={`xec ${match.win === 1 ? "win" : "loss"}`}>
             <div className="rec-left">
             <tr>
@@ -280,7 +351,12 @@ const handleButtonClick = (index) => {
           </div>
         ) : null}
       </div>
-    </div >
+  
+    </div>
+}
+      </>
+      )}
+    </>
   )
   function RenderImage() {
     if (playerData.queueType !== "RANKED_SOLO_5x5") {
@@ -338,5 +414,16 @@ const handleButtonClick = (index) => {
   }
   
 }
+
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Route exact path="/" component={InitialPage} />
+      <Route exact path="/other-page" component={OtherPage} />
+    </BrowserRouter>
+  );
+}
+
 
 export default App;

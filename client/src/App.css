@@ -1,24 +1,78 @@
 .App {
-  
-  background-color: rgb(255, 255, 255);
 }
+.App::before {
+  content: "";
+  position: fixed;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, black, rgba(0, 0, 0, 0.906));
+}
+
 .layout-container {
   display: flex;
   flex-direction: column;
 }
+.columnis-11{
+  position: relative;
+  width:350px;
+  left: -510px;
+  top:-80px;
+}
+.is-rounded{
+  position: relative;
+  left:-655px;
+  top:30px;
+  box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.5);
+}
 
+.leo{
+  position: relative;
+  left:-510px;
+  top:-15px;
+  width: 90px;
+  font-weight: bold;
+
+  
+}
+.hero-body::before{
+  content:"";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.694); /* decrease the opacity of the image */
+}
+.hero-body{
+  position: relative;
+   
+  height : 325px;
+}
 .rec {
   position: relative;
-  width: 1100px; /* set width to 600px */
+  border-radius:5%;
+  width: 1100px;
   height: 150px;
   background-color: rgba(0, 117, 213, 0.475);
-  margin: 0 auto; /* center element horizontally */
+  margin: 0 auto; 
   margin-bottom: 5px;
-  /* other styles */
+  transition: background-color 0.3s ease-in-out;
 }
+.rec.win:hover, .win:active {
+  background-color: rgba(0, 128, 0, 0.362);
+}
+.rec:hover, .loss:active {
+  background-color: rgba(255, 0, 0, 0.362);
+}
+
+
 .xec {
   position: relative;
-  top:55px;
+  top:82px;
+  border-radius:5%;
   left: -230px;
   width: 1100px; /* set width to 600px */
   height: 350px;
@@ -105,8 +159,79 @@
   box-shadow: 2px 2px 2px rgb(0, 0, 0);
 }
 .win{
-   background-color: green;
+   background-color: rgba(0, 128, 0, 0.162);
 }
 .loss{
-   background-color: red;
+   background-color: rgba(255, 0, 0, 0.162);
 }
+#top-bar {
+  position: relative;
+  top: -50px;
+  right: 60px;
+  width: 130%;
+  height: 50px;
+  background-color: #333;
+  color: #fff;
+  align-items: center;
+  justify-content: center;
+}
+
+#search-container {
+  position: relative;
+  top: 10px;
+  right: -1240px;
+  width: 15%;
+  height: 100%;
+  align-items: center;
+}
+
+#search-bar {
+  position: relative;
+  top: 0px;
+  right: 0px;
+  width: 80%;
+  height: 30px;
+  padding: 0px 10px;
+  border: none;
+  border-radius: 5px 0px 0px 5px;
+}
+
+#search-button {
+  position: relative;
+  top: 0px;
+  right: 0px;
+  width: 20%;
+  height: 30px;
+  background-color: #4CAF50;
+  color: #fff;
+  border: none;
+  border-radius: 0px 5px 5px 0px;
+  cursor: pointer;
+}
+.loading-indicator {
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100%;
+  background: radial-gradient(circle at center, black, rgba(0, 0, 0, 0.906));
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+}
+
+.load{
+  position: absolute;
+  top: 555px;
+  right: 760px;
+  font-size: xxx-large;
+  color: white;
+  font-weight: bolder;
+}
+.yuumiLoad{
+  position: absolute;
+  top: 190px;
+  right: 650px;
+}
+
