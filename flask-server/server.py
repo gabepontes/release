@@ -8,7 +8,7 @@ from datetime import datetime
 app = Flask(__name__)
 
 # API key for the league server
-api_key = "RGAPI-93f0eebb-f4ae-41e2-abbf-6fd4a6d6587b"
+api_key = "RGAPI-8e82150b-291f-471b-a831-e789a0009124"
 
 # Members API route
 @app.route("/members/<summoner_name>")

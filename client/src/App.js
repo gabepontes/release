@@ -264,6 +264,7 @@ const handleSubmit = (e) => {
   
             <div className="rec-left">
             <div className="champion-spells-runes-container">
+              <div className={`${match.win === 1 ? "victory" : "defeat"}`}></div>
            
    <div className="champion-container">
       <img src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/champion/${match.champion_name}.png`} alt="Champion Icon" />
