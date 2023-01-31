@@ -21,10 +21,17 @@ def members(summoner_name):
         match_id VARCHAR(255),
         summoner_name VARCHAR(255),
         champion_name VARCHAR(255),
+        champion_level INT,
         kills INT,
         deaths INT,
         assists INT,
         total_minions_killed INT,
+        minions_pm INT,
+        gold_earned INT,
+        gold_pm INT,
+        damage_dealt INT,
+        vision_score INT,
+        lane VARCHAR(255),
         item0 INT,
         item1 INT,
         item2 INT,
@@ -134,10 +141,17 @@ def members(summoner_name):
                         runes = []
                         summoner_name = match_single['summonerName']
                         champion_name = match_single['championName']
+                        champion_level = match_single['champLevel']
                         kills = match_single['kills']
                         deaths = match_single['deaths']
                         assists = match_single['assists']
                         total_minions_killed = match_single['totalMinionsKilled']
+                        minions_pm = total_minions_killed / (match_single['timePlayed'] // 60)
+                        gold_earned = match_single['goldEarned']
+                        gold_pm = gold_earned / (match_single['timePlayed'] // 60) 
+                        damage_dealt = match_single['totalDamageDealtToChampions']
+                        vision_score = match_single['visionScore']
+                        lane = match_single['lane']
                         items = [match_single['item0'], match_single['item1'], match_single['item2'], match_single['item3'], match_single['item4'], match_single['item5']]
                         if match_single['summonerId'] == player_id:
                           if champion_name in champion_stats:
@@ -188,11 +202,11 @@ def members(summoner_name):
                           elif (str)(spell2) == spell['key']:
                             spell2 = spell["icon"]
                         if match_single['summonerId'] == player_id:
-                            main.append((match, summoner_name, champion_name, kills, deaths, assists, total_minions_killed, item0, item1, item2, item3, item4, item5,runes[0],runes[1],runes[2],runes[3],runes[4],runes[5],spell1,spell2,win))
+                            main.append((match, summoner_name, champion_name, kills, deaths, assists, total_minions_killed, item0, item1, item2, item3, item4, item5,runes[0],runes[1],runes[2],runes[3],runes[4],runes[5],spell1,spell2,win, champion_level, minions_pm, gold_earned, gold_pm, damage_dealt, vision_score, lane))
                         # Insert the match data into the MySQL table
-                        cursor.execute("INSERT INTO matches (match_id, summoner_name, champion_name, kills, deaths, assists, total_minions_killed, item0, item1, item2, item3, item4, item5) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (match, summoner_name, champion_name, kills, deaths, assists, total_minions_killed, item0, item1, item2, item3, item4, item5))
+                        cursor.execute("INSERT INTO matches (match_id, summoner_name, champion_name, champion_level, kills, deaths, assists, total_minions_killed, minions_pm, gold_earned, gold_pm, damage_dealt, vision_score, lane, item0, item1, item2, item3, item4, item5) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (match, summoner_name, champion_name, champion_level, kills, deaths, assists, total_minions_killed, minions_pm, gold_earned, gold_pm, damage_dealt, vision_score, lane, item0, item1, item2, item3, item4, item5))
                         cnx.commit()
-                        match_data.append((match, summoner_name, champion_name, kills, deaths, assists, total_minions_killed, item0, item1, item2, item3, item4, item5,runes[0],runes[1],runes[2],runes[3],runes[4],runes[5],spell1,spell2,win))
+                        match_data.append((match, summoner_name, champion_name, kills, deaths, assists, total_minions_killed, item0, item1, item2, item3, item4, item5,runes[0],runes[1],runes[2],runes[3],runes[4],runes[5],spell1,spell2,win, champion_level, minions_pm, gold_earned, gold_pm, damage_dealt, vision_score, lane))
     cursor.close()
     cnx.close()
     Sorted_champion_stats = dict(sorted(champion_stats.items(), key=lambda item: (8 * item[1]['wins'] / (item[1]['wins'] + item[1]['losses']) + 2 * item[1]['games']) / 10, reverse=True))
@@ -200,7 +214,7 @@ def members(summoner_name):
         'assists': match[5], 'total_minions_killed': match[6], 'item0': match[7], 'item1': match[8], 'item2': match[9], 'item3': match[10], 
         'item4': match[11], 'item5': match[12], "rune0" : runes[0],"rune0" : match[13],"rune1" :match[14],"rune2" :match[15],"rune3" :match[16],"rune4" :match[17],"rune5" :match[18],"spell1" :match[19],"spell2" :match[20],"win" :match[21]} for match in match_data],"main": [{'match_id': match[0], 'summoner_name': match[1], 'champion_name': match[2], 'kills': match[3], 'deaths': match[4], 
         'assists': match[5], 'total_minions_killed': match[6], 'item0': match[7], 'item1': match[8], 'item2': match[9], 'item3': match[10], 
-        'item4': match[11], 'item5': match[12], "rune0" : match[13],"rune1" :match[14],"rune2" :match[15],"rune3" :match[16],"rune4" :match[17],"rune5" :match[18],"spell1" :match[19],"spell2" :match[20],"win" :match[21]} for match in main],"gameData": [{'gameWhen': match[0], 'gameMinutes': match[1], 'gameSeconds': match[2], 'gameMod': match[3]} for match in game_data]})
+        'item4': match[11], 'item5': match[12], "rune0" : match[13],"rune1" :match[14],"rune2" :match[15],"rune3" :match[16],"rune4" :match[17],"rune5" :match[18],"spell1" :match[19],"spell2" :match[20],"win" :match[21], "champion_level": match[22], "minions_pm": match[23], "gold_earned": match[24], "gold_pm": match[25], "damage_dealt": match[26], "vision_score": match[27], "lane": match[28]} for match in main],"gameData": [{'gameWhen': match[0], 'gameMinutes': match[1], 'gameSeconds': match[2], 'gameMod': match[3]} for match in game_data]})
 
 if __name__ == "__main__":
     app.run(debug=True)
