@@ -148,7 +148,7 @@ def members(summoner_name):
                         total_minions_killed = match_single['totalMinionsKilled']
                         minions_pm = total_minions_killed / (match_single['timePlayed'] // 60)
                         gold_earned = match_single['goldEarned']
-                        gold_pm = gold_earned / (match_single['timePlayed'] // 60) 
+                        gold_pm = round(gold_earned / (match_single['timePlayed'] // 60), 2) 
                         damage_dealt = match_single['totalDamageDealtToChampions']
                         vision_score = match_single['visionScore']
                         lane = match_single['lane']
