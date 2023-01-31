@@ -17,8 +17,7 @@ def members(summoner_name):
     cnx = mysql.connector.connect(user='root', password='Clol1234', host='localhost', database='league_data')
     cursor = cnx.cursor()
     # Create the matches table if it doesn't exist
-    table_create = '''DROP TABLE matches;
-        CREATE TABLE IF NOT EXISTS matches (
+    table_create = '''CREATE TABLE IF NOT EXISTS matches (
         match_id VARCHAR(255),
         summoner_name VARCHAR(255),
         champion_name VARCHAR(255),
@@ -41,7 +40,7 @@ def members(summoner_name):
         item5 INT
         )'''
         
-    cursor.execute(table_create, multi=True)
+    cursor.execute(table_create)
     cnx.commit()
     runes_file = os.path.join(os.path.dirname(__file__), 'runes.json')
     champion_stats = {}
@@ -149,7 +148,7 @@ def members(summoner_name):
                         total_minions_killed = match_single['totalMinionsKilled']
                         minions_pm = total_minions_killed / (match_single['timePlayed'] // 60)
                         gold_earned = match_single['goldEarned']
-                        gold_pm = gold_earned / (match_single['timePlayed'] // 60) 
+                        gold_pm = round(gold_earned / (match_single['timePlayed'] // 60), 2) 
                         damage_dealt = match_single['totalDamageDealtToChampions']
                         vision_score = match_single['visionScore']
                         lane = match_single['lane']
