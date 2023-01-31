@@ -298,14 +298,17 @@ const handleSubmit = (e) => {
    
             
    <div className="player-info">
-   <div className="player-name">{match.summoner_name}</div>
-   <div className="kda">
-      <span className="kills">{match.kills}</span>/<span className="deaths">{match.deaths}</span>/<span className="assists">{match.assists}</span>
-</div>
+    {/* <div className="player-name">{match.summoner_name}</div> */}
+    <div className="kda">
+      KDA:<span className="kills">{match.kills}</span>/<span className="deaths">{match.deaths}</span>/<span className="assists">{match.assists}</span>
+      <br></br>
+      CS:<span className="csTotal">{match.total_minions_killed}</span>&#40; <span className="csPM">{match.minions_pm}</span>&#41;
+
+    </div>
 
 
-{expandedIndexes.includes(index) ? (
-   <div className="expanded-content">
+    {expandedIndexes.includes(index) ? (
+    <div className="expanded-content">
          <tbody>
          <div className="layout-container">
           
