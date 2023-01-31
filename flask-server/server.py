@@ -8,7 +8,7 @@ from datetime import datetime
 app = Flask(__name__)
 
 # API key for the league server
-api_key = "RGAPI-8e82150b-291f-471b-a831-e789a0009124"
+api_key = "RGAPI-2951a56d-b36e-4b48-b2bb-f5fd836ced64"
 
 # Members API route
 @app.route("/members/<summoner_name>")
@@ -136,7 +136,7 @@ def members(summoner_name):
                     
                     normal_date = datetime.fromtimestamp(unix_timestamp)
                     game_data.append((normal_date,minutes,seconds,mode))
-                 
+                    game = []
                     for match_single in match_s["info"]["participants"]:
                         runes = []
                         summoner_name = match_single['summonerName']
@@ -206,15 +206,26 @@ def members(summoner_name):
                         # Insert the match data into the MySQL table
                         cursor.execute("INSERT INTO matches (match_id, summoner_name, champion_name, champion_level, kills, deaths, assists, total_minions_killed, minions_pm, gold_earned, gold_pm, damage_dealt, vision_score, lane, item0, item1, item2, item3, item4, item5) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (match, summoner_name, champion_name, champion_level, kills, deaths, assists, total_minions_killed, minions_pm, gold_earned, gold_pm, damage_dealt, vision_score, lane, item0, item1, item2, item3, item4, item5))
                         cnx.commit()
-                        match_data.append((match, summoner_name, champion_name, kills, deaths, assists, total_minions_killed, item0, item1, item2, item3, item4, item5,runes[0],runes[1],runes[2],runes[3],runes[4],runes[5],spell1,spell2,win, champion_level, minions_pm, gold_earned, gold_pm, damage_dealt, vision_score, lane))
+                        game.append((match, summoner_name, champion_name, kills, deaths, assists, total_minions_killed, item0, item1, item2, item3, item4, item5,runes[0],runes[1],runes[2],runes[3],runes[4],runes[5],spell1,spell2,win, champion_level, minions_pm, gold_earned, gold_pm, damage_dealt, vision_score, lane))
+            match_data.append(game)    
     cursor.close()
     cnx.close()
     Sorted_champion_stats = dict(sorted(champion_stats.items(), key=lambda item: (8 * item[1]['wins'] / (item[1]['wins'] + item[1]['losses']) + 2 * item[1]['games']) / 10, reverse=True))
-    return jsonify({"top1":list(Sorted_champion_stats.keys())[0], "bestChamp" : Sorted_champion_stats,"flex":player_data_flex,"player_data":player_data_solo, "matches": [{'match_id': match[0], 'summoner_name': match[1], 'champion_name': match[2], 'kills': match[3], 'deaths': match[4], 
-        'assists': match[5], 'total_minions_killed': match[6], 'item0': match[7], 'item1': match[8], 'item2': match[9], 'item3': match[10], 
-        'item4': match[11], 'item5': match[12], "rune0" : runes[0],"rune0" : match[13],"rune1" :match[14],"rune2" :match[15],"rune3" :match[16],"rune4" :match[17],"rune5" :match[18],"spell1" :match[19],"spell2" :match[20],"win" :match[21], "champion_level": match[22], "minions_pm": match[23], "gold_earned": match[24], "gold_pm": match[25], "damage_dealt": match[26], "vision_score": match[27], "lane": match[28]} for match in match_data],"main": [{'match_id': match[0], 'summoner_name': match[1], 'champion_name': match[2], 'kills': match[3], 'deaths': match[4], 
-        'assists': match[5], 'total_minions_killed': match[6], 'item0': match[7], 'item1': match[8], 'item2': match[9], 'item3': match[10], 
-        'item4': match[11], 'item5': match[12], "rune0" : match[13],"rune1" :match[14],"rune2" :match[15],"rune3" :match[16],"rune4" :match[17],"rune5" :match[18],"spell1" :match[19],"spell2" :match[20],"win" :match[21], "champion_level": match[22], "minions_pm": match[23], "gold_earned": match[24], "gold_pm": match[25], "damage_dealt": match[26], "vision_score": match[27], "lane": match[28]} for match in main],"gameData": [{'gameWhen': match[0], 'gameMinutes': match[1], 'gameSeconds': match[2], 'gameMod': match[3]} for match in game_data]})
-
+    
+    #return jsonify({"top1":list(Sorted_champion_stats.keys())[0], "bestChamp" : Sorted_champion_stats,"flex":player_data_flex,"player_data":player_data_solo, "matches": [{'match_id': match[0], 'summoner_name': match[1], 'champion_name': match[2], 'kills': match[3], 'deaths': match[4], 
+    #    'assists': match[5], 'total_minions_killed': match[6], 'item0': match[7], 'item1': match[8], 'item2': match[9], 'item3': match[10], 
+    #    'item4': match[11], 'item5': match[12], "rune0" : runes[0],"rune0" : match[13],"rune1" :match[14],"rune2" :match[15],"rune3" :match[16],"rune4" :match[17],"rune5" :match[18],"spell1" :match[19],"spell2" :match[20],"win" :match[21], "champion_level": match[22], "minions_pm": match[23], "gold_earned": match[24], "gold_pm": match[25], "damage_dealt": match[26], "vision_score": match[27], "lane": match[28]} for match in match_data],"main": [{'match_id': match[0], 'summoner_name': match[1], 'champion_name': match[2], 'kills': match[3], 'deaths': match[4], 
+    #    'assists': match[5], 'total_minions_killed': match[6], 'item0': match[7], 'item1': match[8], 'item2': match[9], 'item3': match[10], 
+    #    'item4': match[11], 'item5': match[12], "rune0" : match[13],"rune1" :match[14],"rune2" :match[15],"rune3" :match[16],"rune4" :match[17],"rune5" :match[18],"spell1" :match[19],"spell2" :match[20],"win" :match[21], "champion_level": match[22], "minions_pm": match[23], "gold_earned": match[24], "gold_pm": match[25], "damage_dealt": match[26], "vision_score": match[27], "lane": match[28]} for match in main],"gameData": [{'gameWhen': match[0], 'gameMinutes': match[1], 'gameSeconds': match[2], 'gameMod': match[3]} for match in game_data]})
+    return jsonify({"top1":list(Sorted_champion_stats.keys())[0], "bestChamp" : Sorted_champion_stats,"flex":player_data_flex,"player_data":player_data_solo, 
+                  # "matches": [[{"sum" + str(player): {'match_id': match[player][0], 'summoner_name': match[player][1], 'champion_name': match[player][2], 'kills': match[player][3], 'deaths': match[player][4], 'assists': match[player][5], 'total_minions_killed': match[player][6], 'item0': match[player][7], 'item1': match[player][8], 'item2': match[player][9], 'item3': match[player][10], 'item4': match[player][11], 'item5': match[player][12], "rune0": match[player][13], "rune1": match[player][14], "rune2": match[player][15], "rune3": match[player][16], "rune4": match[player][17], "rune5": match[player][18], "spell1": match[player][19], "spell2": match[player][20], "win":match[player][21], "champion_level": match[player][22], "minions_pm": match[player][23], "gold_earned": match[player][24], "gold_pm": match[player][25], "damage_dealt": match[player][26], "vision_score": match[player][27], "lane": match[player][28]}
+                  #             }for player in range(len(match))] for match in match_data], 
+                  "matches": [[{'match_id': match[player][0], 'summoner_name': match[player][1], 'champion_name': match[player][2], 'kills': match[player][3], 'deaths': match[player][4], 'assists': match[player][5], 'total_minions_killed': match[player][6], 'item0': match[player][7], 'item1': match[player][8], 'item2': match[player][9], 'item3': match[player][10], 'item4': match[player][11], 'item5': match[player][12], "rune0": match[player][13], "rune1": match[player][14], "rune2": match[player][15], "rune3": match[player][16], "rune4": match[player][17], "rune5": match[player][18], "spell1": match[player][19], "spell2": match[player][20], "win":match[player][21], "champion_level": match[player][22], "minions_pm": match[player][23], "gold_earned": match[player][24], "gold_pm": match[player][25], "damage_dealt": match[player][26], "vision_score": match[player][27], "lane": match[player][28]}
+                              for player in range(len(match))] for match in match_data],
+                  "main": [{'match_id': match[0], 'summoner_name': match[1], 'champion_name': match[2], 'kills': match[3], 'deaths': match[4], 
+                          'assists': match[5], 'total_minions_killed': match[6], 'item0': match[7], 'item1': match[8], 'item2': match[9], 'item3': match[10], 
+                          'item4': match[11], 'item5': match[12], "rune0" : match[13],"rune1" :match[14],"rune2" :match[15],"rune3" :match[16],"rune4" :match[17],"rune5" :match[18],"spell1" :match[19],"spell2" :match[20],"win" :match[21], "champion_level": match[22], "minions_pm": match[23], "gold_earned": match[24], "gold_pm": match[25], "damage_dealt": match[26], "vision_score": match[27], "lane": match[28]} for match in main],"gameData": [{'gameWhen': match[0], 'gameMinutes': match[1], 'gameSeconds': match[2], 'gameMod': match[3]} for match in game_data]
+                  })
+    
 if __name__ == "__main__":
     app.run(debug=True)
