@@ -146,7 +146,7 @@ def members(summoner_name):
                         deaths = match_single['deaths']
                         assists = match_single['assists']
                         total_minions_killed = match_single['totalMinionsKilled']
-                        minions_pm = total_minions_killed / (match_single['timePlayed'] // 60)
+                        minions_pm = round(total_minions_killed / (match_single['timePlayed'] // 60), 2)
                         gold_earned = match_single['goldEarned']
                         gold_pm = round(gold_earned / (match_single['timePlayed'] // 60), 2) 
                         damage_dealt = match_single['totalDamageDealtToChampions']
