@@ -1,7 +1,7 @@
 body::before {
     content: "";
     position: fixed;
-    z-index: -1;
+    z-index: -10;
     top: 0;
     left: 0;
     width: 100%;
@@ -15,6 +15,7 @@ body::before {
     position: absolute;
     left: 300px;
     top: 250px;
+    z-index: 1;
   }
 .searchInput {
   position: absolute;
@@ -25,6 +26,7 @@ body::before {
   padding: 0.5rem;
   font-size: auto;
   margin-right: 1rem;
+  z-index: 1;
 }
 
 .searchButton {
@@ -37,4 +39,82 @@ body::before {
     font-size: auto;
     margin-right: 1rem;
     background-color: #4CAF50;
+    z-index: 1;
 }
+.helpButton{
+    position: absolute;
+    top: 850px;
+    left: 300px;
+    background-color: transparent;
+    border-color: transparent;
+    color: aliceblue;
+    font-weight: bolder;
+    z-index: 10;
+}
+.ScrimButton{
+    position: absolute;
+    top: 850px;
+    left: 390px;
+    background-color: transparent;
+    border-color: transparent;
+    color: aliceblue;
+    font-weight: bolder;
+    z-index: 10;
+}
+.AboutButton{
+    position: absolute;
+    top: 850px;
+    left: 200px;
+    background-color: transparent;
+    border-color: transparent;
+    color: aliceblue;
+    font-weight: bolder;
+    z-index: 10;
+}
+.square {
+    position: absolute;
+    top:810px;
+    left: 0px;
+    width: 1700px; /* set width to 600px */
+    height: 150px;
+    background-color: rgb(65, 65, 65);
+    z-index: 0;
+  }
+  .helpContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: radial-gradient(circle at center, black, rgba(0, 0, 0, 0.906));
+  }
+  
+  .title {
+    color: #fff;
+    font-weight: bolder;
+    font-size: 36px;
+    margin-bottom: 40px;
+  }
+  
+  .text {
+    color:white ;
+    font-size: 18px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .backButton {
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 18px;
+    margin-top: 20px;
+  }
+  
+  .backButton:hover {
+    background-color: #4cbc4f;
+  }
+  

@@ -87,70 +87,33 @@
 
 
 .champion-container {
-  transform: scale(0.75);
+  transform: scale(0.6);
   position: relative;
-  top: -15px; /* set top position to 10px */
-  right: 35px; /* set left position to 10px */
+  top: -10px; /* set top position to 10px */
+  right: 200px; /* set left position to 10px */
 }
 
 .player-info{
   position: relative;
   font-weight: bold;
-  top: -790px; /* set top position to 10px */
+  top: -700px; /* set top position to 10px */
   right: -230px; /* set left position to 10px */
 }
-
-/* .player-name{
-  position: relative;
-  left: 50px;
-} */
-
-.kda {
-  position: relative;
-  top: 21px;
-  left: 130px;
-  font-size: 20px;
-}
-
 .items-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
-  gap: 1px;
-  transform: scale(0.9);
-  width: 18%;
+  transform: scale(0.6);
   position: relative;
   align-items: left;
-  top: -660px; /* set top position to 10px */
-  right: -500px; /* set left position to 10px */
+  top: -570px; /* set top position to 10px */
+  right: 200px; /* set left position to 10px */
 }
-
-.players_container{
-  position: relative;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
-  align-items: left;
-  bottom: 1545px;
-  left: 800px;
-  /* transform: scale(0.4); */
-  /* height: 10px; */
-  width:23%;
-}
-
-/* .players_container img{
-  height: 30px;
-  width: 30px;
-} */
-
 
 
 .spells{
   position: relative;
-  top: -145px;
-  right: -30px;
+  top: -137px;
+  right: 180px;
   display:block;
-  transform: scale(0.7);
+  transform: scale(0.5);
   }
   .spells img{
   
@@ -160,47 +123,36 @@
 
 .runes1 {
   position: relative;
-  top: -375px;
-  right: -48px;
+  top: -357px;
+  right: 80px;
   align-items: center; /* center items vertically */
   justify-content: space-between; /* distribute items horizontally */
-  transform: scale(0.24);
+  transform: scale(0.2);
   margin-bottom: 0px;
   width:50%;
   
 }
 .runes2 {
   position: relative;
-  top: -500px;
-  right: -105px;
-  align-items: center; /*center items vertically*/
+  top: -490px;
+  right: 40px;
+  align-items: center; /* center items vertically */
   justify-content: space-between; /* distribute items horizontally */
-  transform: scale(0.5);
+  transform: scale(0.35);
   margin-bottom: 0px;
   width:50%;
   
 }
-
-.runes2 img{
-  width: 60px;
-  height: 60px;
-}
-
 .runes3 {
   position: relative;
   top: -535px;
-  right: -117px;
+  right: 30px;
   align-items: center; /* center items vertically */
   justify-content: space-between; /* distribute items horizontally */
-  transform: scale(0.5);
+  transform: scale(0.35);
   margin-bottom: 0px;
   width:50%;
   
-}
-
-.runes3 img {
-  width: 60px;
-  height: 60px;
 }
 
 .rec:hover {
@@ -282,24 +234,40 @@
   top: 190px;
   right: 650px;
 }
-
-
-.victory::after{
-  position: relative;
-  top: 50px;
-  left: 2px;
-  font-weight: bold;
-  font-size: 10px;
-  color: var(--darkreader-text-gray500);
-  content: "VICTORY";
+.aboutUsContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: radial-gradient(circle at center, black, rgba(0, 0, 0, 0.906));
 }
 
-.defeat::after{
-  position: relative;
-  top: 50px;
-  left: 2px;
-  font-weight: bold;
-  font-size: 10px;
-  color: var(--darkreader-text-gray500);
-  content: "DEFEAT";
+.aboutUsHeading {
+  color: #fff;
+  font-weight: bolder;
+  font-size: 36px;
+  margin-bottom: 40px;
 }
+
+.aboutUsDescription {
+  color:white ;
+  font-size: 18px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.backButton {
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 18px;
+  margin-top: 20px;
+}
+.backButton:hover {
+  background-color: #4cbc4f;
+}
+
