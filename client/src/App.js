@@ -256,7 +256,8 @@ const handleSubmit = (e) => {
   
   
   <tbody>
-   <div className="layout-container">
+
+   <div className="layout-container"> 
    {Main.map((match, index) => (
       <tr>
          
@@ -303,6 +304,8 @@ const handleSubmit = (e) => {
       KDA:<span className="kills">{match.kills}</span>/<span className="deaths">{match.deaths}</span>/<span className="assists">{match.assists}</span>
       <br></br>
       CS:<span className="csTotal">{match.total_minions_killed}</span>&#40; <span className="csPM">{match.minions_pm}</span>&#41;
+      <br></br>
+      Vision:<span className="vision">{match.vision_score}</span>
 
     </div>
 
@@ -343,6 +346,26 @@ const handleSubmit = (e) => {
       </tr>
    ))}
    </div>
+
+      <div className="players_container">
+        matches.forEach((match) => {
+          <tr>
+            <div className="players">
+              <img src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/champion/${match[0].champion_name}.png`} alt="Champion Icon" />
+            </div>
+          </tr>
+        });
+          
+        {/* {matches.map((match) =>(
+          <tr>
+            <div className="players">
+              <img src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/champion/${match[1].champion_name}.png`} alt="Champion Icon" />
+            </div>
+          </tr>
+
+
+        ) )}  */}
+      </div>
    
 </tbody>
        
