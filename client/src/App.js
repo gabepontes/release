@@ -1,7 +1,63 @@
 import React, { useState, useEffect } from 'react'
+<<<<<<< Updated upstream
 import 'bulma/css/bulma.min.css';
 
 function App() {
+=======
+import axios from 'axios';
+import CHALLENGER from './rankimg/CHALLENGER.png'
+import GRANDMASTER from './rankimg/GRANDMASTER.png'
+import MASTER from './rankimg/MASTER.png'
+import DIAMOND from './rankimg/DIAMOND.png'
+import PLATINUM from './rankimg/PLATINUM.png'
+import GOLD from './rankimg/GOLD.png'
+import SILVER from './rankimg/SILVER.png'
+import logo from './rankimg/logo.png'
+import BRONZE from './rankimg/BRONZE.png'
+import IRON from './rankimg/IRON.png'
+import UNRANKED from './rankimg/UNRANKED.png'
+import styles from './initial-page.module.css';
+import 'bulma/css/bulma.min.css';
+import './App.css';
+
+function InitialPage() {
+  const [searchQuery, setSearchQuery] = useState('');
+  function handleAboutUs() {
+    window.location.assign("/about-us");
+  }
+
+  function handleHelp() {
+    window.location.assign("/help");
+  }
+  function handleFeed() {
+    window.location.assign("/feed");
+  }
+  function handleSubmit(e) {
+    e.preventDefault();
+    if (searchQuery) {
+      window.location.assign(`/other-page?summonerName=${searchQuery}`);
+    }
+  }
+
+  return (
+    <div style={{ background: 'radial-gradient(circle at center, black, rgba(0, 0, 0, 0.906))', display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+      <img src={logo} alt="Logo" className={styles.logo} />
+      <form onSubmit={handleSubmit} className={styles.container}>
+        <input type="text" placeholder="" onChange={(e) => setSearchQuery(e.target.value)} className={styles.searchInput} />
+        <button type="submit" className={styles.searchButton}></button>
+      </form>
+      <div className = {styles.square}> </div>
+      <div className={styles.helpAboutContainer}>
+        <button onClick={handleAboutUs} className={styles.helpButton}>About Us</button>
+        <button onClick={handleHelp} className={styles.AboutButton}>Help</button>
+        <button onClick={handleFeed} className={styles.ScrimButton}>scrim</button>
+      </div>
+    </div>
+  );
+}
+
+function OtherPage() {
+>>>>>>> Stashed changes
   const [matches, setMatches] = useState({});
   const [summonerName, setSummonerName] = useState('');
 
@@ -90,4 +146,67 @@ function App() {
     </div>
   )
 }
+<<<<<<< Updated upstream
+=======
+function AboutUs() {
+  return (
+    <div className="aboutUsContainer">
+  <h1 className="aboutUsHeading">About Us</h1>
+  <p className="aboutUsDescription">We are a team of developers dedicated to providing a platform for summoners to easily find and access their match data.</p>
+  <p className="aboutUsDescription">Our goal is to make it easier for players to analyze and track their performance in League of Legends.</p>
+  <button className="backButton" onClick={() => window.location.assign('/')}>Back to Initial Page</button>
+</div>
+  );
+}
+
+function Help() {
+  return (
+    <div className={styles.helpContainer}>
+      <h1 className={styles.title}>Help</h1>
+      <p className={styles.text}>If you need assistance with our platform, please contact us at [temp].</p>
+      <p className={styles.text}>For general questions, visit our FAQ page [temp].</p>
+      <button className={styles.backButton} onClick={() => window.location.assign("/")}>Back to Initial Page</button>
+    </div>
+  );
+}
+function NewsPage() {
+  const [newsData, setNewsData] = useState([]);
+
+  useEffect(() => {
+    async function fetchData() {
+      const result = await axios.get('need to find one');
+      setNewsData(result.data);
+    }
+    fetchData();
+  }, []);
+
+  return (
+    <div>
+      <h1>Latest News</h1>
+      {newsData.map(newsItem => (
+        <div key={newsItem.id}>
+          <h2>{newsItem.title}</h2>
+          <p>{newsItem.content}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+  
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Route exact path="/" component={InitialPage} />
+      <Route exact path="/other-page" component={OtherPage} />
+      <Route exact path="/about-us" component={AboutUs} />
+      <Route exact path="/help" component={Help} />
+      <Route exact path="/feed" component={NewsPage} />
+    </BrowserRouter>
+  );
+}
+
+
+>>>>>>> Stashed changes
 export default App;
