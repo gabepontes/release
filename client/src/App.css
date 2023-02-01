@@ -107,7 +107,7 @@
 
 .kda {
   position: relative;
-  top: 30px;
+  top: 21px;
   left: 130px;
   font-size: 20px;
 }
@@ -124,6 +124,25 @@
   top: -660px; /* set top position to 10px */
   right: -500px; /* set left position to 10px */
 }
+
+.players_container{
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+  align-items: left;
+  bottom: 1545px;
+  left: 800px;
+  /* transform: scale(0.4); */
+  /* height: 10px; */
+  width:23%;
+}
+
+/* .players_container img{
+  height: 30px;
+  width: 30px;
+} */
+
 
 
 .spells{
