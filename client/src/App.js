@@ -37,18 +37,24 @@ function InitialPage() {
   }
 
   return (
-    <div style={{ background: 'radial-gradient(circle at center, black, rgba(0, 0, 0, 0.906))', display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-      <img src={logo} alt="Logo" className={styles.logo} />
+    
+    <div style={{  display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+      <div className={styles.flashingtext}>
+      <h1><span class='one'>U</span><span class='two'>L</span><span class='three'>O</span><span class='four'>L</span> <span class='five'>.</span><span class='six'>G</span><span class='seven'>G</span></h1></div>
+
+      
       <form onSubmit={handleSubmit} className={styles.container}>
-        <input type="text" placeholder="" onChange={(e) => setSearchQuery(e.target.value)} className={styles.searchInput} />
-        <button type="submit" className={styles.searchButton}></button>
+        <input type="text"  placeholder="Search summoner" onChange={(e) => setSearchQuery(e.target.value)} className={styles.searchInput} />
+       
       </form>
-      <div className = {styles.square}> </div>
+     
+      <div className = {styles.square}>      
       <div className={styles.helpAboutContainer}>
         <button onClick={handleAboutUs} className={styles.helpButton}>About Us</button>
         <button onClick={handleHelp} className={styles.AboutButton}>Help</button>
-        <button onClick={handleFeed} className={styles.ScrimButton}>scrim</button>
-      </div>
+        <button onClick={handleFeed} className={styles.ScrimButton}>Temp</button>
+      </div></div>
+ 
     </div>
   );
 }
@@ -157,6 +163,8 @@ const handleSubmit = (e) => {
      
       <div className="App">
       <div id="top-bar">
+       <button className={styles.homepagebutton} >HOME PAGE</button>
+        
   <div id="search-container">
     <form>
     <input type="text" id="search-bar" value={summonerName} onChange={e => setSummonerName(e.target.value)} />
