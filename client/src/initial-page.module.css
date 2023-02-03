@@ -179,12 +179,12 @@ body::before {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 50%;
+    height: 100vh;
     background-color: radial-gradient(circle at center, black, rgba(0, 0, 0, 0.906));
 
    
   }
-  
+
   .title {
     color: #fff;
     font-weight: bolder;

@@ -461,6 +461,7 @@ function Help() {
   );
 }
 function NewsPage() {
+
   const [newsData, setNewsData] = useState([]);
 
   useEffect(() => {
