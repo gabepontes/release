@@ -8,14 +8,15 @@ from datetime import datetime
 app = Flask(__name__)
 
 # API key for the league server
-api_key = "RGAPI-bd04e566-8d87-47af-87ab-44bdbf1d2d99"
+api_key = "RGAPI-d34b59f9-a911-4ba7-8f9c-80c7f8628b8a"
 #RGAPI-bd04e566-8d87-47af-87ab-44bdbf1d2d99
 
 # Members API route
 @app.route("/members/<summoner_name>")
 def members(summoner_name):
     # Connect to the MySQL server
-    cnx = mysql.connector.connect(user='root', password='test123', host='localhost', database='league_data')
+    cnx = mysql.connector.connect(
+        user='root', password='Clol1234', host='localhost', database='league_data')
     cursor = cnx.cursor()
     # Create the matches table if it doesn't exist
     table_create = '''CREATE TABLE IF NOT EXISTS matches (
@@ -148,6 +149,7 @@ def members(summoner_name):
                               champion_stats[champion_name]['time'] += match_single['timePlayed']
                               champion_stats[champion_name]['gold'] += match_single['goldEarned']
                               champion_stats[champion_name]['assists'] += match_single['assists']
+                              champion_stats[champion_name]['totalMinionsKilled'] += match_single['totalMinionsKilled']
                               if match_single['win']:
                                   champion_stats[champion_name]['wins'] += 1
                               else:
@@ -156,9 +158,9 @@ def members(summoner_name):
                               champion_stats[champion_name]['KDA_ratio'] = (champion_stats[champion_name]['kills'] + champion_stats[champion_name]['assists']) / champion_stats[champion_name]['deaths']
                           else:
                               if match_single['win']:
-                                  champion_stats[champion_name] = {'games': 1, 'wins': 1, 'losses': 0, 'kills': match_single['kills'], 'deaths': match_single['deaths'], 'assists': match_single['assists'],'gold' : match_single['goldEarned'],'time' : match_single['timePlayed'], 'win_rate': 1, 'KDA_ratio': (match_single['kills'] + match_single['assists']) / match_single['deaths'],'name':champion_name}
+                                  champion_stats[champion_name] = {'games': 1, 'wins': 1, 'losses': 0, 'kills': match_single['kills'], 'deaths': match_single['deaths'], 'assists': match_single['assists'],'gold' : match_single['goldEarned'],'time' : match_single['timePlayed'], 'win_rate': 1, 'KDA_ratio': (match_single['kills'] + match_single['assists']) / match_single['deaths'],'name':champion_name, 'totalMinionsKilled': match_single['totalMinionsKilled']}
                               else:
-                                  champion_stats[champion_name] = {'games': 1, 'wins': 0, 'losses': 1, 'kills': match_single['kills'], 'deaths': match_single['deaths'], 'assists': match_single['assists'], 'win_rate': 0,'gold' : match_single['goldEarned'],'time' : match_single['timePlayed'], 'KDA_ratio': (match_single['kills'] + match_single['assists']) / match_single['deaths'],"name":champion_name}
+                                  champion_stats[champion_name] = {'games': 1, 'wins': 0, 'losses': 1, 'kills': match_single['kills'], 'deaths': match_single['deaths'], 'assists': match_single['assists'], 'win_rate': 0,'gold' : match_single['goldEarned'],'time' : match_single['timePlayed'], 'KDA_ratio': (match_single['kills'] + match_single['assists']) / match_single['deaths'],"name":champion_name, 'totalMinionsKilled': match_single['totalMinionsKilled']}
                         for i in range(len(items)-1):
                           for j in range(i+1,len(items)):
                             if items[i]<items[j]:

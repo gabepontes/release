@@ -69,6 +69,7 @@ function OtherPage() {
   const [loading, setLoading] = useState(true);
   const [showExtraContent, setShowExtraContent] = useState(false);
   const [expandedIndexes, setExpandedIndexes] = useState([]);
+  const [topChamps, setTopChamps] = useState({});
 
 function handleExpand(index) {
     if (expandedIndexes.includes(index)) {
@@ -107,6 +108,7 @@ useEffect(() => {
         setMatches(data.matches);
         setFlex(data.flex);
         setTop1(data.top1);
+        setTopChamps(data.bestChamp);
         setLoading(false);
       })
       .catch(error => {
@@ -256,18 +258,156 @@ const handleSubmit = (e) => {
 
                 <div class="box has-background-dark has-text-white has-text-weight-normal">
                   Top 5 Champions
+                  <hr></hr>
                   <div class="columns is-centered">
-                    <div class="column is-one-third">
-                      Champion Name<br></br>
-                      CS
+
+                    <div class="column is-2">
+                      <img src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/champion/${Object.keys(topChamps)[0]}.png`} alt="Champion Icon" width="42" height="42" />
+
+                      <br></br>
+                      <br></br>
+                      <img src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/champion/${Object.keys(topChamps)[1]}.png`} alt="Champion Icon" width="42" height="42" />
+
+                      <br></br>
+                      <br></br>
+                      <img src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/champion/${Object.keys(topChamps)[2]}.png`} alt="Champion Icon" width="42" height="42" />
+
+                      <br></br>
+                      <br></br>
+                      <img src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/champion/${Object.keys(topChamps)[3]}.png`} alt="Champion Icon" width="42" height="42" />
+
+                      {Object.keys(topChamps).length >= 5 &&
+                        <div>
+                          <br></br>
+                          <img src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/champion/${Object.keys(topChamps)[4]}.png`} alt="Champion Icon" width="42" height="42" />
+                        </div>
+                      }
+
                     </div>
-                    <div class="column is-one-third">
-                      : KDA<br></br>
-                      Kills / Deaths / Assists
+
+                    <div class="column is-4">
+
+                      {Object.keys(topChamps)[0]}
+                      <br></br>
+                      CS {Math.round((topChamps[Object.keys(topChamps)[0]]['totalMinionsKilled'] / topChamps[Object.keys(topChamps)[0]]['games']) * 10) / 10}
+                      &nbsp;
+                      ({Math.round((topChamps[Object.keys(topChamps)[0]]['totalMinionsKilled'] / (topChamps[Object.keys(topChamps)[0]]['time'] / 60)) * 10) / 10})
+                      <br></br>
+
+                      <br></br>
+                      {Object.keys(topChamps)[1]}
+                      <br></br>
+                      CS {Math.round((topChamps[Object.keys(topChamps)[1]]['totalMinionsKilled'] / topChamps[Object.keys(topChamps)[1]]['games']) * 10) / 10}
+                      &nbsp;
+                      ({Math.round((topChamps[Object.keys(topChamps)[1]]['totalMinionsKilled'] / (topChamps[Object.keys(topChamps)[1]]['time'] / 60)) * 10) / 10})
+                      <br></br>
+
+                      <br></br>
+                      {Object.keys(topChamps)[2]}
+                      <br></br>
+                      CS {Math.round((topChamps[Object.keys(topChamps)[2]]['totalMinionsKilled'] / topChamps[Object.keys(topChamps)[2]]['games']) * 10) / 10}
+                      &nbsp;
+                      ({Math.round((topChamps[Object.keys(topChamps)[2]]['totalMinionsKilled'] / (topChamps[Object.keys(topChamps)[2]]['time'] / 60)) * 10) / 10})
+                      <br></br>
+
+                      <br></br>
+                      {Object.keys(topChamps)[3]}
+                      <br></br>
+                      CS {Math.round((topChamps[Object.keys(topChamps)[3]]['totalMinionsKilled'] / topChamps[Object.keys(topChamps)[3]]['games']) * 10) / 10}
+                      &nbsp;
+                      ({Math.round((topChamps[Object.keys(topChamps)[3]]['totalMinionsKilled'] / (topChamps[Object.keys(topChamps)[3]]['time'] / 60)) * 10) / 10})
+                      <br></br>
+
+                      {Object.keys(topChamps).length >= 5 &&
+                        <div>
+                          <br></br>
+                          {Object.keys(topChamps)[4]}
+                          < br ></br>
+                          CS {Math.round((topChamps[Object.keys(topChamps)[4]]['totalMinionsKilled'] / topChamps[Object.keys(topChamps)[4]]['games']) * 10) / 10}
+                          &nbsp;
+                          ({Math.round((topChamps[Object.keys(topChamps)[4]]['totalMinionsKilled'] / (topChamps[Object.keys(topChamps)[4]]['time'] / 60)) * 10) / 10})
+                          <br></br>
+                        </div>
+
+                      }
+
                     </div>
-                    <div class="column is-one-third">
-                      Win rate%<br></br>
-                      NumGames Played
+                    <div class="column is-3">
+                      {Math.round(topChamps[Object.keys(topChamps)[0]]['KDA_ratio'] * 100) / 100}:1 KDA
+                      <br></br>
+                      {Math.round((topChamps[Object.keys(topChamps)[0]]['kills'] / topChamps[Object.keys(topChamps)[0]]['games']) * 10) / 10}   &nbsp;/  &nbsp;
+                      {Math.round((topChamps[Object.keys(topChamps)[0]]['deaths'] / topChamps[Object.keys(topChamps)[0]]['games']) * 10) / 10}   &nbsp;/  &nbsp;
+                      {Math.round((topChamps[Object.keys(topChamps)[0]]['assists'] / topChamps[Object.keys(topChamps)[0]]['games']) * 10) / 10}
+                      <br></br>
+
+                      <br></br>
+                      {Math.round(topChamps[Object.keys(topChamps)[1]]['KDA_ratio'] * 100) / 100}:1 KDA
+                      <br></br>
+                      {Math.round((topChamps[Object.keys(topChamps)[1]]['kills'] / topChamps[Object.keys(topChamps)[1]]['games']) * 10) / 10}   &nbsp;/  &nbsp;
+                      {Math.round((topChamps[Object.keys(topChamps)[1]]['deaths'] / topChamps[Object.keys(topChamps)[1]]['games']) * 10) / 10}   &nbsp;/  &nbsp;
+                      {Math.round((topChamps[Object.keys(topChamps)[1]]['assists'] / topChamps[Object.keys(topChamps)[1]]['games']) * 10) / 10}
+                      <br></br>
+
+                      <br></br>
+                      {Math.round(topChamps[Object.keys(topChamps)[2]]['KDA_ratio'] * 100) / 100}:1 KDA
+                      <br></br>
+                      {Math.round((topChamps[Object.keys(topChamps)[2]]['kills'] / topChamps[Object.keys(topChamps)[2]]['games']) * 10) / 10}  &nbsp; /  &nbsp;
+                      {Math.round((topChamps[Object.keys(topChamps)[2]]['deaths'] / topChamps[Object.keys(topChamps)[2]]['games']) * 10) / 10}   &nbsp;/  &nbsp;
+                      {Math.round((topChamps[Object.keys(topChamps)[2]]['assists'] / topChamps[Object.keys(topChamps)[2]]['games']) * 10) / 10}
+                      <br></br>
+
+                      <br></br>
+                      {Math.round(topChamps[Object.keys(topChamps)[3]]['KDA_ratio'] * 100) / 100}:1 KDA
+                      <br></br>
+                      {Math.round((topChamps[Object.keys(topChamps)[3]]['kills'] / topChamps[Object.keys(topChamps)[3]]['games']) * 10) / 10}   &nbsp;/  &nbsp;
+                      {Math.round((topChamps[Object.keys(topChamps)[3]]['deaths'] / topChamps[Object.keys(topChamps)[3]]['games']) * 10) / 10}   &nbsp;/  &nbsp;
+                      {Math.round((topChamps[Object.keys(topChamps)[3]]['assists'] / topChamps[Object.keys(topChamps)[3]]['games']) * 10) / 10}
+                      <br></br>
+
+                      {Object.keys(topChamps).length >= 5 &&
+                        <div>
+                          <br></br>
+                          {Math.round(topChamps[Object.keys(topChamps)[4]]['KDA_ratio'] * 100) / 100}:1 KDA
+                          <br></br>
+                          {Math.round((topChamps[Object.keys(topChamps)[4]]['kills'] / topChamps[Object.keys(topChamps)[4]]['games']) * 10) / 10}  &nbsp; /  &nbsp;
+                          {Math.round((topChamps[Object.keys(topChamps)[4]]['deaths'] / topChamps[Object.keys(topChamps)[4]]['games']) * 10) / 10}   &nbsp;/  &nbsp;
+                          {Math.round((topChamps[Object.keys(topChamps)[4]]['assists'] / topChamps[Object.keys(topChamps)[4]]['games']) * 10) / 10}
+                        </div>
+                      }
+                    </div>
+                    <div class="column is-3">
+                      {Math.round(topChamps[Object.keys(topChamps)[0]]['win_rate'] * 100)}%
+                      <br></br>
+                      {topChamps[Object.keys(topChamps)[0]]['games']} Played
+                      <br></br>
+
+                      <br></br>
+                      {Math.round(topChamps[Object.keys(topChamps)[1]]['win_rate'] * 100)}%
+                      <br></br>
+                      {topChamps[Object.keys(topChamps)[1]]['games']} Played
+                      <br></br>
+
+                      <br></br>
+                      {Math.round(topChamps[Object.keys(topChamps)[2]]['win_rate'] * 100)}%
+                      <br></br>
+                      {topChamps[Object.keys(topChamps)[2]]['games']} Played
+                      <br></br>
+
+                      <br></br>
+                      {Math.round(topChamps[Object.keys(topChamps)[3]]['win_rate'] * 100)}%
+                      <br></br>
+                      {topChamps[Object.keys(topChamps)[3]]['games']} Played
+                      <br></br>
+
+                      {Object.keys(topChamps).length >= 5 &&
+                        <div>
+                          <br></br>
+                          {Math.round(topChamps[Object.keys(topChamps)[4]]['win_rate'] * 100)}%
+                          <br></br>
+                          {topChamps[Object.keys(topChamps)[1]]['games']} Played
+                          <br></br>
+                        </div>
+                      }
                     </div>
                   </div>
                 </div>
