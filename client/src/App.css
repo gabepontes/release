@@ -71,49 +71,93 @@
 
 .xec {
   position: relative;
-  top:82px;
+  top:55px;
   border-radius:5%;
   left: -230px;
   width: 1100px; /* set width to 600px */
-  height: 350px;
+  height: 450px;
   background-color: rgba(0, 117, 213, 0.475);
   margin: 0 auto; /* center element horizontally */
   margin-bottom: 5px;
   /* other styles */
 }
 .move-down{
-  margin-bottom:360px;
+  margin-bottom:460px;
 }
 
 
 .champion-container {
-  transform: scale(0.6);
+  transform: scale(0.75);
   position: relative;
-  top: -10px; /* set top position to 10px */
-  right: 200px; /* set left position to 10px */
+  top: -300px; /* set top position to 10px */
+  right: 35px; /* set left position to 10px */
 }
 
 .player-info{
   position: relative;
   font-weight: bold;
-  top: -700px; /* set top position to 10px */
+  top: -1085px; /* set top position to 10px */
   right: -230px; /* set left position to 10px */
 }
-.items-container {
+
+.kda {
+  position: relative;
+  top: 21px;
+  left: 130px;
+  font-size: 20px;
+}
+
+/* .items-container {
   transform: scale(0.6);
   position: relative;
   align-items: left;
-  top: -570px; /* set top position to 10px */
-  right: 200px; /* set left position to 10px */
+  top: -570px; 
+  right: 200px;
+} */
+
+.items-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 1px;
+  transform: scale(0.9);
+  width: 18%;
+  position: relative;
+  align-items: left;
+  top: -950px; /* set top position to 10px */
+  right: -500px; /* set left position to 10px */
 }
+
+
+.players_container{
+  position: relative;
+  bottom: 20px;
+  left: 800px;;
+}
+
+.players_container img{
+  height: 23px;
+  width: 23px;
+}
+
+.row2 {
+  position: relative;
+  left: 130px;
+  bottom: 145px;
+}
+
+/* .row1{
+  display: table-column; */
+/* } */
+
 
 
 .spells{
   position: relative;
-  top: -137px;
-  right: 180px;
+  top: -429px;
+  right: -30px;
   display:block;
-  transform: scale(0.5);
+  transform: scale(0.7);
   }
   .spells img{
   
@@ -123,37 +167,50 @@
 
 .runes1 {
   position: relative;
-  top: -357px;
-  right: 80px;
+  top: -650px;
+  right: -48px;
   align-items: center; /* center items vertically */
   justify-content: space-between; /* distribute items horizontally */
-  transform: scale(0.2);
+  transform: scale(0.24);
   margin-bottom: 0px;
   width:50%;
   
 }
 .runes2 {
   position: relative;
-  top: -490px;
-  right: 40px;
+  top: -775px;
+  right: -105px;
   align-items: center; /* center items vertically */
   justify-content: space-between; /* distribute items horizontally */
-  transform: scale(0.35);
+  transform: scale(0.5);
   margin-bottom: 0px;
   width:50%;
   
 }
+
+.runes2 img{
+  width: 60px;
+  height: 60px;
+}
+
 .runes3 {
   position: relative;
-  top: -535px;
-  right: 30px;
+  top: -815px;
+  right: -117px;
   align-items: center; /* center items vertically */
   justify-content: space-between; /* distribute items horizontally */
-  transform: scale(0.35);
+  transform: scale(0.5);
   margin-bottom: 0px;
   width:50%;
   
 }
+
+.runes3 img {
+  width: 60px;
+  height: 60px;
+}
+
+
 
 .rec:hover {
   box-shadow: 2px 2px 2px rgb(0, 0, 0);
@@ -234,6 +291,28 @@
   top: 190px;
   right: 650px;
 }
+
+.victory::after{
+  position: relative;
+  top: 50px;
+  left: 2px;
+  font-weight: bold;
+  font-size: 10px;
+  color: var(--darkreader-text-gray500);
+  content: "VICTORY";
+}
+
+.defeat::after{
+  position: relative;
+  top: 50px;
+  left: 2px;
+  font-weight: bold;
+  font-size: 10px;
+  color: var(--darkreader-text-gray500);
+  content: "DEFEAT";
+}
+
+
 .aboutUsContainer {
   display: flex;
   flex-direction: column;
@@ -269,5 +348,71 @@
 }
 .backButton:hover {
   background-color: #4cbc4f;
+}
+
+
+.test1{
+  width: 105%;
+}
+
+tbody.mainbody{
+  display: table-row-group;
+  vertical-align: middle;
+}
+
+.data_table thead tr{
+  border-bottom: 1px dashed grey;
+}
+
+td.champion_picture{
+  padding-left: 10px;
+  padding-right: 4px;
+  padding-bottom: 3px;
+}
+
+.champion_picture img{
+  display: table-row;
+  height: 32px;
+  width: 32px;
+}
+
+td.spellbox div{
+  /* padding-top: 3px; */
+  height: 16px;
+  width: 16px;
+  padding-right: 5px;
+}
+
+td.runesex div{
+  height: 16px;
+  width: 16px;
+}
+
+td.kdaex{
+  padding-left: 5px;
+  font-size: 15px;
+  padding-right: 5px;
+}
+
+
+td.damageDealt{
+  padding-right: 5px;
+  padding-left: 5px;
+  font-size: 15px;
+}
+
+td.cs{
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+/* td.itemsList div{
+  height: 50px;
+  width: 50px;
+} */
+
+.itemsList img{
+  height: 22px;
+  width: 22px;
 }
 
