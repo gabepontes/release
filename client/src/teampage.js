@@ -5,17 +5,20 @@ import 'bulma/css/bulma.min.css';
 function TeamPage() {
     const [topStats, setTopStats] = useState({});
     const [playerStats, setPlayerStats] = useState({});
-    const [summoner_name_top, setSummonerNameTop] = useState('');
-    const [summoner_name_jungle, setSummonerJungle] = useState('');
-    const [summoner_name_mid, setSummonerNameMid] = useState('');
-    const [summoner_name_bot, setSummonerNameBot] = useState('');
-    const [summoner_name_sup, setSummonerNameSup] = useState('');
+    const [summonerNameTop, setSummonerNameTop] = useState('');
+    const [summonerNameJungle, setSummonerJungle] = useState('');
+    const [summonerNameMid, setSummonerNameMid] = useState('');
+    const [summonerNameBot, setSummonerNameBot] = useState('');
+    const [summonerNameSup, setSummonerNameSup] = useState('');
 
 
     useEffect(() => {
-        fetch(`/team/${summoner_name_top},${summoner_name_jungle},${summoner_name_mid},${summoner_name_bot},${summoner_name_sup}`).then(data => {
-            setTopStats(data.top_stats);
-            setPlayerStats(data.players);
+        const params = new URLSearchParams(window.location.search)
+        const summoners = params.get('summoners').split()
+        console.log(summoners)
+        fetch(`/team?summoners=${summoners[0]},${summoners[1]},${summoners[2]},${summoners[3]},${summoners[4]}`).then(data => {
+            setTopStats(data.top_info);
+            // setPlayerStats(data.players);
         })
     }, []);
 
@@ -104,8 +107,8 @@ function TeamPage() {
                                 </th>
                             </tr>
 
-                            <tr><td>x {playerStats}</td>
-                                <td>y</td></tr>
+                            {/* <tr><td>x {topStats.top_stats.average_cs_diff_at_15}</td> */}
+                            {/* <td>y</td></tr> */}
                             <tr><td>x</td>
                                 <td>y</td></tr>
                             <tr>&nbsp;</tr>

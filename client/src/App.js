@@ -1221,7 +1221,7 @@ function App() {
       <Route exact path="/about-us" component={AboutUs} />
       <Route exact path="/help" component={Help} />
       <Route exact path="/feed" component={NewsPage} />
-      <Route exact path="/teampage" component={TeamPage} />
+      <Route exact path="/team" component={TeamPage} />
     </BrowserRouter>
   );
 }
