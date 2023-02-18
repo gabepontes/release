@@ -14,10 +14,10 @@ function TeamPage() {
 
     useEffect(() => {
         const params = new URLSearchParams(window.location.search)
-        const summoners = params.get('summoners').split()
+        const summoners = params.get('summoners').split(",")
         console.log(summoners)
-        fetch(`/team?summoners=${summoners[0]},${summoners[1]},${summoners[2]},${summoners[3]},${summoners[4]}`).then(data => {
-            setTopStats(data.top_info);
+        fetch(`http://localhost:5000/team?summoners=${summoners[0]},${summoners[1]},${summoners[2]},${summoners[3]},${summoners[4]}`).then(data => {
+            // setTopStats(data.top_info);
             // setPlayerStats(data.players);
         })
     }, []);
@@ -107,8 +107,8 @@ function TeamPage() {
                                 </th>
                             </tr>
 
-                            {/* <tr><td>x {topStats.top_stats.average_cs_diff_at_15}</td> */}
-                            {/* <td>y</td></tr> */}
+                            {/* <tr><td>x {topStats.top_stats.average_cs_diff_at_15}</td>
+                            <td>y</td></tr> */}
                             <tr><td>x</td>
                                 <td>y</td></tr>
                             <tr>&nbsp;</tr>
