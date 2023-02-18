@@ -96,6 +96,7 @@ function OtherPage() {
     if (name && summonerName !== name) {
       setSummonerName(name);
       setLoading(true);
+      console.log(name)
       fetch(`/members/${name}`)
         .then(res => {
           if (!res.ok) {

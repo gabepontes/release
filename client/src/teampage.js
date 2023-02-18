@@ -3,24 +3,43 @@ import 'bulma/css/bulma.min.css';
 
 
 function TeamPage() {
-    const [topStats, setTopStats] = useState({});
+    const [topInfo, setTopInfo] = useState({});
     const [playerStats, setPlayerStats] = useState({});
     const [summonerNameTop, setSummonerNameTop] = useState('');
-    const [summonerNameJungle, setSummonerJungle] = useState('');
+    const [summonerNameJungle, setSummonerNameJungle] = useState('');
     const [summonerNameMid, setSummonerNameMid] = useState('');
     const [summonerNameBot, setSummonerNameBot] = useState('');
     const [summonerNameSup, setSummonerNameSup] = useState('');
 
 
     useEffect(() => {
-        const params = new URLSearchParams(window.location.search)
-        const summoners = params.get('summoners').split(",")
-        console.log(summoners)
-        fetch(`http://localhost:5000/team?summoners=${summoners[0]},${summoners[1]},${summoners[2]},${summoners[3]},${summoners[4]}`).then(data => {
-            // setTopStats(data.top_info);
-            // setPlayerStats(data.players);
-        })
-    }, []);
+        const params = new URLSearchParams(window.location.search);
+        const summoners = params.get('summoners').split(",");
+        // const summoners = params.get('summoners');
+
+        console.log(summoners);
+        setSummonerNameTop(summoners[0]);
+        setSummonerNameJungle(summoners[1]);
+        setSummonerNameMid(summoners[2]);
+        setSummonerNameBot(summoners[3]);
+        setSummonerNameSup(summoners[4]);
+
+        fetch(`/team/${summoners[0]},${summoners[1]},${summoners[2]},${summoners[3]},${summoners[4]}`)
+            .then(res => {
+                if (!res.ok) {
+                    throw Error(res.statusText);
+                }
+                return res.json();
+            })
+            .then(data => {
+                setTopInfo(data.top_info);
+                // setPlayerStats(data.players);
+            })
+            .catch(error => {
+                console.log(error);
+                alert("Error fetching data");
+            });
+    }, [summonerNameTop, summonerNameJungle, summonerNameMid, summonerNameBot, summonerNameSup]);
 
     return (
 
