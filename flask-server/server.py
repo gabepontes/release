@@ -8,14 +8,14 @@ from datetime import datetime
 app = Flask(__name__)
 
 # API key for the league server
-api_key = "RGAPI-b43c4a91-6246-42fb-b173-06599cd4b5f6"
+api_key = "RGAPI-78a59552-5ae9-4e9b-9860-2dac9bc4822e"
 
 # Members API route
 @app.route("/members/<summoner_name>")
 def members(summoner_name):
     # Connect to the MySQL server
     cnx = mysql.connector.connect(
-        user='root', password='Clol1234', host='localhost', database='league_data')
+        user='root', password='test123', host='localhost', database='league_data')
     cursor = cnx.cursor()
     # Create the matches table if it doesn't exist
     table_create = '''CREATE TABLE IF NOT EXISTS matches (
