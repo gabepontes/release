@@ -8,10 +8,11 @@ from datetime import datetime
 app = Flask(__name__)
 
 # API key for the league server
-api_key = "RGAPI-9a9a10e4-a35f-460d-bb0a-d693fd1d5a7c"
-
+api_key = "RGAPI-ab352681-1757-4ffe-8e32-80a3439ab26f"
 
 # Members API route
+
+
 @app.route("/members/<summoner_name>")
 def members(summoner_name):
     # Connect to the MySQL server
@@ -472,7 +473,6 @@ def team(summoner_name_top, summoner_name_jungle, summoner_name_mid, summoner_na
             players["sup_info"]["matches"] = sup_games
             players["sup_info"]["sup_stats"] = sup_stats
 
-    print(players)
     return jsonify(players)
 
 
