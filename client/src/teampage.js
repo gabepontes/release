@@ -6,6 +6,21 @@ import { useLocation } from 'react-router-dom';
 function TeamPage() {
 
     const [playerStats, setPlayerStats] = useState({});
+    var [team1Stats, setTeam1Stats] = useState({});
+    const [team1StatsTopTemp, setTeam1StatsTopTemp] = useState({});
+    var [team1StatsTopTemp2, setTeam1StatsTopTemp2] = useState({});
+
+    // const [team1StatsTop, setTeam1StatsTop] = useState({'t':{
+    //                                                         'T':{
+    //                                                             'i':{
+    //                                                                 's':{
+    //                                                                     'a':0.0}}}}});
+
+
+
+    const [team1StatsTop, setTeam1StatsTop] = useState({ 'average_cs_diff_at_15': null });
+    const [team1TopAvgCSDiff, setTeam1TopAvgCSDiff] = useState(0.0);
+
     const [summonerNameTop, setSummonerNameTop] = useState('');
     const [summonerNameJungle, setSummonerNameJungle] = useState('');
     const [summonerNameMid, setSummonerNameMid] = useState('');
@@ -18,8 +33,8 @@ function TeamPage() {
         const queryParams = new URLSearchParams(window.location.search);
         const summoners = queryParams.get('summoners').split(",");
         console.log(summoners);
-        fetch(`/team/${summoners[0]},${summoners[1]},${summoners[2]},${summoners[3]},${summoners[4]}`)
-
+        console.log(summoners.length)
+        fetch(`/team/${summoners[0]},${summoners[1]},${summoners[2]},${summoners[3]},${summoners[4]},${summoners[5]},${summoners[6]},${summoners[7]},${summoners[8]},${summoners[9]}`)
             .then(res => {
                 if (!res.ok) {
                     throw Error(res.statusText);
@@ -27,13 +42,35 @@ function TeamPage() {
                 return res.json();
             })
             .then(data => {
-                setPlayerStats(data);
+                setTeam1StatsTopTemp(data.team1.TOP);
+
+                // setTeam1StatsTopTemp2(team1StatsTopTemp.info);
+                // setTeam1StatsTop(team1StatsTopTemp2.stats);
+
+
+
+                // setTeam1StatsTopTemp2(data.team1StatsTopTemp.info);
+                // setTeam1StatsTop(data.team1StatsTopTemp2.stats);
+
+
+
+                // setTeam1TopAvgCSDiff(team1StatsTop.average_cs_diff_at_15)
+
+
+
+                setTeam1StatsTop(data.team1.TOP.info.stats);
+                // setTeam1StatsTop(data.team1.TOP);
+
+                // console.log(team1Stats.TOP.freshBlood);
             })
             .catch(error => {
                 console.log(error);
                 alert("Error fetching data");
             });
-    }, [summoners]);
+        // team1StatsTopTemp2 = team1StatsTopTemp.info
+        // team1StatsTop = team1StatsTopTemp2["stats"]
+    }, [summoners]
+    );
 
     // const handleSubmit = (e) => {
     //     e.preventDefault();
@@ -194,10 +231,36 @@ function TeamPage() {
                                 </th>
                             </tr>
 
-                            {/* <tr><td>x {topStats.top_stats.average_cs_diff_at_15}</td>
-                            <td>y</td></tr> */}
-                            <tr><td>x</td>
+                            {/* <tr><td>x {team1StatsTop.info.stats.average_cs_diff_at_15}</td>
+                                <td>y</td></tr> */}
+
+                            <tr><td>x {team1StatsTop.average_cs_diff_at_15}</td>
                                 <td>y</td></tr>
+
+                            <tr><td>x {team1StatsTop['average_cs_diff_at_15']}</td>
+                                <td>y</td></tr>
+                            {/* <tr><td>x {team1StatsTop["freshBlood"]}</td>
+                                <td>y</td></tr> */}
+
+
+                            {/* <tr><td>x {team1StatsTop["average_kda_at_15"]}</td>
+                                <td>y</td></tr> */}
+
+
+                            <tr><td> {team1TopAvgCSDiff} x</td>
+                                <td>y</td></tr>
+
+
+
+                            {/* <tr><td>x {team1Stats["TOP"]["info"]["stats"]["average_cs_diff_at_15"]}</td>
+                                <td>y</td></tr> */}
+
+
+
+                            {/* <tr><td>x {team1StatsTop.average_cs_diff_at_15}</td> */}
+                            {/* <td>y</td></tr> */}
+                            {/* <tr><td>x</td>
+                                <td>y</td></tr> */}
                             <tr><td>x</td>
                                 <td>y</td></tr>
                             <tr><td>x</td>

@@ -3,12 +3,289 @@ import mysql.connector
 import os
 import json
 import requests
+import threading
 from datetime import datetime
 
 app = Flask(__name__)
 
 # API key for the league server
-api_key = "RGAPI-ab352681-1757-4ffe-8e32-80a3439ab26f"
+api_key_rhet = "RGAPI-5893e2ab-7d85-40bc-8e95-ade486d82aea"
+api_key_kiro = "RGAPI-5893e2ab-7d85-40bc-8e95-ade486d82aea"
+api_key = "RGAPI-5893e2ab-7d85-40bc-8e95-ade486d82aea"
+
+
+def summoner_lookup(summoner_name, api_key):
+    region = "NA1"
+    headers = {'X-Riot-Token': api_key}
+    url = f'https://{region}.api.riotgames.com/lol/summoner/v4/summoners/by-name/{summoner_name}'
+    response = requests.get(url, headers=headers)
+    if response.status_code != 200:
+        return jsonify(error=response.status_code)
+    return response.json()
+
+
+def lookup_queue(player_id, api_key):
+    region = "NA1"
+    url = f'https://{region}.api.riotgames.com/lol/league/v4/entries/by-summoner/{player_id}'
+    headers = {'X-Riot-Token': api_key}
+    player_response = requests.get(url, headers=headers)
+    if player_response.status_code != 200:
+        return jsonify(error=player_response.status_code)
+    return player_response.json()
+
+
+def last_ten_games(puuid, api_key):
+    region = 'americas'
+    url = f'https://{region}.api.riotgames.com/lol/match/v5/matches/by-puuid/{puuid}/ids?type=ranked&start=0&count=10'
+    headers = {'X-Riot-Token': api_key}
+    match_history_response = requests.get(url, headers=headers)
+    if match_history_response.status_code != 200:
+        return jsonify(error=match_history_response.status_code)
+    return match_history_response.json()
+
+
+def match_lookup(matchId, api_key):
+    region = 'americas'
+    url = f'https://{region}.api.riotgames.com/lol/match/v5/matches/{matchId}'
+    headers = {'X-Riot-Token': api_key}
+    response = requests.get(url, headers=headers)
+    if response.status_code != 200:
+        return response.status_code
+    return response.json()
+
+
+def timeline_lookup(matchId, api_key):
+    region = 'americas'
+    headers = {'X-Riot-Token': api_key}
+    timeline_url = f'https://{region}.api.riotgames.com/lol/match/v5/matches/{matchId}/timeline'
+    match_timeline_response = requests.get(timeline_url, headers=headers)
+    if match_timeline_response.status_code != 200:
+        return match_timeline_response.status_code
+    return match_timeline_response.json()
+
+
+def laner_analysis(list_of_matches, puuid, lane, api_key):
+    cs_diff_at_15 = []
+    kda = []
+    first_blood = 0
+    for matchId in list_of_matches:
+        match = match_lookup(matchId, api_key)
+        timeline = timeline_lookup(matchId, api_key)
+        if type(timeline) is not dict or type(match) is not dict:
+            continue
+        part_id = -1
+        enemy_laner_id = -1
+        for participant in match["info"]["participants"]:
+            if participant["puuid"] == puuid:
+                part_id = participant["participantId"]
+                if participant["firstBloodKill"] or participant["firstBloodAssist"]:
+                    first_blood += 1
+            if participant["teamPosition"] == lane and participant["puuid"] != puuid:
+                enemy_laner_id = participant["participantId"]
+        kills_and_assists = 0
+        deaths = 0
+        max_minutes = 15
+        if len(timeline["info"]["frames"]) < 15:
+            max_minutes = len(timeline["info"]["frames"]) - 1
+        for minute in range(0, max_minutes):
+            for event in timeline["info"]["frames"][minute]["events"]:
+                if event["type"] == "CHAMPION_KILL":
+                    if "assistingParticipantIds" in event.keys():
+                        if part_id in event["assistingParticipantIds"] or part_id == event["killerId"]:
+                            kills_and_assists += 1
+                    elif event["victimId"] == part_id:
+                        deaths += 1
+        if deaths == 0:
+            kda.append(kills_and_assists)
+        else:
+            kda.append(kills_and_assists / deaths)
+        part_cs = timeline["info"]["frames"][max_minutes -
+                                             1]["participantFrames"][str(part_id)]["minionsKilled"]
+        enemy_cs = timeline["info"]["frames"][max_minutes -
+                                              1]["participantFrames"][str(enemy_laner_id)]["minionsKilled"]
+        cs_diff_at_15.append(part_cs - enemy_cs)
+    top_stats = {}
+    top_stats["average_cs_diff_at_15"] = round(
+        sum(cs_diff_at_15)/len(cs_diff_at_15), 1)
+    top_stats["average_kda_at_15"] = round(sum(kda)/len(kda), 2)
+    top_stats["firstblood_participation"] = (first_blood / 10) * 100
+    return top_stats
+
+
+def jungle_analysis(list_of_matches, puuid, api_key):
+    first_dragon_timers = []
+    first_herald_timers = []
+    kda = []
+    for matchId in list_of_matches:
+        match = match_lookup(matchId, api_key)
+        timeline = timeline_lookup(matchId, api_key)
+        if type(timeline) is not dict or type(match) is not dict:
+            continue
+        part_id = -1
+        team_id = -1
+        for participant in match["info"]["participants"]:
+            if participant["puuid"] == puuid:
+                part_id = participant["participantId"]
+                team_id = participant["teamId"]
+        kills_and_assists = 0
+        deaths = 0
+        drake_taken = False
+        herald_taken = False
+        max_minutes = 15
+        if len(timeline["info"]["frames"]) < 15:
+            max_minutes = len(timeline["info"]["frames"]) - 1
+        for minute in range(0, max_minutes):
+            for event in timeline["info"]["frames"][minute]["events"]:
+                if event["type"] == "CHAMPION_KILL":
+                    if "assistingParticipantIds" in event.keys():
+                        if part_id in event["assistingParticipantIds"] or part_id == event["killerId"]:
+                            kills_and_assists += 1
+                    elif event["victimId"] == part_id:
+                        deaths += 1
+                if event["type"] == "ELITE_MONSTER_KILL":
+                    if event["monsterType"] == "DRAGON" and event["killerTeamId"] == team_id and not drake_taken:
+                        first_dragon_timers.append(event["timestamp"])
+                    if event["monsterType"] == "RIFTHERALD" and event["killerTeamId"] == team_id and not herald_taken:
+                        first_herald_timers.append(event["timestamp"])
+        if deaths == 0:
+            kda.append(kills_and_assists)
+        else:
+            kda.append(kills_and_assists / deaths)
+    jungle_stats = {}
+    jungle_stats["average_first_dragon_timer"] = round(
+        ((sum(first_dragon_timers)/len(first_dragon_timers))/60000), 2)
+    jungle_stats["average_first_herald_timer"] = round(
+        ((sum(first_herald_timers)/len(first_herald_timers))/60000), 2)
+    jungle_stats["average_kda_at_15"] = round(sum(kda)/len(kda), 2)
+    return jungle_stats
+
+
+def sup_analysis(list_of_matches, puuid, api_key):
+    kda = []
+    vision_scores = []
+    for matchId in list_of_matches:
+        match = match_lookup(matchId, api_key)
+        timeline = timeline_lookup(matchId, api_key)
+        if type(timeline) is not dict or type(match) is not dict:
+            continue
+        part_id = -1
+        for participant in match["info"]["participants"]:
+            if participant["puuid"] == puuid:
+                part_id = participant["participantId"]
+                vision_scores.append(participant["visionScore"])
+        kills_and_assists = 0
+        deaths = 0
+        max_minutes = 15
+        if len(timeline["info"]["frames"]) < 15:
+            max_minutes = len(timeline["info"]["frames"]) - 1
+        for minute in range(0, max_minutes):
+            for event in timeline["info"]["frames"][minute]["events"]:
+                if event["type"] == "CHAMPION_KILL":
+                    if "assistingParticipantIds" in event.keys():
+                        if part_id in event["assistingParticipantIds"] or part_id == event["killerId"]:
+                            kills_and_assists += 1
+                    elif event["victimId"] == part_id:
+                        deaths += 1
+        if deaths == 0:
+            kda.append(kills_and_assists)
+        else:
+            kda.append(kills_and_assists / deaths)
+    sup_stats = {}
+    sup_stats["average_kda_at_15"] = round(sum(kda)/len(kda), 2)
+    sup_stats["average_vision_score"] = round(
+        sum(vision_scores)/len(vision_scores), 2)
+    return sup_stats
+
+
+def laner(summoner_name, lane, players, api_key):
+    laner_info = summoner_lookup(summoner_name, api_key)
+    laner_queue_info = lookup_queue(laner_info["id"], api_key)
+    laner_games = last_ten_games(laner_info["puuid"], api_key)
+    laner_stats = laner_analysis(
+        laner_games, laner_info["puuid"], lane, api_key)
+    player = {}
+    for i in laner_queue_info:
+        if i['queueType'] == "RANKED_SOLO_5x5":
+            player["info"] = i
+            player["info"]["stats"] = laner_stats
+    players[lane] = player
+
+
+def jungler(summoner_name, players, api_key):
+    jungle_info = summoner_lookup(summoner_name, api_key)
+    jungle_queue_info = lookup_queue(jungle_info["id"], api_key)
+    jungle_games = last_ten_games(jungle_info["puuid"], api_key)
+    jungle_stats = jungle_analysis(jungle_games, jungle_info["puuid"], api_key)
+    player = {}
+    for i in jungle_queue_info:
+        if i['queueType'] == "RANKED_SOLO_5x5":
+            player["info"] = i
+            player["info"]["stats"] = jungle_stats
+    players["JUNGLE"] = player
+
+
+def support(summoner_name, players, api_key):
+    sup_info = summoner_lookup(summoner_name, api_key)
+    sup_queue_info = lookup_queue(sup_info["id"], api_key)
+    sup_games = last_ten_games(sup_info["puuid"], api_key)
+    sup_stats = sup_analysis(sup_games, sup_info["puuid"], api_key)
+    player = {}
+    for i in sup_queue_info:
+        if i['queueType'] == "RANKED_SOLO_5x5":
+            player["info"] = i
+            player["info"]["stats"] = sup_stats
+    players["SUPPORT"] = player
+
+
+def team(summoner_name_top, summoner_name_jungle, summoner_name_mid, summoner_name_bot, summoner_name_sup):
+    top_info = summoner_lookup(summoner_name_top)
+    top_queue_info = lookup_queue(top_info["id"])
+    top_games = last_ten_games(top_info["puuid"])
+    top_stats = laner_analysis(top_games, top_info["puuid"], "TOP")
+    jungle_info = summoner_lookup(summoner_name_jungle)
+    jungle_queue_info = lookup_queue(jungle_info["id"])
+    jungle_games = last_ten_games(jungle_info["puuid"])
+    jungle_stats = jungle_analysis(jungle_games, jungle_info["puuid"])
+    mid_info = summoner_lookup(summoner_name_mid)
+    mid_queue_info = lookup_queue(mid_info["id"])
+    mid_games = last_ten_games(mid_info["puuid"])
+    mid_stats = laner_analysis(mid_games, mid_info["puuid"], "MIDDLE")
+    bot_info = summoner_lookup(summoner_name_bot)
+    bot_queue_info = lookup_queue(bot_info["id"])
+    bot_games = last_ten_games(bot_info["puuid"])
+    bot_stats = laner_analysis(bot_games, bot_info["puuid"], "BOTTOM")
+    sup_info = summoner_lookup(summoner_name_sup)
+    sup_queue_info = lookup_queue(sup_info["id"])
+    sup_games = last_ten_games(sup_info["puuid"])
+    sup_stats = sup_analysis(sup_games, sup_info["puuid"])
+
+    players = {}
+    for i in top_queue_info:
+        if i['queueType'] == "RANKED_SOLO_5x5":
+            players["top_info"] = i
+            players["top_info"]["top_stats"] = top_stats
+    for i in jungle_queue_info:
+        if i['queueType'] == "RANKED_SOLO_5x5":
+            players["jungle_info"] = i
+            players["jungle_info"]["matches"] = jungle_games
+            players["jungle_info"]["jungle_stats"] = jungle_stats
+    for i in mid_queue_info:
+        if i['queueType'] == "RANKED_SOLO_5x5":
+            players["mid_info"] = i
+            players["mid_info"]["matches"] = mid_games
+            players["mid_info"]["mid_stats"] = mid_stats
+    for i in bot_queue_info:
+        if i['queueType'] == "RANKED_SOLO_5x5":
+            players["bot_info"] = i
+            players["bot_info"]["matches"] = bot_games
+            players["bot_info"]["bot_stats"] = bot_stats
+    for i in sup_queue_info:
+        if i['queueType'] == "RANKED_SOLO_5x5":
+            players["sup_info"] = i
+            players["sup_info"]["matches"] = sup_games
+            players["sup_info"]["sup_stats"] = sup_stats
+
+    return players
 
 # Members API route
 
@@ -245,235 +522,60 @@ def members(summoner_name):
                     })
 
 
-def summoner_lookup(summoner_name):
-    region = "NA1"
-    headers = {'X-Riot-Token': api_key}
-    url = f'https://{region}.api.riotgames.com/lol/summoner/v4/summoners/by-name/{summoner_name}'
-    response = requests.get(url, headers=headers)
-    if response.status_code != 200:
-        return jsonify(error=response.status_code)
-    return response.json()
-
-
-def lookup_queue(player_id):
-    region = "NA1"
-    url = f'https://{region}.api.riotgames.com/lol/league/v4/entries/by-summoner/{player_id}'
-    headers = {'X-Riot-Token': api_key}
-    player_response = requests.get(url, headers=headers)
-    if player_response.status_code != 200:
-        return jsonify(error=player_response.status_code)
-    return player_response.json()
-
-
-def last_ten_games(puuid):
-    region = 'americas'
-    url = f'https://{region}.api.riotgames.com/lol/match/v5/matches/by-puuid/{puuid}/ids?type=ranked&start=0&count=10'
-    headers = {'X-Riot-Token': api_key}
-    match_history_response = requests.get(url, headers=headers)
-    if match_history_response.status_code != 200:
-        return jsonify(error=match_history_response.status_code)
-    return match_history_response.json()
-
-
-def match_lookup(matchId):
-    region = 'americas'
-    url = f'https://{region}.api.riotgames.com/lol/match/v5/matches/{matchId}'
-    headers = {'X-Riot-Token': api_key}
-    response = requests.get(url, headers=headers)
-    if response.status_code != 200:
-        return jsonify(error=response.status_code)
-    return response.json()
-
-
-def timeline_lookup(matchId):
-    region = 'americas'
-    headers = {'X-Riot-Token': api_key}
-    timeline_url = f'https://{region}.api.riotgames.com/lol/match/v5/matches/{matchId}/timeline'
-    match_timeline_response = requests.get(timeline_url, headers=headers)
-    if match_timeline_response.status_code != 200:
-        return jsonify(error=match_timeline_response.status_code)
-    return match_timeline_response.json()
-
-
-def top_analysis(list_of_matches, puuid):
-    cs_diff_at_15 = []
-    kda = []
-    first_blood = 0
-    for matchId in list_of_matches:
-        match = match_lookup(matchId)
-        timeline = timeline_lookup(matchId)
-        part_id = -1
-        enemy_laner_id = -1
-        for participant in match["info"]["participants"]:
-            if participant["puuid"] == puuid:
-                part_id = participant["participantId"]
-                if participant["firstBloodKill"] or participant["firstBloodAssist"]:
-                    first_blood += 1
-            if participant["teamPosition"] == "TOP" and participant["puuid"] != puuid:
-                enemy_laner_id = participant["participantId"]
-        kills_and_assists = 0
-        deaths = 0
-        max_minutes = 15
-        if len(timeline["info"]["frames"]) < 15:
-            max_minutes = len(timeline["info"]["frames"]) - 1
-        for minute in range(0, max_minutes):
-            for event in timeline["info"]["frames"][minute]["events"]:
-                if event["type"] == "CHAMPION_KILL":
-                    if "assistingParticipantIds" in event.keys():
-                        if part_id in event["assistingParticipantIds"] or part_id == event["killerId"]:
-                            kills_and_assists += 1
-                    elif event["victimId"] == part_id:
-                        deaths += 1
-        if deaths == 0:
-            kda.append(kills_and_assists)
-        else:
-            kda.append(kills_and_assists / deaths)
-        part_cs = timeline["info"]["frames"][max_minutes -
-                                             1]["participantFrames"][str(part_id)]["minionsKilled"]
-        enemy_cs = timeline["info"]["frames"][max_minutes -
-                                              1]["participantFrames"][str(enemy_laner_id)]["minionsKilled"]
-        cs_diff_at_15.append(part_cs - enemy_cs)
-    top_stats = {}
-    top_stats["average_cs_diff_at_15"] = round(
-        sum(cs_diff_at_15)/len(cs_diff_at_15), 1)
-    top_stats["average_kda_at_15"] = round(sum(kda)/len(kda), 2)
-    top_stats["firstblood_participation"] = (first_blood / 10) * 100
-    return top_stats
-
-
-def jungle_analysis(list_of_matches, puuid):
-    first_dragon_timers = []
-    first_herald_timers = []
-    kda = []
-    for matchId in list_of_matches:
-        match = match_lookup(matchId)
-        timeline = timeline_lookup(matchId)
-        part_id = -1
-        team_id = -1
-        for participant in match["info"]["participants"]:
-            if participant["puuid"] == puuid:
-                part_id = participant["participantId"]
-                team_id = participant["teamId"]
-        kills_and_assists = 0
-        deaths = 0
-        drake_taken = False
-        herald_taken = False
-        max_minutes = 15
-        if len(timeline["info"]["frames"]) < 15:
-            max_minutes = len(timeline["info"]["frames"]) - 1
-        for minute in range(0, max_minutes):
-            for event in timeline["info"]["frames"][minute]["events"]:
-                if event["type"] == "CHAMPION_KILL":
-                    if "assistingParticipantIds" in event.keys():
-                        if part_id in event["assistingParticipantIds"] or part_id == event["killerId"]:
-                            kills_and_assists += 1
-                    elif event["victimId"] == part_id:
-                        deaths += 1
-                if event["type"] == "ELITE_MONSTER_KILL":
-                    if event["monsterType"] == "DRAGON" and event["killerTeamId"] == team_id and not drake_taken:
-                        first_dragon_timers.append(event["timestamp"])
-                    if event["monsterType"] == "RIFTHERALD" and event["killerTeamId"] == team_id and not herald_taken:
-                        first_herald_timers.append(event["timestamp"])
-        if deaths == 0:
-            kda.append(kills_and_assists)
-        else:
-            kda.append(kills_and_assists / deaths)
-    jungle_stats = {}
-    jungle_stats["average_first_dragon_timer"] = round(
-        ((sum(first_dragon_timers)/len(first_dragon_timers))/60000), 2)
-    jungle_stats["average_first_herald_timer"] = round(
-        ((sum(first_herald_timers)/len(first_herald_timers))/60000), 2)
-    jungle_stats["average_kda_at_15"] = round(sum(kda)/len(kda), 2)
-    return jungle_stats
-
-
-def sup_analysis(list_of_matches, puuid):
-    kda = []
-    vision_scores = []
-    for matchId in list_of_matches:
-        match = match_lookup(matchId)
-        timeline = timeline_lookup(matchId)
-        if type(timeline) is not dict or type(match) is not dict:
-            continue
-        part_id = -1
-        for participant in match["info"]["participants"]:
-            if participant["puuid"] == puuid:
-                part_id = participant["participantId"]
-                vision_scores.append(participant["visionScore"])
-        kills_and_assists = 0
-        deaths = 0
-        max_minutes = 15
-        if len(timeline["info"]["frames"]) < 15:
-            max_minutes = len(timeline["info"]["frames"]) - 1
-        for minute in range(0, max_minutes):
-            for event in timeline["info"]["frames"][minute]["events"]:
-                if event["type"] == "CHAMPION_KILL":
-                    if "assistingParticipantIds" in event.keys():
-                        if part_id in event["assistingParticipantIds"] or part_id == event["killerId"]:
-                            kills_and_assists += 1
-                    elif event["victimId"] == part_id:
-                        deaths += 1
-        if deaths == 0:
-            kda.append(kills_and_assists)
-        else:
-            kda.append(kills_and_assists / deaths)
-    sup_stats = {}
-    sup_stats["average_kda_at_15"] = round(sum(kda)/len(kda), 2)
-    sup_stats["average_vision_score"] = round(
-        sum(vision_scores)/len(vision_scores), 2)
-    return sup_stats
-
-
-@app.route("/team/<summoner_name_top>,<summoner_name_jungle>,<summoner_name_mid>,<summoner_name_bot>,<summoner_name_sup>")
-def team(summoner_name_top, summoner_name_jungle, summoner_name_mid, summoner_name_bot, summoner_name_sup):
-    top_info = summoner_lookup(summoner_name_top)
-    top_queue_info = lookup_queue(top_info["id"])
-    top_games = last_ten_games(top_info["puuid"])
-    top_stats = top_analysis(top_games, top_info["puuid"])
-    jungle_info = summoner_lookup(summoner_name_jungle)
-    jungle_queue_info = lookup_queue(jungle_info["id"])
-    jungle_games = last_ten_games(jungle_info["puuid"])
-    jungle_stats = jungle_analysis(jungle_games, jungle_info["puuid"])
-    mid_info = summoner_lookup(summoner_name_mid)
-    mid_queue_info = lookup_queue(mid_info["id"])
-    mid_games = last_ten_games(mid_info["puuid"])
-    mid_stats = top_analysis(mid_games, mid_info["puuid"])
-    bot_info = summoner_lookup(summoner_name_bot)
-    bot_queue_info = lookup_queue(bot_info["id"])
-    bot_games = last_ten_games(bot_info["puuid"])
-    bot_stats = top_analysis(bot_games, bot_info["puuid"])
-    sup_info = summoner_lookup(summoner_name_sup)
-    sup_queue_info = lookup_queue(sup_info["id"])
-    sup_games = last_ten_games(sup_info["puuid"])
-    sup_stats = sup_analysis(sup_games, sup_info["puuid"])
-
+@app.route("/team/<summoner_name_top1>,<summoner_name_jungle1>,<summoner_name_mid1>,<summoner_name_bot1>,<summoner_name_sup1>,<summoner_name_top2>,<summoner_name_jungle2>,<summoner_name_mid2>,<summoner_name_bot2>,<summoner_name_sup2>")
+def team_analysis(summoner_name_top1, summoner_name_jungle1, summoner_name_mid1, summoner_name_bot1, summoner_name_sup1,
+                  summoner_name_top2, summoner_name_jungle2, summoner_name_mid2, summoner_name_bot2, summoner_name_sup2):
+    team1 = {}
+    team2 = {}
     players = {}
-    for i in top_queue_info:
-        if i['queueType'] == "RANKED_SOLO_5x5":
-            players["top_info"] = i
-            players["top_info"]["top_stats"] = top_stats
-    for i in jungle_queue_info:
-        if i['queueType'] == "RANKED_SOLO_5x5":
-            players["jungle_info"] = i
-            players["jungle_info"]["matches"] = jungle_games
-            players["jungle_info"]["jungle_stats"] = jungle_stats
-    for i in mid_queue_info:
-        if i['queueType'] == "RANKED_SOLO_5x5":
-            players["mid_info"] = i
-            players["mid_info"]["matches"] = mid_games
-            players["mid_info"]["mid_stats"] = mid_stats
-    for i in bot_queue_info:
-        if i['queueType'] == "RANKED_SOLO_5x5":
-            players["bot_info"] = i
-            players["bot_info"]["matches"] = bot_games
-            players["bot_info"]["bot_stats"] = bot_stats
-    for i in sup_queue_info:
-        if i['queueType'] == "RANKED_SOLO_5x5":
-            players["sup_info"] = i
-            players["sup_info"]["matches"] = sup_games
-            players["sup_info"]["sup_stats"] = sup_stats
+    # players["team_1"] = team(summoner_name_top1, summoner_name_jungle1, summoner_name_mid1, summoner_name_bot1, summoner_name_sup1)
+    # players["team_2"] = team(summoner_name_top2, summoner_name_jungle2, summoner_name_mid2, summoner_name_bot2, summoner_name_sup2)
+    t1 = threading.Thread(target=laner, args=(
+        summoner_name_top1, "TOP", team1, api_key_rhet,))
+    t2 = threading.Thread(target=jungler, args=(
+        summoner_name_jungle1, team1, api_key_rhet,))
+    t3 = threading.Thread(target=laner, args=(
+        summoner_name_mid1, "MIDDLE", team1, api_key_rhet,))
+    t4 = threading.Thread(target=laner, args=(
+        summoner_name_bot1, "BOTTOM", team1, api_key_rhet,))
+    t5 = threading.Thread(target=support, args=(
+        summoner_name_sup1, team1, api_key_rhet,))
 
-    return jsonify(players)
+    t6 = threading.Thread(target=laner, args=(
+        summoner_name_top2, "TOP", team2, api_key_kiro,))
+    t7 = threading.Thread(target=jungler, args=(
+        summoner_name_jungle2, team2, api_key_kiro,))
+    t8 = threading.Thread(target=laner, args=(
+        summoner_name_mid2, "MIDDLE", team2, api_key_kiro,))
+    t9 = threading.Thread(target=laner, args=(
+        summoner_name_bot2, "BOTTOM", team2, api_key_kiro,))
+    t10 = threading.Thread(target=support, args=(
+        summoner_name_sup2, team2, api_key_kiro,))
+
+    t1.start()
+    t2.start()
+    t3.start()
+    t4.start()
+    t5.start()
+    t6.start()
+    t7.start()
+    t8.start()
+    t9.start()
+    t10.start()
+
+    t1.join()
+    t2.join()
+    t3.join()
+    t4.join()
+    t5.join()
+    t6.join()
+    t7.join()
+    t8.join()
+    t9.join()
+    t10.join()
+    players["team1"] = team1
+    players["team2"] = team2
+    return players
 
 
 if __name__ == "__main__":
