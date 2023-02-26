@@ -17,6 +17,7 @@ import 'bulma/css/bulma.min.css';
 import './App.css';
 import styles from './initial-page.module.css';
 
+
 function InitialPage() {
   const [searchQuery, setSearchQuery] = useState('');
   function handleAboutUs() {
@@ -42,6 +43,7 @@ function InitialPage() {
 
   return (
     
+  
     <div style={{  display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
       <div className={styles.flashingtext}>
       <h1><span class='one'>U</span><span class='two'>L</span><span class='three'>O</span><span class='four'>L</span> <span class='five'>.</span><span class='six'>G</span><span class='seven'>G</span></h1></div>
@@ -54,6 +56,9 @@ function InitialPage() {
      
       <div className = {styles.square}>      
       <div className={styles.helpAboutContainer}>
+        <a href = "http://localhost:3000/">
+      <button className={styles.hpButton}>Home Page</button>
+      </a>
         <button onClick={handleAboutUs} className={styles.helpButton}>About Us</button>
         <button onClick={handleHelp} className={styles.AboutButton}>Help</button>
         <button onClick={handleFeed} className={styles.ScrimButton}>Temp</button>
@@ -63,6 +68,72 @@ function InitialPage() {
     </div>
   );
 }
+function Homepagesoloandteam() {
+  const [searchQuery, setSearchQuery] = useState('');
+  function handleAboutUs() {
+    window.location.assign("/about-us");
+  }
+
+  function handleHelp() {
+    window.location.assign("/help");
+  }
+  function handleFeed() {
+    window.location.assign("/feed");
+  }
+  window.onload = function(){
+    // your code here
+    document.body.style.backgroundImage = "url('https://wallpaperaccess.com/full/4493382.jpg')";
+   
+  };
+  return (
+    
+    <div style={{  display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+      <div className={styles.flashingtext}>
+      <h1><span class='one'>U</span><span class='two'>L</span><span class='three'>O</span><span class='four'>L</span> <span class='five'>.</span><span class='six'>G</span><span class='seven'>G</span></h1></div>
+      <br></br>
+
+
+      <div>
+
+      <div className = {styles.searchbytext}>
+      <h1>Search by...</h1>
+
+      <div className={styles.buttons}>
+        
+        <a href ="http://localhost:3000/solo-page">
+              <button className={styles.buttone} >Solo</button>
+              </a>
+            
+        <a href ="http://localhost:3000/team-search">
+              <button className={styles.butttwo} >Team</button>
+              </a>
+  
+  </div>
+      </div>
+        <br></br>
+
+
+
+      </div>
+
+
+  
+      <div className = {styles.square}>      
+      <div className={styles.helpAboutContainer}>
+ 
+        <a href = "http://localhost:3000/">
+      <button className={styles.hpButton}>Home Page</button>
+      </a>
+    
+        <button onClick={handleAboutUs} className={styles.helpButton}>About Us</button>
+        <button onClick={handleHelp} className={styles.AboutButton}>Help</button>
+        <button onClick={handleFeed} className={styles.ScrimButton}>Temp</button>
+      </div></div>
+ 
+    </div>
+  );
+}
+
 
 function OtherPage() {
   const [matches, setMatches] = useState({});
@@ -170,7 +241,14 @@ const handleSubmit = (e) => {
      
       <div className="App">
       <div id="top-bar">
-       <button className={styles.homepagebutton} >HOME PAGE</button>
+
+          <div id="soloteampagebackbutton">
+
+            <a href ="http://localhost:3000/">
+            <button className={styles.homepagebutton}  >HOME PAGE</button>
+            </a>
+          </div>
+
         
   <div id="search-container">
     <form>
@@ -1303,7 +1381,9 @@ function teamPageSearch(){
 function App() {
   return (
     <BrowserRouter>
-      <Route exact path="/" component={InitialPage} />
+ 
+      <Route exact path="/" component={Homepagesoloandteam} />
+      <Route exact path="/solo-page" component={InitialPage} />
       <Route exact path="/other-page" component={OtherPage} />
       <Route exact path="/about-us" component={AboutUs} />
       <Route exact path="/help" component={Help} />

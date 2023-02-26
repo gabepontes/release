@@ -15,7 +15,9 @@ body::before {
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
+    background-position: center center;
     background-size: cover;
+
     opacity: 80%;
   }
 .container {
@@ -72,7 +74,7 @@ body::before {
 .helpButton{
     position: absolute;
   
-    margin-left: 45%;
+    margin-left: 55%;
     margin-top: 1%;
     background-color: transparent;
     border-color: transparent;
@@ -132,7 +134,7 @@ body::before {
 .AboutButton{
     position: absolute;
    
-    margin-left: 10%;
+    margin-left: 30%;
     margin-top: 1%;
     background-color: transparent;
     border-color: transparent;
@@ -160,17 +162,48 @@ body::before {
   box-shadow: 0 5px #666;
   transform: translateY(4px);
 }
+.hpButton{
+  position: absolute;
+ 
+  margin-left: 5%;
+  margin-top: 1%;
+  background-color: transparent;
+  border-color: transparent;
+  color: aliceblue;
+  font-weight: bolder;
+  z-index: 10;
+  display: inline-block;
+  padding: 15px 25px;
+  font-size: 24px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: #fff;
+  background-color: #4CAF50;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 9px #999;
+ 
+}
+.hpButton:hover {background-color: #3e8e41}
+
+.hpButton:active {
+background-color: #3e8e41;
+box-shadow: 0 5px #666;
+transform: translateY(4px);
+}
 .square {
     position: absolute;
     top:87%;
 
-    width: 96%; /* set width to 600px */
-    height: 10%;
+    width: 100%; /* set width to 600px */
+    height: 13%;
+ 
     background-color: rgb(65, 65, 65);
     z-index: 0;
     opacity: 100%;
-    border-radius: 50px;;
-    border-width: 20px;
+   
   
    
   }
@@ -523,3 +556,129 @@ body::before {
 
   z-index: 1;
 } */
+.homepagebuttonsolo{
+  position: absolute;
+   
+  margin-left: 2%;
+  margin-top: 0.5%;
+  background-color: transparent;
+  border-color: transparent;
+  color: aliceblue;
+  font-weight: bolder;
+  z-index: 10;
+  display: inline-block;
+  padding: 4px 15px;
+  font-size: 12px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: #fff;
+  background-color: #4CAF50;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 6px #999;
+
+}
+
+.homepagebuttonteam{
+  position: absolute;
+   
+  
+  background-color: transparent;
+  border-color: transparent;
+  color: aliceblue;
+  font-weight: bolder;
+  z-index: 10;
+  display: inline-block;
+  padding: 4px 15px;
+  font-size: 12px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: #fff;
+  background-color: #4CAF50;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 6px #999;
+
+}
+
+.buttons {
+
+  width: 100%;
+}
+
+.buttone {
+  display: inline-block;
+  padding: 40px 120px;
+  border: none;
+  opacity: 80%;
+  border-radius: 20px;
+  border: 5px solid black;
+  background-color: lightcoral;
+  color: #fff;
+
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  transition: 0.3s ease;
+  
+  margin-left: 0%;
+  margin-top: 10%;
+  
+  
+}
+
+.buttone:hover {
+  background-color: white;
+  cursor: pointer;
+  color: black;
+  }
+
+.butttwo {
+  display: inline-block;
+  padding: 40px 120px;
+  border: none;
+  opacity: 80%;
+  border-radius: 20px;
+  border: 5px solid black;
+  background-color: green;
+  color: #fff;
+
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  transition: 0.3s ease;
+  
+  margin-left: 8%;
+  
+  
+}
+
+.butttwo:hover {
+  background-color: white;
+  color: black;
+  cursor: pointer;
+  }
+
+.searchbytext {
+ color: white;
+ background-color: grey;
+ width: 110%; 
+ margin-top: 30%;
+ margin-left: 0%;
+ margin-bottom: 10%;
+
+ padding: 20px 60px;
+ font-size: 20px;
+ border-radius: 20px;
+ opacity: 100%;
+
+
+}
