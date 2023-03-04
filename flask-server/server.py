@@ -9,9 +9,9 @@ from datetime import datetime
 app = Flask(__name__)
 
 # API key for the league server
-api_key_rhet = "RGAPI-5893e2ab-7d85-40bc-8e95-ade486d82aea"
-api_key_kiro = "RGAPI-5893e2ab-7d85-40bc-8e95-ade486d82aea"
-api_key = "RGAPI-5893e2ab-7d85-40bc-8e95-ade486d82aea"
+api_key_rhet = "RGAPI-823da370-699a-49fa-b6c6-9094e0667b8b"
+api_key_kiro = "RGAPI-823da370-699a-49fa-b6c6-9094e0667b8b"
+api_key = "RGAPI-823da370-699a-49fa-b6c6-9094e0667b8b"
 
 
 def summoner_lookup(summoner_name, api_key):
