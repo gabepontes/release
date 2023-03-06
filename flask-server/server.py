@@ -9,8 +9,8 @@ from datetime import datetime
 app = Flask(__name__)
 
 # API key for the league server
-api_key_rhet = "RGAPI-a82a1d4b-7868-46ff-8f7c-46b10c9cd1bc"
-api_key_kiro = "RGAPI-40e356c1-31ee-473c-a905-bf454c15ca95"
+api_key_rhet = "RGAPI-0c55bd78-150a-4c4d-ad74-606f52166174"
+api_key_kiro = "RGAPI-ea605a57-58b1-42a4-bc49-365af89440c4"
 
 def summoner_lookup(summoner_name, api_key):
   region = "NA1"
@@ -311,7 +311,7 @@ def members(summoner_name):
       json_data2 = file.read()
       json_object2 = json.loads(json_data2)
     region = "NA1"
-    headers = {'X-Riot-Token': api_key}
+    headers = {'X-Riot-Token': api_key_rhet}
     url = f'https://{region}.api.riotgames.com/lol/summoner/v4/summoners/by-name/{summoner_name}'
     response = requests.get(url, headers=headers)
     if response.status_code != 200:
@@ -331,7 +331,7 @@ def members(summoner_name):
                         "inactive": False, "freshBlood": False, "hotStreak": False, "winrate" : 0}
 
     url= f'https://{region}.api.riotgames.com/lol/league/v4/entries/by-summoner/{player_id}'
-    headers = {'X-Riot-Token': api_key}
+    headers = {'X-Riot-Token': api_key_rhet}
     player_response = requests.get(url, headers=headers)
     if player_response.status_code != 200:
         return jsonify(error=player_response.status_code)
@@ -368,7 +368,7 @@ def members(summoner_name):
         counter += 1
     region = 'americas'
     url = f'https://{region}.api.riotgames.com/lol/match/v5/matches/by-puuid/{puu_id}/ids?type=ranked&start=0&count=10'
-    headers = {'X-Riot-Token': api_key}
+    headers = {'X-Riot-Token': api_key_rhet}
     match_history_response = requests.get(url, headers=headers)
     if match_history_response.status_code != 200:
         return jsonify(error=match_history_response.status_code)
@@ -384,7 +384,7 @@ def members(summoner_name):
             match_in_db = cursor.fetchone()
             if match_in_db is None:
                 url = f'https://{region}.api.riotgames.com/lol/match/v5/matches/{match}'
-                headers = {'X-Riot-Token': api_key}
+                headers = {'X-Riot-Token': api_key_rhet}
                 response = requests.get(url, headers=headers)
                 if response.status_code == 200:
                     match_s = response.json()
