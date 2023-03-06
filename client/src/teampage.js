@@ -12,13 +12,14 @@ function TeamPage() {
     const [summonerNameBot, setSummonerNameBot] = useState('');
     const [summonerNameSup, setSummonerNameSup] = useState('');
     const [summoners, setSummoners] = useState([]);
+    const [team1Stats, setTeam1Stats] = useState({});
 
 
     useEffect(() => {
         const queryParams = new URLSearchParams(window.location.search);
         const summoners = queryParams.get('summoners').split(",");
         console.log(summoners);
-        fetch(`/team/${summoners[0]},${summoners[1]},${summoners[2]},${summoners[3]},${summoners[4]}`)
+        fetch(`/team/${summoners[0]},${summoners[1]},${summoners[2]},${summoners[3]},${summoners[4]},${summoners[5]},${summoners[6]},${summoners[7]},${summoners[8]},${summoners[9]}`)
 
             .then(res => {
                 if (!res.ok) {
@@ -27,7 +28,9 @@ function TeamPage() {
                 return res.json();
             })
             .then(data => {
-                setPlayerStats(data);
+                // setPlayerStats(data);
+                setTeam1Stats(data.team1);
+
             })
             .catch(error => {
                 console.log(error);
@@ -196,6 +199,11 @@ function TeamPage() {
 
                             {/* <tr><td>x {topStats.top_stats.average_cs_diff_at_15}</td>
                             <td>y</td></tr> */}
+
+                            {/* <tr><td>x {team1Stats.TOP.info.stats.average_cs_diff_at_15}</td>
+                                <td>y</td></tr> */}
+
+
                             <tr><td>x</td>
                                 <td>y</td></tr>
                             <tr><td>x</td>
