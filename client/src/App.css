@@ -100,17 +100,20 @@
   right: -230px; /* set left position to 10px */
 }
 
-/* .player-name{
-  position: relative;
-  left: 50px;
-} */
-
 .kda {
   position: relative;
   top: 21px;
   left: 130px;
   font-size: 20px;
 }
+
+/* .items-container {
+  transform: scale(0.6);
+  position: relative;
+  align-items: left;
+  top: -570px; 
+  right: 200px;
+} */
 
 .items-container {
   display: grid;
@@ -124,6 +127,7 @@
   top: -950px; /* set top position to 10px */
   right: -500px; /* set left position to 10px */
 }
+
 
 .players_container{
   position: relative;
@@ -176,7 +180,7 @@
   position: relative;
   top: -775px;
   right: -105px;
-  align-items: center; /*center items vertically*/
+  align-items: center; /* center items vertically */
   justify-content: space-between; /* distribute items horizontally */
   transform: scale(0.5);
   margin-bottom: 0px;
@@ -205,6 +209,8 @@
   width: 60px;
   height: 60px;
 }
+
+
 
 .rec:hover {
   box-shadow: 2px 2px 2px rgb(0, 0, 0);
@@ -286,7 +292,6 @@
   right: 650px;
 }
 
-
 .victory::after{
   position: relative;
   top: 50px;
@@ -306,6 +311,45 @@
   color: var(--darkreader-text-gray500);
   content: "DEFEAT";
 }
+
+
+.aboutUsContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: radial-gradient(circle at center, black, rgba(0, 0, 0, 0.906));
+}
+
+.aboutUsHeading {
+  color: #fff;
+  font-weight: bolder;
+  font-size: 36px;
+  margin-bottom: 40px;
+}
+
+.aboutUsDescription {
+  color:white ;
+  font-size: 18px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.backButton {
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 18px;
+  margin-top: 20px;
+}
+.backButton:hover {
+  background-color: #4cbc4f;
+}
+
 
 .test1{
   width: 105%;
@@ -371,4 +415,3 @@ td.cs{
   height: 22px;
   width: 22px;
 }
-

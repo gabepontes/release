@@ -16,6 +16,8 @@ import UNRANKED from './rankimg/UNRANKED.png'
 import 'bulma/css/bulma.min.css';
 import './App.css';
 import styles from './initial-page.module.css';
+import TeamPage from "./teampage";
+
 
 
 function InitialPage() {
@@ -1389,6 +1391,8 @@ function App() {
       <Route exact path="/help" component={Help} />
       <Route exact path="/feed" component={NewsPage} />
       <Route exact path="/team-search" component={teamPageSearch} />
+      <Route exact path="/team" component={TeamPage} />
+
     </BrowserRouter>
   );
 }
