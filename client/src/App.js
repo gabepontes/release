@@ -1327,9 +1327,9 @@ function teamPageSearch(){
 
   function handleSubmit(e) {
     e.preventDefault();
-    const searchQuery = `${ally1} ${ally2} ${ally3} ${ally4} ${ally5} ${enemy1} ${enemy2} ${enemy3} ${enemy4} ${enemy5}`;
+    const searchQuery = `${ally1},${ally2},${ally3},${ally4},${ally5},${enemy1},${enemy2},${enemy3},${enemy4},${enemy5}`;
     if (searchQuery) {
-      window.location.assign(`/other-page?summonerName=${searchQuery}`);
+      window.location.assign(`/team?summoners=${searchQuery}`);
     }
   }
   return(
