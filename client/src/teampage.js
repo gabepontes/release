@@ -12,7 +12,16 @@ function TeamPage() {
     const [summonerNameBot, setSummonerNameBot] = useState('');
     const [summonerNameSup, setSummonerNameSup] = useState('');
     const [summoners, setSummoners] = useState([]);
-    const [team1Stats, setTeam1Stats] = useState({});
+    const [team1Top, setTeam1Top] = useState({});
+    const [team1Jgl, setTeam1Jgl] = useState({});
+    const [team1Mid, setTeam1Mid] = useState({});
+    const [team1Bot, setTeam1Bot] = useState({});
+    const [team1Sup, setTeam1Sup] = useState({});
+    const [team2Top, setTeam2Top] = useState({});
+    const [team2Jgl, setTeam2Jgl] = useState({});
+    const [team2Mid, setTeam2Mid] = useState({});
+    const [team2Bot, setTeam2Bot] = useState({});
+    const [team2Sup, setTeam2Sup] = useState({});
 
 
     useEffect(() => {
@@ -29,7 +38,16 @@ function TeamPage() {
             })
             .then(data => {
                 // setPlayerStats(data);
-                setTeam1Stats(data.team1);
+                setTeam1Top(data.team1.TOP);
+                setTeam1Jgl(data.team1.JUNGLE);
+                setTeam1Mid(data.team1.MID);
+                setTeam1Bot(data.team1.BOTTOM);
+                setTeam1Sup(data.team1.SUPPORT);
+                setTeam2Top(data.team2.TOP);
+                setTeam2Jgl(data.team2.JUNGLE);
+                setTeam2Mid(data.team2.MID);
+                setTeam2Bot(data.team2.BOTTOM);
+                setTeam2Sup(data.team2.SUPPORT);
 
             })
             .catch(error => {
@@ -200,8 +218,8 @@ function TeamPage() {
                             {/* <tr><td>x {topStats.top_stats.average_cs_diff_at_15}</td>
                             <td>y</td></tr> */}
 
-                            {/* <tr><td>x {team1Stats.TOP.info.stats.average_cs_diff_at_15}</td>
-                                <td>y</td></tr> */}
+                            { <tr><td>{team1Top.average_cs_diff_at_15}</td>
+                                <td>y</td></tr> }
 
 
                             <tr><td>x</td>
