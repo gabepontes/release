@@ -129,6 +129,7 @@ function TeamPage() {
 
                             <tr><td>Average Vision Score</td></tr>
                             <tr><td>Average KDA at 15 minutes</td></tr>
+                            <tr><td>&nbsp;</td></tr>
 
                         </table>
 
@@ -203,6 +204,8 @@ function TeamPage() {
 
                             <tr><td>{team1Sup.average_kda_at_15} KDA</td>
                                 <td>{team2Sup.average_kda_at_15} KDA</td></tr>
+                            <tr><td>&nbsp;</td>
+                                <td></td></tr>
 
                         </table>
                     </div>
