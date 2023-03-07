@@ -8,6 +8,7 @@ import { useLocation } from 'react-router-dom';
 function TeamPage() {
 
     const [summoners, setSummoners] = useState([]);
+
     const [team1Top, setTeam1Top] = useState({});
     const [team1Jgl, setTeam1Jgl] = useState({});
     const [team1Mid, setTeam1Mid] = useState({});
@@ -33,7 +34,6 @@ function TeamPage() {
                 return res.json();
             })
             .then(data => {
-                // setPlayerStats(data);
                 setTeam1Top(data.team1.TOP);
                 setTeam1Jgl(data.team1.JUNGLE);
                 setTeam1Mid(data.team1.MIDDLE);
@@ -59,7 +59,7 @@ function TeamPage() {
 
             <div class="section">
                 <div class="columns ">
-                    <div class="column is-1 ">
+                    <div class="column is-2 ">
                         <table class="table is-borderless is-fullwidth has-background-dark has-text-white">
                             <tr>
                                 <th>
@@ -69,32 +69,35 @@ function TeamPage() {
                             </tr>
 
                             <tr><td>Top</td></tr>
-                            <tr><td>&nbsp;</td></tr>
-                            <tr><td>&nbsp;</td></tr>
+                            <tr><td>Team 1 - {team1Top.summonerName}</td></tr>
+                            <tr><td>Team 2 - {team2Top.summonerName}</td></tr>
                             <tr>&nbsp;</tr>
 
                             <tr><td>Jungle</td></tr>
-                            <tr><td>&nbsp;</td></tr>
-                            <tr><td>&nbsp;</td></tr>
+                            <tr><td>Team 1 - {team1Jgl.summonerName}</td></tr>
+                            <tr><td>Team 2 - {team2Jgl.summonerName}</td></tr>
                             <tr>&nbsp;</tr>
 
                             <tr><td>Middle</td></tr>
-                            <tr><td>&nbsp;</td></tr>
-                            <tr><td>&nbsp;</td></tr>
+                            <tr><td>Team 1 - {team1Mid.summonerName}</td></tr>
+                            <tr><td>Team 2 - {team2Mid.summonerName}</td></tr>
                             <tr>&nbsp;</tr>
 
                             <tr><td>Bottom</td></tr>
-                            <tr><td>&nbsp;</td></tr>
-                            <tr><td>&nbsp;</td></tr>
+                            <tr><td>Team 1 - {team1Bot.summonerName}</td></tr>
+                            <tr><td>Team 2 - {team2Bot.summonerName}</td></tr>
                             <tr>&nbsp;</tr>
 
                             <tr><td>Support</td></tr>
-                            <tr><td>&nbsp;</td></tr>
+                            <tr><td>Team 1 - {team1Sup.summonerName}</td></tr>
+                            <tr><td>Team 2 - {team2Sup.summonerName}</td></tr>
 
                         </table>
 
-
                     </div>
+
+
+
                     <div class="column is-2">
                         <table class="table is-striped is-fullwidth has-background-dark has-text-white">
                             <tr>
@@ -132,7 +135,8 @@ function TeamPage() {
                     </div>
 
 
-                    <div class="column is-9">
+
+                    <div class="column is-8">
 
                         <table class="table is-striped is-fullwidth has-background-dark has-text-white">
                             <tr>
