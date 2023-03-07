@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import 'bulma/css/bulma.min.css';
+import './App.css';
+import styles from './initial-page.module.css';
 import { useLocation } from 'react-router-dom';
 
 
@@ -58,7 +60,7 @@ function TeamPage() {
             <div class="section">
                 <div class="columns ">
                     <div class="column is-1 ">
-                        <table class="table is-striped is-fullwidth ">
+                        <table class="table is-borderless is-fullwidth has-background-dark has-text-white">
                             <tr>
                                 <th>
                                     &nbsp;
@@ -94,7 +96,7 @@ function TeamPage() {
 
                     </div>
                     <div class="column is-2">
-                        <table class="table is-striped is-fullwidth ">
+                        <table class="table is-striped is-fullwidth has-background-dark has-text-white">
                             <tr>
                                 <th>
                                     &nbsp;
@@ -132,12 +134,12 @@ function TeamPage() {
 
                     <div class="column is-9">
 
-                        <table class="table is-striped is-fullwidth">
+                        <table class="table is-striped is-fullwidth has-background-dark has-text-white">
                             <tr>
-                                <th>
+                                <th class="th has-text-white">
                                     Team 1
                                 </th>
-                                <th>
+                                <th class="th has-text-white">
                                     Team 2
                                 </th>
                             </tr>
