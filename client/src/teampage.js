@@ -114,7 +114,7 @@ function TeamPage() {
 
                             <tr><td>Avg CS Difference at 15 minutes</td></tr>
                             <tr><td>Average KDA at 15 minutes</td></tr>
-                            <tr><td>First Blood Participation</td></tr>
+                            <tr><td>First Blood Participation Percentage</td></tr>
                             <tr>&nbsp;</tr>
 
                             <tr><td>Avg CS Difference at 15 minutes</td></tr>
