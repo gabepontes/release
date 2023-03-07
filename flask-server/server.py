@@ -11,8 +11,8 @@ app = Flask(__name__)
 
 
 # API key for the league server
-api_key = "RGAPI-8ecf3ef0-08da-48a1-a3a0-e51d4f16fbd9"
-api_key_two = "RGAPI-fe4bf583-a537-474b-bd87-b61b9540fdf2"
+api_key = "RGAPI-1d1fcf8a-e1f9-404f-b809-a2593786adb2"
+api_key_two = "RGAPI-22a5e5e1-a725-42a5-9aa5-12d38e09ee4b"
 
 def summoner_lookup(summoner_name, api_key):
   region = "NA1"
@@ -20,7 +20,7 @@ def summoner_lookup(summoner_name, api_key):
   url = f'https://{region}.api.riotgames.com/lol/summoner/v4/summoners/by-name/{summoner_name}'
   response = requests.get(url, headers=headers)
   if response.status_code != 200:
-    return jsonify(error=response.status_code)
+    return response.status_code
   return response.json()
   
 def lookup_queue(player_id, api_key):
@@ -29,7 +29,7 @@ def lookup_queue(player_id, api_key):
   headers = {'X-Riot-Token': api_key}
   player_response = requests.get(url, headers=headers)
   if player_response.status_code != 200:
-    return jsonify(error=player_response.status_code)
+    return player_response.status_code
   return player_response.json()
 
 def last_ten_games(puuid, api_key):
@@ -38,7 +38,7 @@ def last_ten_games(puuid, api_key):
   headers = {'X-Riot-Token': api_key}
   match_history_response = requests.get(url, headers=headers)
   if match_history_response.status_code != 200:
-    return jsonify(error=match_history_response.status_code)
+    return match_history_response.status_code
   return match_history_response.json()
 
 def match_lookup(matchId, api_key):
@@ -191,8 +191,10 @@ def laner(summoner_name, lane, players, api_key):
   player = {}
   for i in laner_queue_info:
     if i['queueType'] == "RANKED_SOLO_5x5":
-      player["info"] = i
-      player["info"]["stats"] = laner_stats
+      #player["info"] = i
+      #player["info"]["stats"] = laner_stats
+      i["stats"] = laner_stats
+      player = i
   players[lane] = player
 
 def jungler(summoner_name, players, api_key):
@@ -203,8 +205,10 @@ def jungler(summoner_name, players, api_key):
   player = {}
   for i in jungle_queue_info:
     if i['queueType'] == "RANKED_SOLO_5x5":
-      player["info"] = i
-      player["info"]["stats"] = jungle_stats
+      #player["info"] = i
+      #player["info"]["stats"] = jungle_stats
+      i["stats"] = jungle_stats
+      player = i
   players["JUNGLE"] = player
       
 def support(summoner_name, players, api_key):
@@ -215,8 +219,10 @@ def support(summoner_name, players, api_key):
   player = {}
   for i in sup_queue_info:
     if i['queueType'] == "RANKED_SOLO_5x5":
-      player["info"] = i
-      player["info"]["stats"] = sup_stats
+      #player["info"] = i
+      #player["info"]["stats"] = sup_stats
+      i["stats"] = sup_stats
+      player = i
   players["SUPPORT"] = player
   
 def team(summoner_name_top, summoner_name_jungle, summoner_name_mid, summoner_name_bot, summoner_name_sup):
