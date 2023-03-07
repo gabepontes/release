@@ -149,8 +149,8 @@ function TeamPage() {
                             <tr><td>{team1Top.average_cs_diff_at_15} CS</td>
                                 <td>{team2Top.average_cs_diff_at_15} CS</td></tr>
 
-                            <tr><td>{team1Top.average_kda_at_15}</td>
-                                <td>{team2Top.average_kda_at_15}</td></tr>
+                            <tr><td>{team1Top.average_kda_at_15} KDA</td>
+                                <td>{team2Top.average_kda_at_15} KDA</td></tr>
 
                             <tr><td>{team1Top.firstblood_participation}%</td>
                                 <td>{team2Top.firstblood_participation}%</td></tr>
@@ -161,8 +161,8 @@ function TeamPage() {
                             <tr><td>{team1Jgl.average_first_dragon_timer} minutes</td>
                                 <td>{team2Jgl.average_first_dragon_timer} minutes</td></tr>
 
-                            <tr><td>{team1Jgl.average_kda_at_15} </td>
-                                <td>{team2Jgl.average_kda_at_15} </td></tr>
+                            <tr><td>{team1Jgl.average_kda_at_15} KDA</td>
+                                <td>{team2Jgl.average_kda_at_15} KDA</td></tr>
 
                             <tr><td>{team1Jgl.average_first_herald_timer} minutes</td>
                                 <td>{team2Jgl.average_first_herald_timer} minutes</td></tr>
@@ -173,8 +173,8 @@ function TeamPage() {
                             <tr><td>{team1Mid.average_cs_diff_at_15} CS</td>
                                 <td>{team2Mid.average_cs_diff_at_15} CS</td></tr>
 
-                            <tr><td>{team1Mid.average_kda_at_15}</td>
-                                <td>{team2Mid.average_kda_at_15}</td></tr>
+                            <tr><td>{team1Mid.average_kda_at_15} KDA</td>
+                                <td>{team2Mid.average_kda_at_15} KDA</td></tr>
 
                             <tr><td>{team1Mid.firstblood_participation}%</td>
                                 <td>{team2Mid.firstblood_participation}%</td></tr>
@@ -185,8 +185,8 @@ function TeamPage() {
                             <tr><td>{team1Bot.average_cs_diff_at_15} CS</td>
                                 <td>{team2Bot.average_cs_diff_at_15} CS</td></tr>
 
-                            <tr><td>{team1Bot.average_kda_at_15}</td>
-                                <td>{team2Bot.average_kda_at_15}</td></tr>
+                            <tr><td>{team1Bot.average_kda_at_15} KDA</td>
+                                <td>{team2Bot.average_kda_at_15} KDA</td></tr>
 
                             <tr><td>{team1Bot.firstblood_participation}%</td>
                                 <td>{team2Bot.firstblood_participation}%</td></tr>
@@ -194,11 +194,11 @@ function TeamPage() {
 
 
 
-                            <tr><td>{team1Sup.average_vision_score}</td>
-                                <td>{team2Sup.average_vision_score}</td></tr>
+                            <tr><td>{team1Sup.average_vision_score} Vision Score</td>
+                                <td>{team2Sup.average_vision_score} Vision Score</td></tr>
 
-                            <tr><td>{team1Sup.average_kda_at_15}</td>
-                                <td>{team2Sup.average_kda_at_15}</td></tr>
+                            <tr><td>{team1Sup.average_kda_at_15} KDA</td>
+                                <td>{team2Sup.average_kda_at_15} KDA</td></tr>
 
                         </table>
                     </div>
