@@ -5,12 +5,6 @@ import { useLocation } from 'react-router-dom';
 
 function TeamPage() {
 
-    const [playerStats, setPlayerStats] = useState({});
-    const [summonerNameTop, setSummonerNameTop] = useState('');
-    const [summonerNameJungle, setSummonerNameJungle] = useState('');
-    const [summonerNameMid, setSummonerNameMid] = useState('');
-    const [summonerNameBot, setSummonerNameBot] = useState('');
-    const [summonerNameSup, setSummonerNameSup] = useState('');
     const [summoners, setSummoners] = useState([]);
     const [team1Top, setTeam1Top] = useState({});
     const [team1Jgl, setTeam1Jgl] = useState({});
@@ -40,12 +34,12 @@ function TeamPage() {
                 // setPlayerStats(data);
                 setTeam1Top(data.team1.TOP);
                 setTeam1Jgl(data.team1.JUNGLE);
-                setTeam1Mid(data.team1.MID);
+                setTeam1Mid(data.team1.MIDDLE);
                 setTeam1Bot(data.team1.BOTTOM);
                 setTeam1Sup(data.team1.SUPPORT);
                 setTeam2Top(data.team2.TOP);
                 setTeam2Jgl(data.team2.JUNGLE);
-                setTeam2Mid(data.team2.MID);
+                setTeam2Mid(data.team2.MIDDLE);
                 setTeam2Bot(data.team2.BOTTOM);
                 setTeam2Sup(data.team2.SUPPORT);
 
@@ -56,73 +50,6 @@ function TeamPage() {
             });
     }, [summoners]);
 
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
-    //     // if (summoners) {
-    //     // fetch(`/members/${summonerName}`)
-    //     fetch(`/team/${summoners[0]},${summoners[1]},${summoners[2]},${summoners[3]},${summoners[4]}`)
-
-    //         .then(res => {
-    //             if (!res.ok) {
-    //                 throw Error(res.statusText);
-    //             }
-    //             return res.json();
-    //         })
-    //         .then(data => {
-    //             // setMatches(data);
-    //             setPlayerStats(data);
-    //         })
-    //         .catch(error => {
-    //             console.log(error);
-    //             alert("Error fetching data");
-    //         });
-    //     // }
-    // }
-
-    // function TeamPage() {
-    //     const [topInfo, setTopInfo] = useState({});
-    //     const [playerStats, setPlayerStats] = useState({});
-    //     const [summonerNameTop, setSummonerNameTop] = useState('');
-    //     const [summonerNameJungle, setSummonerNameJungle] = useState('');
-    //     const [summonerNameMid, setSummonerNameMid] = useState('');
-    //     const [summonerNameBot, setSummonerNameBot] = useState('');
-    //     const [summonerNameSup, setSummonerNameSup] = useState('');
-
-    //     // const location = useLocation();
-    //     useEffect(() => {
-    //         const queryParams = new URLSearchParams(window.location.search);
-    //         const summoners = queryParams.get('summoners').split(",");
-    //         // const summoners = queryParams.get('summoners');
-
-    //         console.log(summoners);
-    //         // setSummonerNameTop(summoners[0]);
-    //         // setSummonerNameJungle(summoners[1]);
-    //         // setSummonerNameMid(summoners[2]);
-    //         // setSummonerNameBot(summoners[3]);
-    //         // setSummonerNameSup(summoners[4]);
-
-    //         fetch(`/team/${summoners[0]},${summoners[1]},${summoners[2]},${summoners[3]},${summoners[4]}`)
-    //             // fetch(`/team/${summoners[0], summoners[1], summoners[2], summoners[3], summoners[4]}`)
-
-    //             .then(res => {
-    //                 if (!res.ok) {
-    //                     throw Error(res.statusText);
-    //                 }
-    //                 return res.json();
-    //             })
-    //             .then(data => {
-    //                 // setTopInfo(data.top_info);
-    //                 // setPlayerStats(data.players);
-
-    //                 // setPlayerStats(data);
-    //             })
-    //             .catch(error => {
-    //                 console.log(error);
-    //                 alert("Error fetching data");
-    //             });
-    //     }, []
-    //         // [summonerNameTop, summonerNameJungle, summonerNameMid, summonerNameBot, summonerNameSup]
-    //     );
 
     return (
 
@@ -175,28 +102,28 @@ function TeamPage() {
 
                             </tr>
 
-                            <tr><td>Avg CS Diff at 15 min</td></tr>
-                            <tr><td>Avg KDA at 15 min</td></tr>
-                            <tr><td>First Blood Participation</td></tr>
+                            <tr><td>Avg CS Difference at 15 minutes</td></tr>
+                            <tr><td>Average KDA at 15 minutes</td></tr>
+                            <tr><td>First Blood Participation Percentage</td></tr>
                             <tr>&nbsp;</tr>
 
                             <tr><td>Average First Dragon Timer</td></tr>
+                            <tr><td>Average KDA at 15 minutes</td></tr>
                             <tr><td>Average First Herald Timer</td></tr>
-                            <tr><td>Average KDA at 15 min</td></tr>
                             <tr>&nbsp;</tr>
 
-                            <tr><td>Avg CS Diff at 15 min</td></tr>
-                            <tr><td>Avg KDA at 15 min</td></tr>
+                            <tr><td>Avg CS Difference at 15 minutes</td></tr>
+                            <tr><td>Average KDA at 15 minutes</td></tr>
                             <tr><td>First Blood Participation</td></tr>
                             <tr>&nbsp;</tr>
 
-                            <tr><td>Avg CS Diff at 15 min</td></tr>
-                            <tr><td>Avg KDA at 15 min</td></tr>
-                            <tr><td>First Blood Participation</td></tr>
+                            <tr><td>Avg CS Difference at 15 minutes</td></tr>
+                            <tr><td>Average KDA at 15 minutes</td></tr>
+                            <tr><td>First Blood Participation Percentage</td></tr>
                             <tr>&nbsp;</tr>
 
-                            <tr><td>Average KDA at 15 min</td></tr>
-                            <tr><td>Vision Score</td></tr>
+                            <tr><td>Average Vision Score</td></tr>
+                            <tr><td>Average KDA at 15 minutes</td></tr>
 
                         </table>
 
@@ -215,51 +142,61 @@ function TeamPage() {
                                 </th>
                             </tr>
 
-                            {/* <tr><td>x {topStats.top_stats.average_cs_diff_at_15}</td>
-                            <td>y</td></tr> */}
-
-                            { <tr><td>{team1Top.average_cs_diff_at_15}</td>
-                                <td>y</td></tr> }
 
 
-                            <tr><td>x</td>
-                                <td>y</td></tr>
-                            <tr><td>x</td>
-                                <td>y</td></tr>
-                            <tr><td>x</td>
-                                <td>y</td></tr>
+                            <tr><td>{team1Top.average_cs_diff_at_15} CS</td>
+                                <td>{team2Top.average_cs_diff_at_15} CS</td></tr>
+
+                            <tr><td>{team1Top.average_kda_at_15}</td>
+                                <td>{team2Top.average_kda_at_15}</td></tr>
+
+                            <tr><td>{team1Top.firstblood_participation}%</td>
+                                <td>{team2Top.firstblood_participation}%</td></tr>
                             <tr>&nbsp;</tr>
 
-                            <tr><td>x</td>
-                                <td>y</td></tr>
-                            <tr><td>x</td>
-                                <td>y</td></tr>
-                            <tr><td>x</td>
-                                <td>y</td></tr>
+
+
+                            <tr><td>{team1Jgl.average_first_dragon_timer} minutes</td>
+                                <td>{team2Jgl.average_first_dragon_timer} minutes</td></tr>
+
+                            <tr><td>{team1Jgl.average_kda_at_15} </td>
+                                <td>{team2Jgl.average_kda_at_15} </td></tr>
+
+                            <tr><td>{team1Jgl.average_first_herald_timer} minutes</td>
+                                <td>{team2Jgl.average_first_herald_timer} minutes</td></tr>
                             <tr>&nbsp;</tr>
 
-                            <tr><td>x</td>
-                                <td>y</td></tr>
-                            <tr><td>x</td>
-                                <td>y</td></tr>
-                            <tr><td>x</td>
-                                <td>y</td></tr>
+
+
+                            <tr><td>{team1Mid.average_cs_diff_at_15} CS</td>
+                                <td>{team2Mid.average_cs_diff_at_15} CS</td></tr>
+
+                            <tr><td>{team1Mid.average_kda_at_15}</td>
+                                <td>{team2Mid.average_kda_at_15}</td></tr>
+
+                            <tr><td>{team1Mid.firstblood_participation}%</td>
+                                <td>{team2Mid.firstblood_participation}%</td></tr>
                             <tr>&nbsp;</tr>
 
-                            <tr><td>x</td>
-                                <td>y</td></tr>
-                            <tr><td>x</td>
-                                <td>y</td></tr>
-                            <tr><td>x</td>
-                                <td>y</td></tr>
+
+
+                            <tr><td>{team1Bot.average_cs_diff_at_15} CS</td>
+                                <td>{team2Bot.average_cs_diff_at_15} CS</td></tr>
+
+                            <tr><td>{team1Bot.average_kda_at_15}</td>
+                                <td>{team2Bot.average_kda_at_15}</td></tr>
+
+                            <tr><td>{team1Bot.firstblood_participation}%</td>
+                                <td>{team2Bot.firstblood_participation}%</td></tr>
                             <tr>&nbsp;</tr>
 
-                            <tr><td>x</td>
-                                <td>y</td></tr>
-                            <tr><td>x</td>
-                                <td>y</td></tr>
 
 
+                            <tr><td>{team1Sup.average_vision_score}</td>
+                                <td>{team2Sup.average_vision_score}</td></tr>
+
+                            <tr><td>{team1Sup.average_kda_at_15}</td>
+                                <td>{team2Sup.average_kda_at_15}</td></tr>
 
                         </table>
                     </div>
