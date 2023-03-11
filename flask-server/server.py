@@ -11,8 +11,8 @@ app = Flask(__name__)
 
 
 # API key for the league server
-api_key = "RGAPI-1d1fcf8a-e1f9-404f-b809-a2593786adb2"
-api_key_two = "RGAPI-22a5e5e1-a725-42a5-9aa5-12d38e09ee4b"
+api_key = "RGAPI-6d36b49b-2f1b-4000-b52a-6906ed6bb4b5"
+api_key_two = "RGAPI-eddefad1-05be-4cde-aa06-7ae44d67e49d"
 
 def summoner_lookup(summoner_name, api_key):
   region = "NA1"
@@ -510,12 +510,20 @@ def members(summoner_name):
                               else:
                                   champion_stats[champion_name]['losses'] += 1
                               champion_stats[champion_name]['win_rate'] = champion_stats[champion_name]['wins'] / champion_stats[champion_name]['games']
-                              champion_stats[champion_name]['KDA_ratio'] = (champion_stats[champion_name]['kills'] + champion_stats[champion_name]['assists']) / champion_stats[champion_name]['deaths']
-                          else:
-                              if match_single['win']:
-                                  champion_stats[champion_name] = {'games': 1, 'wins': 1, 'losses': 0, 'kills': match_single['kills'], 'deaths': match_single['deaths'], 'assists': match_single['assists'],'gold' : match_single['goldEarned'],'time' : match_single['timePlayed'], 'win_rate': 1, 'KDA_ratio': (match_single['kills'] + match_single['assists']) / match_single['deaths'],'name':champion_name, 'totalMinionsKilled': match_single['totalMinionsKilled']}
+                              if champion_stats[champion_name]['deaths'] == 0:
+                                champion_stats[champion_name]['KDA_ratio'] = (champion_stats[champion_name]['kills'] + champion_stats[champion_name]['assists'])
                               else:
-                                  champion_stats[champion_name] = {'games': 1, 'wins': 0, 'losses': 1, 'kills': match_single['kills'], 'deaths': match_single['deaths'], 'assists': match_single['assists'], 'win_rate': 0,'gold' : match_single['goldEarned'],'time' : match_single['timePlayed'], 'KDA_ratio': (match_single['kills'] + match_single['assists']) / match_single['deaths'],"name":champion_name, 'totalMinionsKilled': match_single['totalMinionsKilled']}
+                                champion_stats[champion_name]['KDA_ratio'] = (champion_stats[champion_name]['kills'] + champion_stats[champion_name]['assists']) / champion_stats[champion_name]['deaths']
+                          else:
+                              kda = 0
+                              if match_single['deaths'] == 0:
+                                kda = (match_single['kills'] + match_single['assists'])
+                              else:
+                                kda = (match_single['kills'] + match_single['assists']) / match_single['deaths']
+                              if match_single['win']: 
+                                champion_stats[champion_name] = {'games': 1, 'wins': 1, 'losses': 0, 'kills': match_single['kills'], 'deaths': match_single['deaths'], 'assists': match_single['assists'],'gold' : match_single['goldEarned'],'time' : match_single['timePlayed'], 'win_rate': 1, 'KDA_ratio': kda,'name':champion_name, 'totalMinionsKilled': match_single['totalMinionsKilled']}
+                              else:
+                                champion_stats[champion_name] = {'games': 1, 'wins': 0, 'losses': 1, 'kills': match_single['kills'], 'deaths': match_single['deaths'], 'assists': match_single['assists'], 'win_rate': 0,'gold' : match_single['goldEarned'],'time' : match_single['timePlayed'], 'KDA_ratio': kda,"name":champion_name, 'totalMinionsKilled': match_single['totalMinionsKilled']}
                         for i in range(len(items)-1):
                           for j in range(i+1,len(items)):
                             if items[i]<items[j]:
@@ -583,12 +591,20 @@ def members(summoner_name):
                 else:
                     champion_stats[champion_name]['losses'] += 1
                 champion_stats[champion_name]['win_rate'] = champion_stats[champion_name]['wins'] / champion_stats[champion_name]['games']
-                champion_stats[champion_name]['KDA_ratio'] = (champion_stats[champion_name]['kills'] + champion_stats[champion_name]['assists']) / champion_stats[champion_name]['deaths']
+                if champion_stats[champion_name]['deaths'] == 0:
+                  champion_stats[champion_name]['KDA_ratio'] = (champion_stats[champion_name]['kills'] + champion_stats[champion_name]['assists'])
+                else:
+                  champion_stats[champion_name]['KDA_ratio'] = (champion_stats[champion_name]['kills'] + champion_stats[champion_name]['assists']) / champion_stats[champion_name]['deaths']
               else:
-                  if main2[28]:
-                      champion_stats[champion_name] = {'games': 1, 'wins': 1, 'losses': 0, 'kills': main2[4], 'deaths': main2[5], 'assists': main2[6],'gold' : main2[9],'time' : main2[33], 'win_rate': 1, 'KDA_ratio': (main2[4] + main2[6]) / main2[5],'name':main2[2], 'totalMinionsKilled': main2[7]}
+                  kda = 0
+                  if main2[5] == 0:
+                    kda = (main2[4] + main2[6])
                   else:
-                      champion_stats[champion_name] = {'games': 1, 'wins': 0, 'losses': 1, 'kills': main2[4], 'deaths': main2[5], 'assists': main2[6], 'win_rate': 0,'gold' : main2[9],'time' : main2[33], 'KDA_ratio': (main2[4] + main2[6]) / main2[5],"name":main2[2], 'totalMinionsKilled': main2[7]}
+                    kda = (main2[4] + main2[6]) / main2[5]
+                  if main2[28]:
+                      champion_stats[champion_name] = {'games': 1, 'wins': 1, 'losses': 0, 'kills': main2[4], 'deaths': main2[5], 'assists': main2[6],'gold' : main2[9],'time' : main2[33], 'win_rate': 1, 'KDA_ratio': kda,'name':main2[2], 'totalMinionsKilled': main2[7]}
+                  else:
+                      champion_stats[champion_name] = {'games': 1, 'wins': 0, 'losses': 1, 'kills': main2[4], 'deaths': main2[5], 'assists': main2[6], 'win_rate': 0,'gold' : main2[9],'time' : main2[33], 'KDA_ratio': kda,"name":main2[2], 'totalMinionsKilled': main2[7]}
 
 
          
