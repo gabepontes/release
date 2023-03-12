@@ -11,7 +11,7 @@ app = Flask(__name__)
 
 
 # API key for the league server
-api_key = "RGAPI-6d36b49b-2f1b-4000-b52a-6906ed6bb4b5"
+api_key = "RGAPI-affddae9-1210-4ed5-ab81-28314b83392b"
 api_key_two = "RGAPI-eddefad1-05be-4cde-aa06-7ae44d67e49d"
 
 def summoner_lookup(summoner_name, api_key):
@@ -299,7 +299,7 @@ def sup_analysis(list_of_matches, puuid, api_key):
   sup_stats = {}
   sup_stats["average_kda_at_15"] = round(sum(kda)/len(kda), 2)
   sup_stats["average_vision_score"] = round(sum(vision_scores)/len(vision_scores), 2)
-  sup_stats["avergage_control_wards"] = round(sum(control_wards)/len(control_wards), 2)
+  sup_stats["average_control_wards"] = round(sum(control_wards)/len(control_wards), 2)
   cursor.close()
   cnx.close()
   return sup_stats

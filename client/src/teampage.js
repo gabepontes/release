@@ -78,7 +78,7 @@ function TeamPage() {
                     {/* <div class="columns">
                         <div class="column is-2"> */}
                     {/* <!-- Top Player --> */}
-                    <div class="box has-background-dark has-text-white">
+                    <div class="box boxTeam has-background-dark has-text-white">
                         <p class="has-text-white">Top</p>
                         <figure class="image is-128x128">
                         <img  class="is-rounded2" src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/profileicon/${team1Top.icon}.png`} alt="Player Icon"></img>
@@ -91,7 +91,7 @@ function TeamPage() {
                     </div>
 
                     {/* <!-- Jungle Player --> */}
-                    <div class="box has-background-dark has-text-white">
+                    <div class="box boxTeam has-background-dark has-text-white">
                         <p class="has-text-white">Jungle</p>
                         <figure class="image is-128x128">
                         <img  class="is-rounded2" src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/profileicon/${team1Jgl.icon}.png`} alt="Player Icon"></img>
@@ -104,7 +104,7 @@ function TeamPage() {
                     </div>
 
                     {/* <!-- Middle Player --> */}
-                    <div class="box has-background-dark has-text-white">
+                    <div class="box boxTeam has-background-dark has-text-white">
                         <p class="has-text-white">Middle</p>
                         <figure class="image is-128x128">
                         <img  class="is-rounded2"  src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/profileicon/${team1Mid.icon}.png`} alt="Player Icon"></img>
@@ -117,7 +117,7 @@ function TeamPage() {
                     </div>
 
                     {/* <!-- Bottom Player --> */}
-                    <div class="box has-background-dark has-text-white">
+                    <div class="box boxTeam has-background-dark has-text-white">
                         <p class="has-text-white">Bottom</p>
                         <figure class="image is-128x128">
                         <img  class="is-rounded2" src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/profileicon/${team1Bot.icon}.png`} alt="Player Icon"></img>
@@ -131,7 +131,7 @@ function TeamPage() {
 
                     {/* <-- Support Player --> */}
                     <div class="move-it-up">
-                    <div class="box has-background-dark has-text-white">
+                    <div class="box boxTeam has-background-dark has-text-white">
                         <p class="has-text-white">Support</p>
                         <figure class="image is-128x128">
                         <img   class="is-rounded2" src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/profileicon/${team1Sup.icon}.png`} alt="Player Icon"></img>
@@ -141,7 +141,7 @@ function TeamPage() {
                         <p class="has-text-white">{team1Sup.average_vision_score} Vision Score</p>
                         <p class="has-text-white">{team1Sup.average_kda_at_15} KDA</p>
                         {/* <p class="has-text-white">{team1Bot.firstblood_participation}%</p> */}
-                        <p class="has-text-white">{team1Sup.control_wards} Control Wards</p>
+                        <p class="has-text-white">{team1Sup.average_control_wards} Control Wards</p>
                     </div>
                     </div>
                     {/* </div>
@@ -155,7 +155,7 @@ function TeamPage() {
                     {/* <div class="columns">
                     <div class="column is-2"> */}
                     {/* <!-- Top Player --> */}
-                    <div class="box has-background-dark has-text-white">
+                    <div class="box boxTeam has-background-dark has-text-white">
                         <p class="has-text-white">Top</p>
                         <figure class="image is-128x128">
                         <img   class="is-rounded2" src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/profileicon/${team2Top.icon}.png`} alt="Player Icon"></img>
@@ -168,7 +168,7 @@ function TeamPage() {
                     </div>
 
                     {/* <!-- Jungle Player --> */}
-                    <div class="box has-background-dark has-text-white">
+                    <div class="box boxTeam has-background-dark has-text-white">
                         <p class="has-text-white">Jungle</p>
                         <figure class="image is-128x128">
                         <img   class="is-rounded2" src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/profileicon/${team2Jgl.icon}.png`} alt="Player Icon"></img>
@@ -181,7 +181,7 @@ function TeamPage() {
                     </div>
 
                     {/* <!-- Middle Player --> */}
-                    <div class="box has-background-dark has-text-white">
+                    <div class="box boxTeam has-background-dark has-text-white">
                         <p class="has-text-white">Middle</p>
                         <figure class="image is-128x128">
                         <img   class="is-rounded2" src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/profileicon/${team2Mid.icon}.png`} alt="Player Icon"></img>
@@ -194,7 +194,7 @@ function TeamPage() {
                     </div>
 
                     {/* <!-- Bottom Player --> */}
-                    <div class="box has-background-dark has-text-white">
+                    <div class="box boxTeam has-background-dark has-text-white">
                         <p class="has-text-white">Bottom</p>
                         <figure class="image is-128x128">
                         <img  class="is-rounded2"   src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/profileicon/${team2Bot.icon}.png`} alt="Player Icon"></img>
@@ -208,7 +208,7 @@ function TeamPage() {
 
                     {/* <-- Support Player --> */}
                     <div class="move-it-up">
-                    <div class="box has-background-dark has-text-white">
+                    <div class="box boxTeam has-background-dark has-text-white">
                         <p class="has-text-white">Support</p>
                         <figure class="image is-128x128">
                         <img  class="is-rounded2"  src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/profileicon/${team2Sup.icon}.png`} alt="Player Icon"></img>
@@ -218,7 +218,7 @@ function TeamPage() {
                         <p class="has-text-white">{team2Sup.average_vision_score} Vision Score</p>
                         <p class="has-text-white">{team2Sup.average_kda_at_15} KDA</p>
                         {/* <p class="has-text-white">{team2Bot.firstblood_participation}%</p> */}
-                        <p class="has-text-white">{team2Sup.control_wards} Control Wards</p>
+                        <p class="has-text-white">{team2Sup.average_control_wards} Control Wards</p>
                     </div>
                     </div>
                     {/* </div> */}
