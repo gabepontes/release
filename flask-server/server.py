@@ -109,7 +109,7 @@ def laner_analysis(list_of_matches, puuid, lane, api_key):
             first_blood_participation = 1
         if participant["teamPosition"] == lane and participant["puuid"] != puuid:    
           enemy_laner_id = participant["participantId"]
-      cursor.execute("INSERT INTO teammatches (match_id, puuid, participant_id, enemy_laner_id, vision_score, first_blood, team_id) VALUES (%s, %s, %s, %s, %s, %s, %s)", (matchId, puuid, part_id, enemy_laner_id, "0", first_blood_participation, "0"))
+      cursor.execute("INSERT INTO teammatches (match_id, puuid, participant_id, enemy_laner_id, vision_score, first_blood, team_id, control_wards) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", (matchId, puuid, part_id, enemy_laner_id, "0", first_blood_participation, "0", "0"))
       cnx.commit()
     elif type(match) == list:
       part_id = match[0][2]
@@ -174,7 +174,7 @@ def jungle_analysis(list_of_matches, puuid, api_key):
         if participant["puuid"] == puuid:
           part_id = participant["participantId"]
           team_id = participant["teamId"]
-      cursor.execute("INSERT INTO teammatches (match_id, puuid, participant_id, enemy_laner_id, vision_score, first_blood, team_id) VALUES (%s, %s, %s, %s, %s, %s, %s)", (matchId, puuid, part_id, "0", "0", "0", team_id))
+      cursor.execute("INSERT INTO teammatches (match_id, puuid, participant_id, enemy_laner_id, vision_score, first_blood, team_id, control_wards) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", (matchId, puuid, part_id, "0", "0", "0", team_id, "0"))
       cnx.commit()
     elif type(match) == list:
       part_id = match[0][2]
@@ -248,6 +248,7 @@ def sup_analysis(list_of_matches, puuid, api_key):
   cursor = cnx.cursor()
   kda = []
   vision_scores = []
+  control_wards = []
   for matchId in list_of_matches:
     match = match_lookup(matchId, puuid, api_key)
     part_id = -1
@@ -258,11 +259,13 @@ def sup_analysis(list_of_matches, puuid, api_key):
         if participant["puuid"] == puuid:
           part_id = participant["participantId"]
           vision_scores.append(participant["visionScore"])
-          cursor.execute("INSERT INTO teammatches (match_id, puuid, participant_id, enemy_laner_id, vision_score, first_blood, team_id) VALUES (%s, %s, %s, %s, %s, %s, %s)", (matchId, puuid, part_id, "0", participant["visionScore"], "0", "0"))
+          control_wards.append(participant["detectorWardsPlaced"])
+          cursor.execute("INSERT INTO teammatches (match_id, puuid, participant_id, enemy_laner_id, vision_score, first_blood, team_id, control_wards) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", (matchId, puuid, part_id, "0", participant["visionScore"], "0", "0", participant["detectorWardsPlaced"]))
           cnx.commit()
     elif type(match) == list:
       part_id = match[0][2]
       vision_scores.append(match[0][4])
+      control_wards.append(match[0][7])
     
     timeline = timeline_lookup(matchId, puuid, api_key)
     if type(timeline) == int:
@@ -296,6 +299,7 @@ def sup_analysis(list_of_matches, puuid, api_key):
   sup_stats = {}
   sup_stats["average_kda_at_15"] = round(sum(kda)/len(kda), 2)
   sup_stats["average_vision_score"] = round(sum(vision_scores)/len(vision_scores), 2)
+  sup_stats["avergage_control_wards"] = round(sum(control_wards)/len(control_wards), 2)
   cursor.close()
   cnx.close()
   return sup_stats
@@ -308,6 +312,7 @@ def laner(summoner_name, lane, players, api_key):
   player = {}
   for i in laner_queue_info:
     if i['queueType'] == "RANKED_SOLO_5x5":
+      i['icon'] = laner_info['profileIconId']
       i.update(laner_stats)
       player = i
   players[lane] = player
@@ -320,6 +325,7 @@ def jungler(summoner_name, players, api_key):
   player = {}
   for i in jungle_queue_info:
     if i['queueType'] == "RANKED_SOLO_5x5":
+      i['icon'] = jungle_info['profileIconId']
       i.update(jungle_stats)
       player = i
   players["JUNGLE"] = player
@@ -332,6 +338,7 @@ def support(summoner_name, players, api_key):
   player = {}
   for i in sup_queue_info:
     if i['queueType'] == "RANKED_SOLO_5x5":
+      i['icon'] = sup_info['profileIconId']
       i.update(sup_stats)
       player = i
   players["SUPPORT"] = player 
@@ -644,7 +651,8 @@ def team_analysis(summoner_name_top1, summoner_name_jungle1, summoner_name_mid1,
     enemy_laner_id INT,
     vision_score INT,
     first_blood INT,
-    team_id INT
+    team_id INT,
+    control_wards INT
     )'''
     cursor.execute(table_create)
     cnx.commit()
