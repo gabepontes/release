@@ -13,6 +13,7 @@ import logo from './rankimg/logo.png'
 import BRONZE from './rankimg/BRONZE.png'
 import IRON from './rankimg/IRON.png'
 import UNRANKED from './rankimg/UNRANKED.png'
+import BACKGROUND from './rankimg/background.mp4'
 import 'bulma/css/bulma.min.css';
 import './App.css';
 import styles from './initial-page.module.css';
@@ -70,6 +71,7 @@ function InitialPage() {
     </div>
   );
 }
+
 function Homepagesoloandteam() {
   const [searchQuery, setSearchQuery] = useState('');
   function handleAboutUs() {
@@ -83,36 +85,39 @@ function Homepagesoloandteam() {
     window.location.assign("/feed");
   }
   window.onload = function () {
-    // your code here
-    document.body.style.backgroundImage = "url('https://wallpaperaccess.com/full/4493382.jpg')";
+    const video = document.getElementById(BACKGROUND);
+    video.play();
 
   };
   return (
-
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-      <div className={styles.flashingtext}>
-        <h1><span class='one'>U</span><span class='two'>L</span><span class='three'>O</span><span class='four'>L</span> <span class='five'>.</span><span class='six'>G</span><span class='seven'>G</span></h1></div>
-      <br></br>
-
-
-      <div>
-
-        <div className={styles.searchbytext}>
-          <h1>Search by...</h1>
-
-          <div className={styles.buttons}>
-
-            <a href="http://localhost:3000/solo-page">
-              <button className={styles.buttone} >Solo</button>
-            </a>
-
-            <a href="http://localhost:3000/team-search">
-              <button className={styles.butttwo} >Team</button>
-            </a>
-
-          </div>
+    
+    <div style={{ height: '100vh',overflow: 'hidden' }}>
+    <div className={styles.overlay}></div>
+      <video autoPlay muted loop id="background-video" style={{ position: 'fixed', minWidth: '100%', minHeight: '100%', top: 0, left: 0, zIndex: '-1' }}>
+        <source src={BACKGROUND} type="video/mp4" />
+      </video>
+      
+      <div className={styles.wrapper}></div>
+        <div className={styles.logoContainer}>
+          <img src={logo} alt="logo" className={styles.logo} />
         </div>
-        <br></br>
+        <div>
+
+          <div className={styles.searchbytext}>
+
+            <div className={styles.buttons}>
+
+              <a href="http://localhost:3000/solo-page">
+                <button className={styles.buttone} >Solo</button>
+              </a>
+
+              <a href="http://localhost:3000/team-search">
+                <button className={styles.butttwo} >Team</button>
+              </a>
+
+            </div>
+          </div>
+          <br></br>
 
 
 
@@ -122,14 +127,8 @@ function Homepagesoloandteam() {
 
       <div className={styles.square}>
         <div className={styles.helpAboutContainer}>
-
-          <a href="http://localhost:3000/">
-            <button className={styles.hpButton}>Home Page</button>
-          </a>
-
           <button onClick={handleAboutUs} className={styles.helpButton}>About Us</button>
           <button onClick={handleHelp} className={styles.AboutButton}>Help</button>
-          <button onClick={handleFeed} className={styles.ScrimButton}>Temp</button>
         </div></div>
 
     </div>
