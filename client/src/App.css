@@ -33,7 +33,8 @@
 
 .is-rounded2 {
   position: relative;
-  left: 0px;
+  left: 95px;
+  align-items: center;
   top: 0px;
   border-radius: 50%;
   box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.5);

@@ -13,7 +13,7 @@ app = Flask(__name__)
 # API key for the league server
 api_key = "RGAPI-732d43ff-3c7c-400c-9748-926b57e37af6"
 api_key_two = "RGAPI-c730088f-582f-4f5e-8318-4e4628f98aee"
-api_key_three = "RGAPI-a7c36563-1625-4f10-8708-77b6e8e9663f"
+api_key_three = "RGAPI-1e38fa8e-5f0e-4920-bb45-72451ec2f023"
 api_key_four ="RGAPI-26b33466-246f-4f05-9ae0-bff8a40e0c43"
 api_key_five = "RGAPI-698abb89-ac1b-48de-897a-f6da33aac440"
 

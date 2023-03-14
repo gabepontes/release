@@ -92,72 +92,77 @@ function TeamPage() {
                     {/* <!-- Top Player --> */}
                     <a href={`http://localhost:3000/other-page?summonerName=${team1Top.summonerName}`}>
                     <div class={styles.caixa1}>
-                        <p class="has-text-white">Top</p>
+                        <p class={styles.teamtitle}>Top</p>
                         <figure class="image is-128x128">
                         <img  class="is-rounded2" src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/profileicon/${team1Top.icon}.png`} alt="Player Icon"></img>
                         </figure>
+                        
+                        <p class={styles.teamsumname}>{team1Top.summonerName}</p>
                         <hr></hr>
-                        <p class="has-text-white">{team1Top.summonerName}</p>
-                        <p class="has-text-white">{team1Top.average_cs_diff_at_15} CS</p>
-                        <p class="has-text-white">{team1Top.average_kda_at_15} KDA</p>
-                        <p class="has-text-white">{team1Top.firstblood_participation}%</p>
+                        <p class={styles.second}>{team1Top.average_cs_diff_at_15} CS Avg CS DIFF in 15m</p>
+                        <p class={styles.third}>{team1Top.average_kda_at_15} KDA</p>
+                        <p class={styles.forth}>{team1Top.firstblood_participation}% First Blood Participation </p>
                     </div>
                     </a>
                     {/* <!-- Jungle Player --> */}
                     <a href={`http://localhost:3000/other-page?summonerName=${team1Jgl.summonerName}`}>
                     <div class={styles.caixa1}>
-                        <p class="has-text-white">Jungle</p>
+                        <p class={styles.teamtitle}>Jungle</p>
                         <figure class="image is-128x128">
                         <img  class="is-rounded2" src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/profileicon/${team1Jgl.icon}.png`} alt="Player Icon"></img>
                         </figure>
+                        
+                        <p class={styles.teamsumname}>{team1Jgl.summonerName}</p>
                         <hr></hr>
-                        <p class="has-text-white">{team1Jgl.summonerName}</p>
-                        <p class="has-text-white">{team1Jgl.average_first_dragon_timer} minutes</p>
-                        <p class="has-text-white">{team1Jgl.average_kda_at_15} KDA</p>
-                        <p class="has-text-white">{team1Jgl.average_first_herald_timer} minutes</p>
+                        <p class={styles.second}>{team1Jgl.average_first_dragon_timer} minutes avg first drangon</p>
+                        <p class={styles.third}>{team1Jgl.average_kda_at_15} KDA</p>
+                        <p class={styles.forth}>{team1Jgl.average_first_herald_timer} minutes avg first herald</p>
                     </div>
                     </a>
                     {/* <!-- Middle Player --> */}
                     <a href={`http://localhost:3000/other-page?summonerName=${team1Mid.summonerName}`}>
                     <div class={styles.caixa1}>
-                        <p class="has-text-white">Middle</p>
+                        <p class={styles.teamtitle}>Middle</p>
                         <figure class="image is-128x128">
                         <img  class="is-rounded2"  src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/profileicon/${team1Mid.icon}.png`} alt="Player Icon"></img>
                         </figure>
+                        
+                        <p class={styles.teamsumname}>{team1Mid.summonerName}</p>
                         <hr></hr>
-                        <p class="has-text-white">{team1Mid.summonerName}</p>
-                        <p class="has-text-white">{team1Mid.average_cs_diff_at_15} CS</p>
-                        <p class="has-text-white">{team1Mid.average_kda_at_15} KDA</p>
-                        <p class="has-text-white">{team1Mid.firstblood_participation}%</p>
+                        <p class={styles.second}>{team1Mid.average_cs_diff_at_15} CS Avg CS DIFF in 15m</p>
+                        <p class={styles.third}>{team1Mid.average_kda_at_15} KDA</p>
+                        <p class={styles.forth}>{team1Mid.firstblood_participation}% First Blood Participation </p>
                     </div>
                     </a>
                     {/* <!-- Bottom Player --> */}
                     <a href={`http://localhost:3000/other-page?summonerName=${team1Bot.summonerName}`}>
                     <div class={styles.caixa1}>
-                        <p class="has-text-white">Bottom</p>
+                        <p class={styles.teamtitle}>Bottom</p>
                         <figure class="image is-128x128">
                         <img  class="is-rounded2" src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/profileicon/${team1Bot.icon}.png`} alt="Player Icon"></img>
                         </figure>
+                        
+                        <p class={styles.teamsumname}>{team1Bot.summonerName}</p>
                         <hr></hr>
-                        <p class="has-text-white">{team1Bot.summonerName}</p>
-                        <p class="has-text-white">{team1Bot.average_cs_diff_at_15} CS</p>
-                        <p class="has-text-white">{team1Bot.average_kda_at_15} KDA</p>
-                        <p class="has-text-white">{team1Bot.firstblood_participation}%</p>
+                        <p class={styles.second}>{team1Bot.average_cs_diff_at_15} CS Avg CS DIFF in 15m</p>
+                        <p class={styles.third}>{team1Bot.average_kda_at_15} KDA</p>
+                        <p class={styles.forth}>{team1Bot.firstblood_participation}% First Blood Participation </p>
                     </div>
                     </a>
                     {/* <-- Support Player --> */}
                     <a href={`http://localhost:3000/other-page?summonerName=${team1Sup.summonerName}`}>
                     <div class={styles.caixa1}>
-                        <p class="has-text-white">Support</p>
+                        <p class={styles.teamtitle}>Support</p>
                         <figure class="image is-128x128">
                         <img   class="is-rounded2" src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/profileicon/${team1Sup.icon}.png`} alt="Player Icon"></img>
                         </figure>
+                        
+                        <p class={styles.teamsumname}>{team1Sup.summonerName}</p>
                         <hr></hr>
-                        <p class="has-text-white">{team1Sup.summonerName}</p>
-                        <p class="has-text-white">{team1Sup.average_vision_score} Vision Score</p>
-                        <p class="has-text-white">{team1Sup.average_kda_at_15} KDA</p>
-                        {/* <p class="has-text-white">{team1Bot.firstblood_participation}%</p> */}
-                        <p class="has-text-white">{team1Sup.average_control_wards} Control Wards</p>
+                        <p class={styles.second}>{team1Sup.average_vision_score} Vision Score</p>
+                        <p class={styles.third}>{team1Sup.average_kda_at_15} KDA</p>
+                        {/* <p class={styles.teamtitle}>{team1Bot.firstblood_participation}% First Blood Participation </p> */}
+                        <p class={styles.forth}>{team1Sup.average_control_wards} Control Wards</p>
 
                     </div>
                     </a>
@@ -174,72 +179,77 @@ function TeamPage() {
                     {/* <!-- Top Player --> */}
                     <a href={`http://localhost:3000/other-page?summonerName=${team2Top.summonerName}`}>
                     <div class={styles.caixa1}>
-                        <p class="has-text-white">Top</p>
+                        <p class={styles.teamtitle}>Top</p>
                         <figure class="image is-128x128">
                         <img   class="is-rounded2" src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/profileicon/${team2Top.icon}.png`} alt="Player Icon"></img>
                         </figure>
+                        
+                        <p class={styles.teamsumname}>{team2Top.summonerName}</p>
                         <hr></hr>
-                        <p class="has-text-white">{team2Top.summonerName}</p>
-                        <p class="has-text-white">{team2Top.average_cs_diff_at_15} CS</p>
-                        <p class="has-text-white">{team2Top.average_kda_at_15} KDA</p>
-                        <p class="has-text-white">{team2Top.firstblood_participation}%</p>
+                        <p class={styles.second}>{team2Top.average_cs_diff_at_15} CS Avg CS DIFF in 15m</p>
+                        <p class={styles.third}>{team2Top.average_kda_at_15} KDA</p>
+                        <p class={styles.forth}>{team2Top.firstblood_participation}% First Blood Participation </p>
                     </div>
                     </a>
                     {/* <!-- Jungle Player --> */}
                     <a href={`http://localhost:3000/other-page?summonerName=${team2Jgl.summonerName}`}>
                     <div class={styles.caixa1}>
-                        <p class="has-text-white">Jungle</p>
+                        <p class={styles.teamtitle}>Jungle</p>
                         <figure class="image is-128x128">
                         <img   class="is-rounded2" src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/profileicon/${team2Jgl.icon}.png`} alt="Player Icon"></img>
                         </figure>
+                        
+                        <p class={styles.teamsumname}>{team2Jgl.summonerName}</p>
                         <hr></hr>
-                        <p class="has-text-white">{team2Jgl.summonerName}</p>
-                        <p class="has-text-white">{team2Jgl.average_first_dragon_timer} minutes</p>
-                        <p class="has-text-white">{team2Jgl.average_kda_at_15} KDA</p>
-                        <p class="has-text-white">{team2Jgl.average_first_herald_timer} minutes</p>
+                        <p class={styles.second}>{team2Jgl.average_first_dragon_timer} avg first drangon</p>
+                        <p class={styles.third}>{team2Jgl.average_kda_at_15} KDA</p>
+                        <p class={styles.forth}>{team2Jgl.average_first_herald_timer} avg first herald</p>
                     </div>
                     </a>
                     {/* <!-- Middle Player --> */}
                     <a href={`http://localhost:3000/other-page?summonerName=${team1Mid.summonerName}`}>
                     <div class={styles.caixa1}>
-                        <p class="has-text-white">Middle</p>
+                        <p class={styles.teamtitle}>Middle</p>
                         <figure class="image is-128x128">
                         <img   class="is-rounded2" src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/profileicon/${team2Mid.icon}.png`} alt="Player Icon"></img>
                         </figure>
+                        
+                        <p class={styles.teamsumname}>{team2Mid.summonerName}</p>
                         <hr></hr>
-                        <p class="has-text-white">{team2Mid.summonerName}</p>
-                        <p class="has-text-white">{team2Mid.average_cs_diff_at_15} CS</p>
-                        <p class="has-text-white">{team2Mid.average_kda_at_15} KDA</p>
-                        <p class="has-text-white">{team2Mid.firstblood_participation}%</p>
+                        <p class={styles.second}>{team2Mid.average_cs_diff_at_15} CS Avg CS DIFF in 15m</p>
+                        <p class={styles.third}>{team2Mid.average_kda_at_15} KDA</p>
+                        <p class={styles.forth}>{team2Mid.firstblood_participation}% First Blood Participation </p>
                     </div>
                     </a>
                     {/* <!-- Bottom Player --> */}
                     <a href={`http://localhost:3000/other-page?summonerName=${team1Bot.summonerName}`}>
                     <div class={styles.caixa1}>
-                        <p class="has-text-white">Bottom</p>
+                        <p class={styles.teamtitle}>Bottom</p>
                         <figure class="image is-128x128">
-                        <img  class="is-rounded2"   src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/profileicon/${team2Bot.icon}.png`} alt="Player Icon"></img>
+                        <img  class="is-rounded2" src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/profileicon/${team2Bot.icon}.png`} alt="Player Icon"></img>
                         </figure>
+                        
+                        <p class={styles.teamsumname}>{team2Bot.summonerName}</p>
                         <hr></hr>
-                        <p class="has-text-white">{team2Bot.summonerName}</p>
-                        <p class="has-text-white">{team2Bot.average_cs_diff_at_15} CS</p>
-                        <p class="has-text-white">{team2Bot.average_kda_at_15} KDA</p>
-                        <p class="has-text-white">{team2Bot.firstblood_participation}%</p>
+                        <p class={styles.second}>{team2Bot.average_cs_diff_at_15} CS Avg CS DIFF in 15m</p>
+                        <p class={styles.third}>{team2Bot.average_kda_at_15} KDA</p>
+                        <p class={styles.forth}>{team2Bot.firstblood_participation}% First Blood Participation  </p>
                     </div>
                     </a>
                     {/* <-- Support Player --> */}
                     <a href={`http://localhost:3000/other-page?summonerName=${team2Sup.summonerName}`}>
                     <div class={styles.caixa1}>
-                        <p class="has-text-white">Support</p>
+                        <p class={styles.teamtitle}>Support</p>
                         <figure class="image is-128x128">
                         <img  class="is-rounded2"  src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/profileicon/${team2Sup.icon}.png`} alt="Player Icon"></img>
                         </figure>
+                        
+                        <p class={styles.teamsumname}>{team2Sup.summonerName}</p>
                         <hr></hr>
-                        <p class="has-text-white">{team2Sup.summonerName}</p>
-                        <p class="has-text-white">{team2Sup.average_vision_score} Vision Score</p>
-                        <p class="has-text-white">{team2Sup.average_kda_at_15} KDA</p>
-                        {/* <p class="has-text-white">{team2Bot.firstblood_participation}%</p> */}
-                        <p class="has-text-white">{team2Sup.average_control_wards} Control Wards</p>
+                        <p class={styles.second}>{team2Sup.average_vision_score} Vision Score</p>
+                        <p class={styles.third}>{team2Sup.average_kda_at_15} KDA</p>
+                        {/* <p class={styles.teamtitle}>{team2Bot.firstblood_participation}% First Blood Participation </p> */}
+                        <p class={styles.forth}>{team2Sup.average_control_wards} Control Wards</p>
                     </div>
                     </a>
                     {/* </div> */}
