@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css?family=Teko:700&display=swap");
+
 
 
 body::before {
@@ -21,17 +21,7 @@ body::before {
     opacity: 80%;
   }
 
-.logo {
-    position: absolute;
-    bottom: 0px;
-    left: 55px;
-    margin-top: -20%;
-    height:auto;
-    z-index: 1;
-    max-width: 100%;
-   
-    max-height: 100%;
-  }
+
 ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
   color: white;
   opacity: 0.7; /* Firefox */
@@ -41,7 +31,8 @@ body::before {
 .searchInput {
   position: absolute;
   opacity: 90%;
-  
+  bottom: 240px;
+  left: 830px;
   margin-left: -19%;
   width: 45%;
   height:auto;
@@ -57,6 +48,11 @@ body::before {
   
 
   z-index: 1;
+}
+.searchInput:focus {
+  outline: none;
+  border-color: #8000ff61;
+  box-shadow: 0px 0px 6px rgba(166, 1, 255, 0.269);
 }
 
 .searchButton {
@@ -74,7 +70,7 @@ body::before {
 
 .overlay{
   position: absolute;
-  background-color:rgba(0, 0, 0, 0.253);
+  background-color:rgba(0, 0, 0, 0.336);
   width: 100%;
   height: 113%;
   z-index: 0;
@@ -140,6 +136,39 @@ body::before {
   box-shadow: 0 5px #666;
   transform: translateY(4px);
 }
+.About2Button{
+  position: relative;
+ 
+  margin-left: 30%;
+  margin-top: 1%;
+  background-color: transparent;
+  border-color: transparent;
+  color: aliceblue;
+  font-weight: bolder;
+  z-index: 10;
+  display: inline-block;
+  padding: 15px 25px;
+  font-size: 24px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: #fff;
+  background-color: #4CAF50;
+  border: none;
+  left: 1090px;
+  bottom: -25px;
+  border-radius: 15px;
+  box-shadow: 0 9px #999;
+ 
+}
+.About2Button:hover {background-color: #3e8e41}
+
+.About2Button:active {
+background-color: #3e8e41;
+box-shadow: 0 5px #666;
+transform: translateY(4px);
+}
 .AboutButton{
     position: relative;
    
@@ -174,9 +203,9 @@ body::before {
   transform: translateY(4px);
 }
 .hpButton{
-  position: absolute;
- 
-  margin-left: 5%;
+  position: relative;
+  left: 45%;
+  bottom: -25px;
   margin-top: 1%;
   background-color: transparent;
   border-color: transparent;
@@ -184,7 +213,6 @@ body::before {
   font-weight: bolder;
   z-index: 10;
   display: inline-block;
-  padding: 15px 25px;
   font-size: 24px;
   cursor: pointer;
   text-align: center;
@@ -214,7 +242,7 @@ transform: translateY(4px);
   height: 13%;
   background-color: rgba(255, 255, 255, 0.107);
   z-index: 1;
-  justify-content: space-evenly;
+
   align-items: center;
   border-radius: 10px 10px 0 0;
   transition: all 0.3s ease-in-out;
@@ -266,19 +294,77 @@ transform: translateY(4px);
     margin-bottom: 20px;
   }
   
-  .backButton {
-    background-color: #4CAF50;
-    color: white;
-    padding: 14px 20px;
-    border: none;
-    border-radius: 25px;
+  .backButton{
+    position: absolute;
+   
+    margin-left: 30%;
+    margin-top: 1%;
+    color: aliceblue;
+    font-weight: bolder;
+    z-index: 10;
+    display: inline-block;
+    padding: 15px 25px;
+    font-size: 24px;
     cursor: pointer;
-    font-size: 18px;
-    margin-top: 20px;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+    border-color: #ffffff;
+    background-color: #ffffff00;
+    left: 225px;
+    bottom: 225px;
+    border-radius: 15px;
+    transition: 0.3s ease;
+    box-shadow: 0 9px #999;
+   
+  }
+  .backButton:hover {
+    background-color: #ffffff;
+    color: #000;
+    scale: 1.05;
   }
   
-  .backButton:hover {
-    background-color: #4cbc4f;
+  .backButton:active {
+  background-color: #3e8e41;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+  }
+  .back2Button{
+    position: absolute;
+   
+    margin-left: 30%;
+    margin-top: 1%;
+    color: aliceblue;
+    font-weight: bolder;
+    z-index: 10;
+    display: inline-block;
+    padding: 15px 25px;
+    font-size: 24px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+    border-color: #ffffff;
+    background-color: #ffffff00;
+    left: 225px;
+    bottom:125px;
+    border-radius: 15px;
+    transition: 0.3s ease;
+    box-shadow: 0 9px #999;
+   
+  }
+  .back2Button:hover {
+    background-color: #ffffff;
+    color: #000;
+    scale: 1.05;
+  }
+  
+  .back2Button:active {
+  background-color: #3e8e41;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
   }
   
   .flashingtext{
@@ -346,28 +432,29 @@ transform: translateY(4px);
 
 .team1{
   position: relative;
-  top: 210px;
-  right: 230px;
+  bottom: 600px;
+  left: 340px;
   display: flex;
   flex-direction: column;
   gap: 8px;
-  width: 140%;
+  width: 24%;
   /* width: 60%; */
 }
 
 .team2{
   position: relative;
-  bottom: 100px;
-  left: 230px;
+  bottom: 920px;
+  left: 865px;
   display: flex;
   flex-direction: column;
   gap: 8px;
-  width: 140%;
+  width: 24%;
   /* width: 60%; */
 }
 
 .allybutton1{
   /* position: relative; */
+  /* width: 50%; */
   opacity: 90%;
   top: 25px;
   
@@ -389,7 +476,7 @@ transform: translateY(4px);
 .allybutton2{
   /* position: relative; */
   opacity: 90%;
-  top: 110px;
+  top: 100px;
   right: 645px;
   
   margin-left: 0%;
@@ -467,6 +554,28 @@ transform: translateY(4px);
   border-width: 2px;
   z-index: 1;
 }
+
+.submitButton {
+  position: relative;
+  bottom: 942px;
+  left: 735px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  background-color: transparent;
+  border: 2px solid white;
+  color: white;
+  padding: 10px 20px;
+  margin: 0 10px;
+  transition: all 0.3s ease-in-out;
+}
+
+.submitButton:hover {
+  background-color: white;
+  color: black;
+  transform: scale(1.1);
+}
+
 
 .enemybutton1{
   /* position: relative; */
@@ -703,7 +812,7 @@ transform: translateY(4px);
 
 .searchbytext {
  color: white;
- background-color: grey;
+
  width: 110%; 
  margin-top: 30%;
  margin-left: 0%;
@@ -721,12 +830,24 @@ transform: translateY(4px);
 
 .logoContainer {
   
-  box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.75);
+
 }
 
 .logo {
   position: relative;
-  bottom: -250px;
+  bottom: 60px;
+  left: 2.5%;
+  scale: .7;
+  /* bottom: 50%; */
+  z-index: 0;
+}
+
+.bogo2 {
+  position: relative;
+  bottom: -90px;
+  left: 29%;
+  /* bottom: 50%; */
+  transform: translate(-50%, -50%);
   scale: .6;
   object-fit: contain;
   z-index: 0;
@@ -740,9 +861,9 @@ transform: translateY(4px);
 
 .buttone, .butttwo {
   position: relative;
-  bottom: 420px;
+  bottom: 620px;
   left: -45px;
-  z-index: 9999;
+  z-index: 999;
   
   background-color: transparent;
   border: 4px solid rgb(0, 0, 0);
@@ -774,4 +895,123 @@ transform: translateY(4px);
   width: 100%;
   height: 50%;
   background-color: rgba(255, 255, 255, 0.107);
+}
+.title {
+  position: relative;
+  bottom: -160px;
+  color: #fff;
+  text-align: center;
+  font-weight: 1400;
+  font-size: 36px;
+  margin-bottom: 40px;
+}
+.text {
+  position: relative;
+  bottom: -130px;
+  color:white ;
+  font-size: 25px;
+  text-align: center;
+  margin-bottom: 20px;
+  margin-left: 0%;
+  font-weight: 1000;
+  border-radius: 25px;
+  padding: 14px 20px;
+
+
+}
+
+.text1 {
+  position: relative;
+  bottom: -100px;
+  color:rgb(255, 255, 255) ;
+  font-size: 18px;
+  margin-left: 0%;
+  text-align: center;
+  margin-bottom: 0%;
+
+  padding: 10px 15px;
+}
+
+.text2 {
+  position: relative;
+  bottom: -110px;
+  color:white ;
+  font-size: 25px;
+  text-align: center;
+  margin-bottom: 20px;
+  margin-left: 0%;
+  font-weight: 1000;
+  border-radius: 25px;
+  padding: 14px 20px;
+
+
+}
+
+.text3 {
+  position: relative;
+  bottom: -90px;
+  color:white ;
+  font-size: 18px;
+  margin-left: 0%;
+  text-align: center;
+  margin-bottom: 3%;
+
+  border-radius: 10px;
+  padding: 14px 20px;
+}
+.text4 {
+  position: relative;
+  bottom: -50px;
+  color:white ;
+  font-size: 25px;
+  text-align: center;
+  margin-bottom: 20px;
+  margin-left: 0%;
+  font-weight: 1000;
+  border-radius: 25px;
+  padding: 14px 20px;
+
+
+}
+
+.text5 {
+  position: relative;
+  bottom: -20px;
+  color:white ;
+  font-size: 18px;
+  margin-left: 0%;
+  text-align: center;
+  margin-bottom: 20px;
+
+  border-radius: 10px;
+  padding: 14px 20px;
+}
+
+.wrapper2 {
+  position: absolute;
+  top: 53%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 70%;
+  background-color: rgba(255, 255, 255, 0.107);
+}
+.caixa1 {
+  display: inline-block;
+  position: relative;
+  bottom: -40px;
+  left: 30px;
+  width: 310px;
+  height: 370px;
+  margin-right: 20px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.785);
+  transition: all 0.3s ease-in-out;
+}
+
+.caixa1:hover {
+  transform: scale(1.05);
+  background-color: rgb(0, 0, 0);
+  box-shadow: 0px 0px 10px rgba(255, 221, 0, 0.8);
 }

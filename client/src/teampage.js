@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import 'bulma/css/bulma.min.css';
 import './App.css';
+import BACKGROUND from './rankimg/background.mp4'
 import styles from './initial-page.module.css';
 import { useLocation } from 'react-router-dom';
 
@@ -21,6 +22,13 @@ function TeamPage() {
     const [team2Sup, setTeam2Sup] = useState({});
 
 
+        function handleAboutUs() {
+        window.location.assign("/about-us");
+      }
+    
+      function handleHelp() {
+        window.location.assign("/help");
+      }
     useEffect(() => {
         const queryParams = new URLSearchParams(window.location.search);
         const summoners = queryParams.get('summoners').split(",");
@@ -72,13 +80,18 @@ function TeamPage() {
     return (
         <div>
            
-            <div class="section">
-                <nav class="level">
+            <div>
+            <div className={styles.overlay}></div>
+      <video autoPlay muted loop id="background-video" style={{ position: 'fixed', minWidth: '100%', minHeight: '100%', top: 0, left: 0, zIndex: '-1' }}>
+        <source src={BACKGROUND} type="video/mp4" />
+      </video>
+                
                     {/* <!-- Team 1 Section --> */}
                     {/* <div class="columns">
                         <div class="column is-2"> */}
                     {/* <!-- Top Player --> */}
-                    <div class="box boxTeam has-background-dark has-text-white">
+                    <a href={`http://localhost:3000/other-page?summonerName=${team1Top.summonerName}`}>
+                    <div class={styles.caixa1}>
                         <p class="has-text-white">Top</p>
                         <figure class="image is-128x128">
                         <img  class="is-rounded2" src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/profileicon/${team1Top.icon}.png`} alt="Player Icon"></img>
@@ -89,9 +102,10 @@ function TeamPage() {
                         <p class="has-text-white">{team1Top.average_kda_at_15} KDA</p>
                         <p class="has-text-white">{team1Top.firstblood_participation}%</p>
                     </div>
-
+                    </a>
                     {/* <!-- Jungle Player --> */}
-                    <div class="box boxTeam has-background-dark has-text-white">
+                    <a href={`http://localhost:3000/other-page?summonerName=${team1Jgl.summonerName}`}>
+                    <div class={styles.caixa1}>
                         <p class="has-text-white">Jungle</p>
                         <figure class="image is-128x128">
                         <img  class="is-rounded2" src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/profileicon/${team1Jgl.icon}.png`} alt="Player Icon"></img>
@@ -102,9 +116,10 @@ function TeamPage() {
                         <p class="has-text-white">{team1Jgl.average_kda_at_15} KDA</p>
                         <p class="has-text-white">{team1Jgl.average_first_herald_timer} minutes</p>
                     </div>
-
+                    </a>
                     {/* <!-- Middle Player --> */}
-                    <div class="box boxTeam has-background-dark has-text-white">
+                    <a href={`http://localhost:3000/other-page?summonerName=${team1Mid.summonerName}`}>
+                    <div class={styles.caixa1}>
                         <p class="has-text-white">Middle</p>
                         <figure class="image is-128x128">
                         <img  class="is-rounded2"  src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/profileicon/${team1Mid.icon}.png`} alt="Player Icon"></img>
@@ -115,9 +130,10 @@ function TeamPage() {
                         <p class="has-text-white">{team1Mid.average_kda_at_15} KDA</p>
                         <p class="has-text-white">{team1Mid.firstblood_participation}%</p>
                     </div>
-
+                    </a>
                     {/* <!-- Bottom Player --> */}
-                    <div class="box boxTeam has-background-dark has-text-white">
+                    <a href={`http://localhost:3000/other-page?summonerName=${team1Bot.summonerName}`}>
+                    <div class={styles.caixa1}>
                         <p class="has-text-white">Bottom</p>
                         <figure class="image is-128x128">
                         <img  class="is-rounded2" src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/profileicon/${team1Bot.icon}.png`} alt="Player Icon"></img>
@@ -128,10 +144,10 @@ function TeamPage() {
                         <p class="has-text-white">{team1Bot.average_kda_at_15} KDA</p>
                         <p class="has-text-white">{team1Bot.firstblood_participation}%</p>
                     </div>
-
+                    </a>
                     {/* <-- Support Player --> */}
-                    <div class="move-it-up">
-                    <div class="box boxTeam has-background-dark has-text-white">
+                    <a href={`http://localhost:3000/other-page?summonerName=${team1Sup.summonerName}`}>
+                    <div class={styles.caixa1}>
                         <p class="has-text-white">Support</p>
                         <figure class="image is-128x128">
                         <img   class="is-rounded2" src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/profileicon/${team1Sup.icon}.png`} alt="Player Icon"></img>
@@ -142,20 +158,22 @@ function TeamPage() {
                         <p class="has-text-white">{team1Sup.average_kda_at_15} KDA</p>
                         {/* <p class="has-text-white">{team1Bot.firstblood_participation}%</p> */}
                         <p class="has-text-white">{team1Sup.average_control_wards} Control Wards</p>
+
                     </div>
-                    </div>
+                    </a>
                     {/* </div>
                     </div> */}
-                </nav>
+              
             </div>
-            <div class="section">
-                <nav class="level">
+
+                
 
                     {/* <!-- Team 2 Section --> */}
                     {/* <div class="columns">
                     <div class="column is-2"> */}
                     {/* <!-- Top Player --> */}
-                    <div class="box boxTeam has-background-dark has-text-white">
+                    <a href={`http://localhost:3000/other-page?summonerName=${team2Top.summonerName}`}>
+                    <div class={styles.caixa1}>
                         <p class="has-text-white">Top</p>
                         <figure class="image is-128x128">
                         <img   class="is-rounded2" src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/profileicon/${team2Top.icon}.png`} alt="Player Icon"></img>
@@ -166,9 +184,10 @@ function TeamPage() {
                         <p class="has-text-white">{team2Top.average_kda_at_15} KDA</p>
                         <p class="has-text-white">{team2Top.firstblood_participation}%</p>
                     </div>
-
+                    </a>
                     {/* <!-- Jungle Player --> */}
-                    <div class="box boxTeam has-background-dark has-text-white">
+                    <a href={`http://localhost:3000/other-page?summonerName=${team2Jgl.summonerName}`}>
+                    <div class={styles.caixa1}>
                         <p class="has-text-white">Jungle</p>
                         <figure class="image is-128x128">
                         <img   class="is-rounded2" src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/profileicon/${team2Jgl.icon}.png`} alt="Player Icon"></img>
@@ -179,9 +198,10 @@ function TeamPage() {
                         <p class="has-text-white">{team2Jgl.average_kda_at_15} KDA</p>
                         <p class="has-text-white">{team2Jgl.average_first_herald_timer} minutes</p>
                     </div>
-
+                    </a>
                     {/* <!-- Middle Player --> */}
-                    <div class="box boxTeam has-background-dark has-text-white">
+                    <a href={`http://localhost:3000/other-page?summonerName=${team1Mid.summonerName}`}>
+                    <div class={styles.caixa1}>
                         <p class="has-text-white">Middle</p>
                         <figure class="image is-128x128">
                         <img   class="is-rounded2" src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/profileicon/${team2Mid.icon}.png`} alt="Player Icon"></img>
@@ -192,9 +212,10 @@ function TeamPage() {
                         <p class="has-text-white">{team2Mid.average_kda_at_15} KDA</p>
                         <p class="has-text-white">{team2Mid.firstblood_participation}%</p>
                     </div>
-
+                    </a>
                     {/* <!-- Bottom Player --> */}
-                    <div class="box boxTeam has-background-dark has-text-white">
+                    <a href={`http://localhost:3000/other-page?summonerName=${team1Bot.summonerName}`}>
+                    <div class={styles.caixa1}>
                         <p class="has-text-white">Bottom</p>
                         <figure class="image is-128x128">
                         <img  class="is-rounded2"   src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/profileicon/${team2Bot.icon}.png`} alt="Player Icon"></img>
@@ -205,10 +226,10 @@ function TeamPage() {
                         <p class="has-text-white">{team2Bot.average_kda_at_15} KDA</p>
                         <p class="has-text-white">{team2Bot.firstblood_participation}%</p>
                     </div>
-
+                    </a>
                     {/* <-- Support Player --> */}
-                    <div class="move-it-up">
-                    <div class="box boxTeam has-background-dark has-text-white">
+                    <a href={`http://localhost:3000/other-page?summonerName=${team2Sup.summonerName}`}>
+                    <div class={styles.caixa1}>
                         <p class="has-text-white">Support</p>
                         <figure class="image is-128x128">
                         <img  class="is-rounded2"  src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/profileicon/${team2Sup.icon}.png`} alt="Player Icon"></img>
@@ -220,13 +241,21 @@ function TeamPage() {
                         {/* <p class="has-text-white">{team2Bot.firstblood_participation}%</p> */}
                         <p class="has-text-white">{team2Sup.average_control_wards} Control Wards</p>
                     </div>
-                    </div>
+                    </a>
                     {/* </div> */}
                     {/* </div> */}
-                </nav>
+                
+                    <div className={styles.square}>
 
+                        <a href="http://localhost:3000/">
+                        <button className={styles.hpButton}>Home Page</button>
+                        </a>
+                        <button onClick={handleAboutUs} className={styles.helpButton}>About Us</button>
+                        <button onClick={handleHelp} className={styles.About2Button}>Help</button>
+                        {/* <button onClick={handleteamPageSearch} className={styles.TeamSearchButton}>Team Search</button> */}
+                    </div>
             </div>
-        </div>
+     
 
 
 

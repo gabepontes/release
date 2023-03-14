@@ -11,8 +11,11 @@ app = Flask(__name__)
 
 
 # API key for the league server
-api_key = "RGAPI-affddae9-1210-4ed5-ab81-28314b83392b"
-api_key_two = "RGAPI-eddefad1-05be-4cde-aa06-7ae44d67e49d"
+api_key = "RGAPI-732d43ff-3c7c-400c-9748-926b57e37af6"
+api_key_two = "RGAPI-c730088f-582f-4f5e-8318-4e4628f98aee"
+api_key_three = "RGAPI-a7c36563-1625-4f10-8708-77b6e8e9663f"
+api_key_four ="RGAPI-26b33466-246f-4f05-9ae0-bff8a40e0c43"
+api_key_five = "RGAPI-698abb89-ac1b-48de-897a-f6da33aac440"
 
 def summoner_lookup(summoner_name, api_key):
   region = "NA1"
@@ -681,15 +684,15 @@ def team_analysis(summoner_name_top1, summoner_name_jungle1, summoner_name_mid1,
     #players["team_2"] = team(summoner_name_top2, summoner_name_jungle2, summoner_name_mid2, summoner_name_bot2, summoner_name_sup2)
     t1 = threading.Thread(target=laner, args=(summoner_name_top1,"TOP",team1,api_key,))
     t2 = threading.Thread(target=jungler, args=(summoner_name_jungle1,team1,api_key,))
-    t3 = threading.Thread(target=laner, args=(summoner_name_mid1,"MIDDLE",team1,api_key,))
-    t4 = threading.Thread(target=laner, args=(summoner_name_bot1,"BOTTOM",team1,api_key,))
-    t5 = threading.Thread(target=support, args=(summoner_name_sup1,team1,api_key,))
+    t3 = threading.Thread(target=laner, args=(summoner_name_mid1,"MIDDLE",team1,api_key_five ,))
+    t4 = threading.Thread(target=laner, args=(summoner_name_bot1,"BOTTOM",team1,api_key_three,))
+    t5 = threading.Thread(target=support, args=(summoner_name_sup1,team1,api_key_three,))
 
     t6 = threading.Thread(target=laner, args=(summoner_name_top2,"TOP",team2,api_key_two,))
     t7 = threading.Thread(target=jungler, args=(summoner_name_jungle2,team2,api_key_two,))
-    t8 = threading.Thread(target=laner, args=(summoner_name_mid2,"MIDDLE",team2,api_key_two,))
-    t9 = threading.Thread(target=laner, args=(summoner_name_bot2,"BOTTOM",team2,api_key_two,))
-    t10 = threading.Thread(target=support, args=(summoner_name_sup2,team2,api_key_two,))
+    t8 = threading.Thread(target=laner, args=(summoner_name_mid2,"MIDDLE",team2,api_key_five,))
+    t9 = threading.Thread(target=laner, args=(summoner_name_bot2,"BOTTOM",team2,api_key_four,))
+    t10 = threading.Thread(target=support, args=(summoner_name_sup2,team2,api_key_four,))
     
     t1.start()
     t2.start()

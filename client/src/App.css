@@ -369,22 +369,26 @@ h3{
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+
   height: 100vh;
-  background-color: radial-gradient(circle at center, black, rgba(0, 0, 0, 0.906));
+  overflow: hidden;
 }
 
 .aboutUsHeading {
+  position: relative;
   color: #fff;
   font-weight: bolder;
   font-size: 36px;
+  bottom: -37%;
   margin-bottom: 40px;
 }
 
 .aboutUsDescription {
+  position: relative;
   color: white;
   font-size: 18px;
   text-align: center;
+  bottom: -37%;
   margin-bottom: 20px;
 }
 
@@ -543,7 +547,9 @@ td.cs {
   position: relative;
   bottom: 11px;
 }
-
+.caixa1-hover {
+  height: 20%;
+}
 @keyframes pulse {
   from {
     transform: scale(1);

@@ -46,10 +46,17 @@ function InitialPage() {
 
   return (
 
-
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-      <div className={styles.flashingtext}>
-        <h1><span class='one'>U</span><span class='two'>L</span><span class='three'>O</span><span class='four'>L</span> <span class='five'>.</span><span class='six'>G</span><span class='seven'>G</span></h1></div>
+    
+    <div style={{height: '100vh', overflow: 'hidden'  }}>
+      <div className={styles.overlay}></div>
+      <video autoPlay muted loop id="background-video" style={{ position: 'fixed', minWidth: '100%', minHeight: '100%', top: 0, left: 0, zIndex: '-1' }}>
+        <source src={BACKGROUND} type="video/mp4" />
+      </video>
+      <div className={styles.wrapper}></div>
+      <div className={styles.logoContainer}>
+          <img src={logo} alt="logo" className={styles.logo} />
+        </div>
+      
 
 
       <form onSubmit={handleSubmit} className={styles.container}>
@@ -58,17 +65,15 @@ function InitialPage() {
       </form>
 
       <div className={styles.square}>
-        <div className={styles.helpAboutContainer}>
+
           <a href="http://localhost:3000/">
             <button className={styles.hpButton}>Home Page</button>
           </a>
           <button onClick={handleAboutUs} className={styles.helpButton}>About Us</button>
-          <button onClick={handleHelp} className={styles.AboutButton}>Help</button>
-          <button onClick={handleFeed} className={styles.ScrimButton}>Temp</button>
+          <button onClick={handleHelp} className={styles.About2Button}>Help</button>
           {/* <button onClick={handleteamPageSearch} className={styles.TeamSearchButton}>Team Search</button> */}
         </div></div>
 
-    </div>
   );
 }
 
@@ -84,11 +89,7 @@ function Homepagesoloandteam() {
   function handleFeed() {
     window.location.assign("/feed");
   }
-  window.onload = function () {
-    const video = document.getElementById(BACKGROUND);
-    video.play();
 
-  };
   return (
     
     <div style={{ height: '100vh',overflow: 'hidden' }}>
@@ -1249,50 +1250,83 @@ function OtherPage() {
 
 
 function AboutUs() {
+  function handleAboutUs() {
+    window.location.assign("/about-us");
+  }
+
+  function handleHelp() {
+    window.location.assign("/help");
+  }
   return (
     <div className="aboutUsContainer">
+      <div className={styles.overlay}></div>
+      
+      <video autoPlay muted loop id="background-video" style={{ position: 'fixed', minWidth: '100%', minHeight: '100%', top: 0, left: 0, zIndex: '-1' }}>
+        <source src={BACKGROUND} type="video/mp4" />
+      </video>
+      <div className={styles.wrapper}></div>
       <h1 className="aboutUsHeading">About Us</h1>
-      <p className="aboutUsDescription">We are a team of developers dedicated to providing a platform for summoners to easily find and access their match data.</p>
-      <p className="aboutUsDescription">Our goal is to make it easier for players to analyze and track their performance in League of Legends.</p>
-      <button className="backButton" onClick={() => window.location.assign('/')}>Back to Initial Page</button>
-    </div>
+  <p className="aboutUsDescription">We are a team of developers dedicated to providing a platform for summoners to easily find and access their match data.</p>
+  <p className="aboutUsDescription">Our goal is to make it easier for players to analyze and track their performance in League of Legends.</p>
+  <div className={styles.helpAboutContainer}>
+  <button className={styles.backButton} onClick={() => window.location.assign('/')}>Back to Initial Page</button>
+  <div className={styles.square}>
+
+<a href="http://localhost:3000/">
+  <button className={styles.hpButton}>Home Page</button>
+</a>
+<button onClick={handleAboutUs} className={styles.helpButton}>About Us</button>
+<button onClick={handleHelp} className={styles.About2Button}>Help</button>
+{/* <button onClick={handleteamPageSearch} className={styles.TeamSearchButton}>Team Search</button> */}
+</div>
+  </div>
+  
+</div>
   );
 }
 
 function Help() {
+  function handleAboutUs() {
+    window.location.assign("/about-us");
+  }
+
+  function handleHelp() {
+    window.location.assign("/help");
+  }
   return (
     <div className={styles.helpContainer}>
-      <h1 className={styles.title}>Help</h1>
-      <p className={styles.text}>If you need assistance with our platform, please contact us at [temp].</p>
-      <p className={styles.text}>For general questions, visit our FAQ page [temp].</p>
-      <button className={styles.backButton} onClick={() => window.location.assign("/")}>Back to Initial Page</button>
-    </div>
+      <div className={styles.overlay}></div> 
+      <video autoPlay muted loop id="background-video" style={{ position: 'fixed', minWidth: '100%', minHeight: '100%', top: 0, left: 0, zIndex: '-1' }}>
+        <source src={BACKGROUND} type="video/mp4" />
+      </video>
+      <div className={styles.wrapper2}></div>
+    <h1 className={styles.title}>Frequently Asked Questions</h1>
+
+    <p className={styles.text}> How do I search for statistics on my summoner name ?</p>
+    <p className={styles.text1}>Select Solo on the Homepage and then enter in your individual summoner name.</p>
+   
+    <p className={styles.text2}> How do I search for statistics between a team versus a team?</p>
+    <p className={styles.text3}>Select Team on the Homepage and then enter in all the respective summoner names for both teams.</p>
+    <p className={styles.text4}> How do I search for statistics for just one team ?</p>
+    <p className={styles.text5}>As of now we do not have that capability. <br></br>However, you may enter in the same summoners names for both teams which will allow you to see individual team statistics!</p>
+   
+   
+    
+    <div className={styles.helpAboutContainer}>
+  <button className={styles.back2Button} onClick={() => window.location.assign('/')}>Back to Initial Page</button>
+  <div className={styles.square}>
+
+<a href="http://localhost:3000/">
+  <button className={styles.hpButton}>Home Page</button>
+</a>
+<button onClick={handleAboutUs} className={styles.helpButton}>About Us</button>
+<button onClick={handleHelp} className={styles.About2Button}>Help</button>
+{/* <button onClick={handleteamPageSearch} className={styles.TeamSearchButton}>Team Search</button> */}
+</div></div>
+  </div>
   );
 }
-function NewsPage() {
 
-  const [newsData, setNewsData] = useState([]);
-
-  useEffect(() => {
-    async function fetchData() {
-      const result = await axios.get('need to find one');
-      setNewsData(result.data);
-    }
-    fetchData();
-  }, []);
-
-  return (
-    <div>
-      <h1>Latest News</h1>
-      {newsData.map(newsItem => (
-        <div key={newsItem.id}>
-          <h2>{newsItem.title}</h2>
-          <p>{newsItem.content}</p>
-        </div>
-      ))}
-    </div>
-  );
-}
 
 
 
@@ -1334,9 +1368,18 @@ function TeamPageSearch() {
   return (
 
 
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-      <div className={styles.flashingtext}>
-        <h1><span class='one'>U</span><span class='two'>L</span><span class='three'>O</span><span class='four'>L</span> <span class='five'>.</span><span class='six'>G</span><span class='seven'>G</span></h1></div>
+    <div style={{ height: '100vh', overflow: 'hidden' }}>
+      <div className={styles.overlay}></div>
+      
+      <video autoPlay muted loop id="background-video" style={{ position: 'fixed', minWidth: '100%', minHeight: '100%', top: 0, left: 0, zIndex: '-1' }}>
+        <source src={BACKGROUND} type="video/mp4" />
+      </video>
+      <div className={styles.wrapper2}></div>
+      <div className={styles.logoContainer}>
+          <img src={logo} alt="logo" className={styles.bogo2} />
+      </div>
+      {/* <div className={styles.flashingtext}>
+        <h1><span class='one'>U</span><span class='two'>L</span><span class='three'>O</span><span class='four'>L</span> <span class='five'>.</span><span class='six'>G</span><span class='seven'>G</span></h1></div> */}
 
 
       <form onSubmit={handleSubmit} className={styles.container}>
@@ -1355,19 +1398,20 @@ function TeamPageSearch() {
           <input type="text" placeholder="BOT" onChange={(e) => setEnemy4(e.target.value)} className={styles.enemybutton4} />
           <input type="text" placeholder="SUPPORT" onChange={(e) => setEnemy5(e.target.value)} className={styles.enemybutton5} />
         </div>
-        <button type="submit">Search</button>
-      </form>
+        <button type="submit" className={styles.submitButton}>Search</button>
 
+      </form>
+     
       <div className={styles.square}>
-        <div className={styles.helpAboutContainer}>
+
+          <a href="http://localhost:3000/">
+            <button className={styles.hpButton}>Home Page</button>
+          </a>
           <button onClick={handleAboutUs} className={styles.helpButton}>About Us</button>
-          <button onClick={handleHelp} className={styles.AboutButton}>Help</button>
-          {/* <button onClick={handleFeed} className={styles.ScrimButton}>Temp</button> */}
-          <button onClick={handleSoloPage} className={styles.ScrimButton}>Home</button>
+          <button onClick={handleHelp} className={styles.About2Button}>Help</button>
           {/* <button onClick={handleteamPageSearch} className={styles.TeamSearchButton}>Team Search</button> */}
         </div></div>
 
-    </div>
     // <div className={styles.helpContainer}>
     //   <h1 className={styles.title}>Help</h1>
     //   <p className={styles.text}>If you need assistance with our platform, please contact us at [temp].</p>
@@ -1388,7 +1432,6 @@ function App() {
       <Route exact path="/other-page" component={OtherPage} />
       <Route exact path="/about-us" component={AboutUs} />
       <Route exact path="/help" component={Help} />
-      <Route exact path="/feed" component={NewsPage} />
       <Route exact path="/team-search" component={TeamPageSearch} />
       <Route exact path="/team" component={TeamPage} />
 
