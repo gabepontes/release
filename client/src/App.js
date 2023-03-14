@@ -46,17 +46,17 @@ function InitialPage() {
 
   return (
 
-    
-    <div style={{height: '100vh', overflow: 'hidden'  }}>
+
+    <div style={{ height: '100vh', overflow: 'hidden' }}>
       <div className={styles.overlay}></div>
       <video autoPlay muted loop id="background-video" style={{ position: 'fixed', minWidth: '100%', minHeight: '100%', top: 0, left: 0, zIndex: '-1' }}>
         <source src={BACKGROUND} type="video/mp4" />
       </video>
       <div className={styles.wrapper}></div>
       <div className={styles.logoContainer}>
-          <img src={logo} alt="logo" className={styles.logo} />
-        </div>
-      
+        <img src={logo} alt="logo" className={styles.logo} />
+      </div>
+
 
 
       <form onSubmit={handleSubmit} className={styles.container}>
@@ -66,13 +66,13 @@ function InitialPage() {
 
       <div className={styles.square}>
 
-          <a href="http://localhost:3000/">
-            <button className={styles.hpButton}>Home Page</button>
-          </a>
-          <button onClick={handleAboutUs} className={styles.helpButton}>About Us</button>
-          <button onClick={handleHelp} className={styles.About2Button}>Help</button>
-          {/* <button onClick={handleteamPageSearch} className={styles.TeamSearchButton}>Team Search</button> */}
-        </div></div>
+        <a href="http://localhost:3000/">
+          <button className={styles.hpButton}>Home Page</button>
+        </a>
+        <button onClick={handleAboutUs} className={styles.helpButton}>About Us</button>
+        <button onClick={handleHelp} className={styles.About2Button}>Help</button>
+        {/* <button onClick={handleteamPageSearch} className={styles.TeamSearchButton}>Team Search</button> */}
+      </div></div>
 
   );
 }
@@ -91,34 +91,34 @@ function Homepagesoloandteam() {
   }
 
   return (
-    
-    <div style={{ height: '100vh',overflow: 'hidden' }}>
-    <div className={styles.overlay}></div>
+
+    <div style={{ height: '100vh', overflow: 'hidden' }}>
+      <div className={styles.overlay}></div>
       <video autoPlay muted loop id="background-video" style={{ position: 'fixed', minWidth: '100%', minHeight: '100%', top: 0, left: 0, zIndex: '-1' }}>
         <source src={BACKGROUND} type="video/mp4" />
       </video>
-      
+
       <div className={styles.wrapper}></div>
-        <div className={styles.logoContainer}>
-          <img src={logo} alt="logo" className={styles.logo} />
-        </div>
-        <div>
+      <div className={styles.logoContainer}>
+        <img src={logo} alt="logo" className={styles.logo} />
+      </div>
+      <div>
 
-          <div className={styles.searchbytext}>
+        <div className={styles.searchbytext}>
 
-            <div className={styles.buttons}>
+          <div className={styles.buttons}>
 
-              <a href="http://localhost:3000/solo-page">
-                <button className={styles.buttone} >Solo</button>
-              </a>
+            <a href="http://localhost:3000/solo-page">
+              <button className={styles.buttone} >Solo</button>
+            </a>
 
-              <a href="http://localhost:3000/team-search">
-                <button className={styles.butttwo} >Team</button>
-              </a>
+            <a href="http://localhost:3000/team-search">
+              <button className={styles.butttwo} >Team</button>
+            </a>
 
-            </div>
           </div>
-          <br></br>
+        </div>
+        <br></br>
 
 
 
@@ -148,7 +148,13 @@ function OtherPage() {
   const [showExtraContent, setShowExtraContent] = useState(false);
   const [expandedIndexes, setExpandedIndexes] = useState([]);
   const [topChamps, setTopChamps] = useState({});
+  function handleAboutUs() {
+    window.location.assign("/about-us");
+  }
 
+  function handleHelp() {
+    window.location.assign("/help");
+  }
   function handleExpand(index) {
     if (expandedIndexes.includes(index)) {
       setExpandedIndexes(expandedIndexes.filter(i => i !== index));
@@ -238,28 +244,24 @@ function OtherPage() {
       ) : (
         <>
           {
-            <div class="section">
+            <div class= {{height: '100vh', overflow: 'hidden'}}>
 
 
-              <div className="App">
-                <div id="top-bar">
+
+              
+                <video autoPlay muted loop id="background-video" style={{ position: 'fixed', minWidth: '100%', minHeight: '100%', top: 0, left: 0, zIndex: '-1' }}>
+                  <source src={BACKGROUND} type="video/mp4" />
+              </video>
+              
+              <div className={styles.overlay3}></div>
+              <div id="top-bar">
 
                   <div id="soloteampagebackbutton">
 
                     <a href="http://localhost:3000/">
                       <button className={styles.homepagebutton}  >HOME PAGE</button>
                     </a>
-                  </div>
-
-
-                  <div id="search-container">
-                    <form>
-                      <input type="text" id="search-bar" value={summonerName} onChange={e => setSummonerName(e.target.value)} />
-                      <button class="button is-info" id="search-button" type="submit" onClick={handleSubmit}></button>
-                    </form>
-                  </div>
-                </div>
-
+                  </div></div>
                 {matches.length > 0 ? (
                   <div>
                     <section class="hero is-dark">
@@ -342,24 +344,37 @@ function OtherPage() {
                         </div>
 
                         <div class="box has-background-dark has-text-white has-text-weight-normal">
-                          Top 5 Champions
+                          Top Champions
                           <hr></hr>
                           <div class="columns is-centered">
 
                             <div class="column is-2">
-                              <img src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/champion/${Object.keys(topChamps)[0]}.png`} alt="Champion Icon" width="42" height="42" />
+                              {Object.keys(topChamps).length >= 1 &&
+                                <div>
+                                  <img src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/champion/${Object.keys(topChamps)[0]}.png`} alt="Champion Icon" width="42" height="42" />
+                                </div>
+                              }
 
-                              <br></br>
-                              <br></br>
-                              <img src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/champion/${Object.keys(topChamps)[1]}.png`} alt="Champion Icon" width="42" height="42" />
+                              {Object.keys(topChamps).length >= 2 &&
+                                <div>
+                                  <br></br>
+                                  <img src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/champion/${Object.keys(topChamps)[1]}.png`} alt="Champion Icon" width="42" height="42" />
+                                </div>
+                              }
 
-                              <br></br>
-                              <br></br>
-                              <img src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/champion/${Object.keys(topChamps)[2]}.png`} alt="Champion Icon" width="42" height="42" />
+                              {Object.keys(topChamps).length >= 3 &&
+                                <div>
+                                  <br></br>
+                                  <img src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/champion/${Object.keys(topChamps)[2]}.png`} alt="Champion Icon" width="42" height="42" />
+                                </div>
+                              }
 
-                              <br></br>
-                              <br></br>
-                              <img src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/champion/${Object.keys(topChamps)[3]}.png`} alt="Champion Icon" width="42" height="42" />
+                              {Object.keys(topChamps).length >= 4 &&
+                                <div>
+                                  <br></br>
+                                  <img src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/champion/${Object.keys(topChamps)[3]}.png`} alt="Champion Icon" width="42" height="42" />
+                                </div>
+                              }
 
                               {Object.keys(topChamps).length >= 5 &&
                                 <div>
@@ -372,36 +387,53 @@ function OtherPage() {
 
                             <div class="column is-4">
 
-                              {Object.keys(topChamps)[0]}
-                              <br></br>
-                              CS {Math.round((topChamps[Object.keys(topChamps)[0]]['totalMinionsKilled'] / topChamps[Object.keys(topChamps)[0]]['games']) * 10) / 10}
-                              &nbsp;
-                              ({Math.round((topChamps[Object.keys(topChamps)[0]]['totalMinionsKilled'] / (topChamps[Object.keys(topChamps)[0]]['time'] / 60)) * 10) / 10})
-                              <br></br>
+                              {Object.keys(topChamps).length >= 1 &&
+                                <div>
+                                  {Object.keys(topChamps)[0]}
+                                  <br></br>
+                                  CS {Math.round((topChamps[Object.keys(topChamps)[0]]['totalMinionsKilled'] / topChamps[Object.keys(topChamps)[0]]['games']) * 10) / 10}
+                                  &nbsp;
+                                  ({Math.round((topChamps[Object.keys(topChamps)[0]]['totalMinionsKilled'] / (topChamps[Object.keys(topChamps)[0]]['time'] / 60)) * 10) / 10})
+                                  <br></br>
+                                </div>
+                              }
 
-                              <br></br>
-                              {Object.keys(topChamps)[1]}
-                              <br></br>
-                              CS {Math.round((topChamps[Object.keys(topChamps)[1]]['totalMinionsKilled'] / topChamps[Object.keys(topChamps)[1]]['games']) * 10) / 10}
-                              &nbsp;
-                              ({Math.round((topChamps[Object.keys(topChamps)[1]]['totalMinionsKilled'] / (topChamps[Object.keys(topChamps)[1]]['time'] / 60)) * 10) / 10})
-                              <br></br>
+                              {Object.keys(topChamps).length >= 2 &&
+                                <div>
+                                  <br></br>
+                                  {Object.keys(topChamps)[1]}
+                                  <br></br>
+                                  CS {Math.round((topChamps[Object.keys(topChamps)[1]]['totalMinionsKilled'] / topChamps[Object.keys(topChamps)[1]]['games']) * 10) / 10}
+                                  &nbsp;
+                                  ({Math.round((topChamps[Object.keys(topChamps)[1]]['totalMinionsKilled'] / (topChamps[Object.keys(topChamps)[1]]['time'] / 60)) * 10) / 10})
+                                  <br></br>
+                                </div>
+                              }
 
-                              <br></br>
-                              {Object.keys(topChamps)[2]}
-                              <br></br>
-                              CS {Math.round((topChamps[Object.keys(topChamps)[2]]['totalMinionsKilled'] / topChamps[Object.keys(topChamps)[2]]['games']) * 10) / 10}
-                              &nbsp;
-                              ({Math.round((topChamps[Object.keys(topChamps)[2]]['totalMinionsKilled'] / (topChamps[Object.keys(topChamps)[2]]['time'] / 60)) * 10) / 10})
-                              <br></br>
 
-                              <br></br>
-                              {Object.keys(topChamps)[3]}
-                              <br></br>
-                              CS {Math.round((topChamps[Object.keys(topChamps)[3]]['totalMinionsKilled'] / topChamps[Object.keys(topChamps)[3]]['games']) * 10) / 10}
-                              &nbsp;
-                              ({Math.round((topChamps[Object.keys(topChamps)[3]]['totalMinionsKilled'] / (topChamps[Object.keys(topChamps)[3]]['time'] / 60)) * 10) / 10})
-                              <br></br>
+                              {Object.keys(topChamps).length >= 3 &&
+                                <div>
+                                  <br></br>
+                                  {Object.keys(topChamps)[2]}
+                                  <br></br>
+                                  CS {Math.round((topChamps[Object.keys(topChamps)[2]]['totalMinionsKilled'] / topChamps[Object.keys(topChamps)[2]]['games']) * 10) / 10}
+                                  &nbsp;
+                                  ({Math.round((topChamps[Object.keys(topChamps)[2]]['totalMinionsKilled'] / (topChamps[Object.keys(topChamps)[2]]['time'] / 60)) * 10) / 10})
+                                  <br></br>
+                                </div>
+                              }
+
+                              {Object.keys(topChamps).length >= 4 &&
+                                <div>
+                                  <br></br>
+                                  {Object.keys(topChamps)[3]}
+                                  <br></br>
+                                  CS {Math.round((topChamps[Object.keys(topChamps)[3]]['totalMinionsKilled'] / topChamps[Object.keys(topChamps)[3]]['games']) * 10) / 10}
+                                  &nbsp;
+                                  ({Math.round((topChamps[Object.keys(topChamps)[3]]['totalMinionsKilled'] / (topChamps[Object.keys(topChamps)[3]]['time'] / 60)) * 10) / 10})
+                                  <br></br>
+                                </div>
+                              }
 
                               {Object.keys(topChamps).length >= 5 &&
                                 <div>
@@ -418,36 +450,52 @@ function OtherPage() {
 
                             </div>
                             <div class="column is-3">
-                              {Math.round(topChamps[Object.keys(topChamps)[0]]['KDA_ratio'] * 100) / 100}:1 KDA
-                              <br></br>
-                              {Math.round((topChamps[Object.keys(topChamps)[0]]['kills'] / topChamps[Object.keys(topChamps)[0]]['games']) * 10) / 10}   &nbsp;/  &nbsp;
-                              {Math.round((topChamps[Object.keys(topChamps)[0]]['deaths'] / topChamps[Object.keys(topChamps)[0]]['games']) * 10) / 10}   &nbsp;/  &nbsp;
-                              {Math.round((topChamps[Object.keys(topChamps)[0]]['assists'] / topChamps[Object.keys(topChamps)[0]]['games']) * 10) / 10}
-                              <br></br>
+                              {Object.keys(topChamps).length >= 1 &&
+                                <div>
+                                  {Math.round(topChamps[Object.keys(topChamps)[0]]['KDA_ratio'] * 100) / 100}:1 KDA
+                                  <br></br>
+                                  {Math.round((topChamps[Object.keys(topChamps)[0]]['kills'] / topChamps[Object.keys(topChamps)[0]]['games']) * 10) / 10}   &nbsp;/  &nbsp;
+                                  {Math.round((topChamps[Object.keys(topChamps)[0]]['deaths'] / topChamps[Object.keys(topChamps)[0]]['games']) * 10) / 10}   &nbsp;/  &nbsp;
+                                  {Math.round((topChamps[Object.keys(topChamps)[0]]['assists'] / topChamps[Object.keys(topChamps)[0]]['games']) * 10) / 10}
+                                  <br></br>
+                                </div>
+                              }
 
-                              <br></br>
-                              {Math.round(topChamps[Object.keys(topChamps)[1]]['KDA_ratio'] * 100) / 100}:1 KDA
-                              <br></br>
-                              {Math.round((topChamps[Object.keys(topChamps)[1]]['kills'] / topChamps[Object.keys(topChamps)[1]]['games']) * 10) / 10}   &nbsp;/  &nbsp;
-                              {Math.round((topChamps[Object.keys(topChamps)[1]]['deaths'] / topChamps[Object.keys(topChamps)[1]]['games']) * 10) / 10}   &nbsp;/  &nbsp;
-                              {Math.round((topChamps[Object.keys(topChamps)[1]]['assists'] / topChamps[Object.keys(topChamps)[1]]['games']) * 10) / 10}
-                              <br></br>
+                              {Object.keys(topChamps).length >= 2 &&
+                                <div>
+                                  <br></br>
+                                  {Math.round(topChamps[Object.keys(topChamps)[1]]['KDA_ratio'] * 100) / 100}:1 KDA
+                                  <br></br>
+                                  {Math.round((topChamps[Object.keys(topChamps)[1]]['kills'] / topChamps[Object.keys(topChamps)[1]]['games']) * 10) / 10}   &nbsp;/  &nbsp;
+                                  {Math.round((topChamps[Object.keys(topChamps)[1]]['deaths'] / topChamps[Object.keys(topChamps)[1]]['games']) * 10) / 10}   &nbsp;/  &nbsp;
+                                  {Math.round((topChamps[Object.keys(topChamps)[1]]['assists'] / topChamps[Object.keys(topChamps)[1]]['games']) * 10) / 10}
+                                  <br></br>
+                                </div>
+                              }
 
-                              <br></br>
-                              {Math.round(topChamps[Object.keys(topChamps)[2]]['KDA_ratio'] * 100) / 100}:1 KDA
-                              <br></br>
-                              {Math.round((topChamps[Object.keys(topChamps)[2]]['kills'] / topChamps[Object.keys(topChamps)[2]]['games']) * 10) / 10}  &nbsp; /  &nbsp;
-                              {Math.round((topChamps[Object.keys(topChamps)[2]]['deaths'] / topChamps[Object.keys(topChamps)[2]]['games']) * 10) / 10}   &nbsp;/  &nbsp;
-                              {Math.round((topChamps[Object.keys(topChamps)[2]]['assists'] / topChamps[Object.keys(topChamps)[2]]['games']) * 10) / 10}
-                              <br></br>
+                              {Object.keys(topChamps).length >= 3 &&
+                                <div>
+                                  <br></br>
+                                  {Math.round(topChamps[Object.keys(topChamps)[2]]['KDA_ratio'] * 100) / 100}:1 KDA
+                                  <br></br>
+                                  {Math.round((topChamps[Object.keys(topChamps)[2]]['kills'] / topChamps[Object.keys(topChamps)[2]]['games']) * 10) / 10}  &nbsp; /  &nbsp;
+                                  {Math.round((topChamps[Object.keys(topChamps)[2]]['deaths'] / topChamps[Object.keys(topChamps)[2]]['games']) * 10) / 10}   &nbsp;/  &nbsp;
+                                  {Math.round((topChamps[Object.keys(topChamps)[2]]['assists'] / topChamps[Object.keys(topChamps)[2]]['games']) * 10) / 10}
+                                  <br></br>
+                                </div>
+                              }
 
-                              <br></br>
-                              {Math.round(topChamps[Object.keys(topChamps)[3]]['KDA_ratio'] * 100) / 100}:1 KDA
-                              <br></br>
-                              {Math.round((topChamps[Object.keys(topChamps)[3]]['kills'] / topChamps[Object.keys(topChamps)[3]]['games']) * 10) / 10}   &nbsp;/  &nbsp;
-                              {Math.round((topChamps[Object.keys(topChamps)[3]]['deaths'] / topChamps[Object.keys(topChamps)[3]]['games']) * 10) / 10}   &nbsp;/  &nbsp;
-                              {Math.round((topChamps[Object.keys(topChamps)[3]]['assists'] / topChamps[Object.keys(topChamps)[3]]['games']) * 10) / 10}
-                              <br></br>
+                              {Object.keys(topChamps).length >= 4 &&
+                                <div>
+                                  <br></br>
+                                  {Math.round(topChamps[Object.keys(topChamps)[3]]['KDA_ratio'] * 100) / 100}:1 KDA
+                                  <br></br>
+                                  {Math.round((topChamps[Object.keys(topChamps)[3]]['kills'] / topChamps[Object.keys(topChamps)[3]]['games']) * 10) / 10}   &nbsp;/  &nbsp;
+                                  {Math.round((topChamps[Object.keys(topChamps)[3]]['deaths'] / topChamps[Object.keys(topChamps)[3]]['games']) * 10) / 10}   &nbsp;/  &nbsp;
+                                  {Math.round((topChamps[Object.keys(topChamps)[3]]['assists'] / topChamps[Object.keys(topChamps)[3]]['games']) * 10) / 10}
+                                  <br></br>
+                                </div>
+                              }
 
                               {Object.keys(topChamps).length >= 5 &&
                                 <div>
@@ -461,28 +509,46 @@ function OtherPage() {
                               }
                             </div>
                             <div class="column is-3">
-                              {Math.round(topChamps[Object.keys(topChamps)[0]]['win_rate'] * 100)}%
-                              <br></br>
-                              {topChamps[Object.keys(topChamps)[0]]['games']} Played
-                              <br></br>
+                              {Object.keys(topChamps).length >= 1 &&
+                                <div>
+                                  {Math.round(topChamps[Object.keys(topChamps)[0]]['win_rate'] * 100)}%
+                                  <br></br>
+                                  {topChamps[Object.keys(topChamps)[0]]['games']} Played
+                                  <br></br>
+                                </div>
+                              }
 
-                              <br></br>
-                              {Math.round(topChamps[Object.keys(topChamps)[1]]['win_rate'] * 100)}%
-                              <br></br>
-                              {topChamps[Object.keys(topChamps)[1]]['games']} Played
-                              <br></br>
 
-                              <br></br>
-                              {Math.round(topChamps[Object.keys(topChamps)[2]]['win_rate'] * 100)}%
-                              <br></br>
-                              {topChamps[Object.keys(topChamps)[2]]['games']} Played
-                              <br></br>
+                              {Object.keys(topChamps).length >= 2 &&
+                                <div>
+                                  <br></br>
+                                  {Math.round(topChamps[Object.keys(topChamps)[1]]['win_rate'] * 100)}%
+                                  <br></br>
+                                  {topChamps[Object.keys(topChamps)[1]]['games']} Played
+                                  <br></br>
+                                </div>
+                              }
 
-                              <br></br>
-                              {Math.round(topChamps[Object.keys(topChamps)[3]]['win_rate'] * 100)}%
-                              <br></br>
-                              {topChamps[Object.keys(topChamps)[3]]['games']} Played
-                              <br></br>
+
+                              {Object.keys(topChamps).length >= 3 &&
+                                <div>
+                                  <br></br>
+                                  {Math.round(topChamps[Object.keys(topChamps)[2]]['win_rate'] * 100)}%
+                                  <br></br>
+                                  {topChamps[Object.keys(topChamps)[2]]['games']} Played
+                                  <br></br>
+                                </div>
+                              }
+
+                              {Object.keys(topChamps).length >= 4 &&
+                                <div>
+                                  <br></br>
+                                  {Math.round(topChamps[Object.keys(topChamps)[3]]['win_rate'] * 100)}%
+                                  <br></br>
+                                  {topChamps[Object.keys(topChamps)[3]]['games']} Played
+                                  <br></br>
+                                </div>
+                              }
 
                               {Object.keys(topChamps).length >= 5 &&
                                 <div>
@@ -1185,7 +1251,6 @@ function OtherPage() {
                 ) : null}
               </div>
 
-            </div>
           }
         </>
       )}
@@ -1260,28 +1325,28 @@ function AboutUs() {
   return (
     <div className="aboutUsContainer">
       <div className={styles.overlay}></div>
-      
+
       <video autoPlay muted loop id="background-video" style={{ position: 'fixed', minWidth: '100%', minHeight: '100%', top: 0, left: 0, zIndex: '-1' }}>
         <source src={BACKGROUND} type="video/mp4" />
       </video>
       <div className={styles.wrapper}></div>
       <h1 className="aboutUsHeading">About Us</h1>
-  <p className="aboutUsDescription">We are a team of developers dedicated to providing a platform for summoners to easily find and access their match data.</p>
-  <p className="aboutUsDescription">Our goal is to make it easier for players to analyze and track their performance in League of Legends.</p>
-  <div className={styles.helpAboutContainer}>
-  <button className={styles.backButton} onClick={() => window.location.assign('/')}>Back to Initial Page</button>
-  <div className={styles.square}>
+      <p className="aboutUsDescription">We are a team of developers dedicated to providing a platform for summoners to easily find and access their match data.</p>
+      <p className="aboutUsDescription">Our goal is to make it easier for players to analyze and track their performance in League of Legends.</p>
+      <div className={styles.helpAboutContainer}>
+        <button className={styles.backButton} onClick={() => window.location.assign('/')}>Back to Initial Page</button>
+        <div className={styles.square}>
 
-<a href="http://localhost:3000/">
-  <button className={styles.hpButton}>Home Page</button>
-</a>
-<button onClick={handleAboutUs} className={styles.helpButton}>About Us</button>
-<button onClick={handleHelp} className={styles.About2Button}>Help</button>
-{/* <button onClick={handleteamPageSearch} className={styles.TeamSearchButton}>Team Search</button> */}
-</div>
-  </div>
-  
-</div>
+          <a href="http://localhost:3000/">
+            <button className={styles.hpButton}>Home Page</button>
+          </a>
+          <button onClick={handleAboutUs} className={styles.helpButton}>About Us</button>
+          <button onClick={handleHelp} className={styles.About2Button}>Help</button>
+          {/* <button onClick={handleteamPageSearch} className={styles.TeamSearchButton}>Team Search</button> */}
+        </div>
+      </div>
+
+    </div>
   );
 }
 
@@ -1295,35 +1360,35 @@ function Help() {
   }
   return (
     <div className={styles.helpContainer}>
-      <div className={styles.overlay}></div> 
+      <div className={styles.overlay}></div>
       <video autoPlay muted loop id="background-video" style={{ position: 'fixed', minWidth: '100%', minHeight: '100%', top: 0, left: 0, zIndex: '-1' }}>
         <source src={BACKGROUND} type="video/mp4" />
       </video>
       <div className={styles.wrapper2}></div>
-    <h1 className={styles.title}>Frequently Asked Questions</h1>
+      <h1 className={styles.title}>Frequently Asked Questions</h1>
 
-    <p className={styles.text}> How do I search for statistics on my summoner name ?</p>
-    <p className={styles.text1}>Select Solo on the Homepage and then enter in your individual summoner name.</p>
-   
-    <p className={styles.text2}> How do I search for statistics between a team versus a team?</p>
-    <p className={styles.text3}>Select Team on the Homepage and then enter in all the respective summoner names for both teams.</p>
-    <p className={styles.text4}> How do I search for statistics for just one team ?</p>
-    <p className={styles.text5}>As of now we do not have that capability. <br></br>However, you may enter in the same summoners names for both teams which will allow you to see individual team statistics!</p>
-   
-   
-    
-    <div className={styles.helpAboutContainer}>
-  <button className={styles.back2Button} onClick={() => window.location.assign('/')}>Back to Initial Page</button>
-  <div className={styles.square}>
+      <p className={styles.text}> How do I search for statistics on my summoner name ?</p>
+      <p className={styles.text1}>Select Solo on the Homepage and then enter in your individual summoner name.</p>
 
-<a href="http://localhost:3000/">
-  <button className={styles.hpButton}>Home Page</button>
-</a>
-<button onClick={handleAboutUs} className={styles.helpButton}>About Us</button>
-<button onClick={handleHelp} className={styles.About2Button}>Help</button>
-{/* <button onClick={handleteamPageSearch} className={styles.TeamSearchButton}>Team Search</button> */}
-</div></div>
-  </div>
+      <p className={styles.text2}> How do I search for statistics between a team versus a team?</p>
+      <p className={styles.text3}>Select Team on the Homepage and then enter in all the respective summoner names for both teams.</p>
+      <p className={styles.text4}> How do I search for statistics for just one team ?</p>
+      <p className={styles.text5}>As of now we do not have that capability. <br></br>However, you may enter in the same summoners names for both teams which will allow you to see individual team statistics!</p>
+
+
+
+      <div className={styles.helpAboutContainer}>
+        <button className={styles.back2Button} onClick={() => window.location.assign('/')}>Back to Initial Page</button>
+        <div className={styles.square}>
+
+          <a href="http://localhost:3000/">
+            <button className={styles.hpButton}>Home Page</button>
+          </a>
+          <button onClick={handleAboutUs} className={styles.helpButton}>About Us</button>
+          <button onClick={handleHelp} className={styles.About2Button}>Help</button>
+          {/* <button onClick={handleteamPageSearch} className={styles.TeamSearchButton}>Team Search</button> */}
+        </div></div>
+    </div>
   );
 }
 
@@ -1370,13 +1435,13 @@ function TeamPageSearch() {
 
     <div style={{ height: '100vh', overflow: 'hidden' }}>
       <div className={styles.overlay}></div>
-      
+
       <video autoPlay muted loop id="background-video" style={{ position: 'fixed', minWidth: '100%', minHeight: '100%', top: 0, left: 0, zIndex: '-1' }}>
         <source src={BACKGROUND} type="video/mp4" />
       </video>
       <div className={styles.wrapper2}></div>
       <div className={styles.logoContainer}>
-          <img src={logo} alt="logo" className={styles.bogo2} />
+        <img src={logo} alt="logo" className={styles.bogo2} />
       </div>
       {/* <div className={styles.flashingtext}>
         <h1><span class='one'>U</span><span class='two'>L</span><span class='three'>O</span><span class='four'>L</span> <span class='five'>.</span><span class='six'>G</span><span class='seven'>G</span></h1></div> */}
@@ -1401,16 +1466,16 @@ function TeamPageSearch() {
         <button type="submit" className={styles.submitButton}>Search</button>
 
       </form>
-     
+
       <div className={styles.square}>
 
-          <a href="http://localhost:3000/">
-            <button className={styles.hpButton}>Home Page</button>
-          </a>
-          <button onClick={handleAboutUs} className={styles.helpButton}>About Us</button>
-          <button onClick={handleHelp} className={styles.About2Button}>Help</button>
-          {/* <button onClick={handleteamPageSearch} className={styles.TeamSearchButton}>Team Search</button> */}
-        </div></div>
+        <a href="http://localhost:3000/">
+          <button className={styles.hpButton}>Home Page</button>
+        </a>
+        <button onClick={handleAboutUs} className={styles.helpButton}>About Us</button>
+        <button onClick={handleHelp} className={styles.About2Button}>Help</button>
+        {/* <button onClick={handleteamPageSearch} className={styles.TeamSearchButton}>Team Search</button> */}
+      </div></div>
 
     // <div className={styles.helpContainer}>
     //   <h1 className={styles.title}>Help</h1>
