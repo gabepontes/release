@@ -17,6 +17,7 @@ api_key_three = "RGAPI-a7c36563-1625-4f10-8708-77b6e8e9663f"
 api_key_four ="RGAPI-26b33466-246f-4f05-9ae0-bff8a40e0c43"
 api_key_five = "RGAPI-698abb89-ac1b-48de-897a-f6da33aac440"
 
+#lookup summoner information using summoner name
 def summoner_lookup(summoner_name, api_key):
   region = "NA1"
   headers = {'X-Riot-Token': api_key}
@@ -25,7 +26,8 @@ def summoner_lookup(summoner_name, api_key):
   if response.status_code != 200:
     return response.status_code
   return response.json()
-  
+
+#lookup summoner's queue information  
 def lookup_queue(player_id, api_key):
   region = "NA1"
   url= f'https://{region}.api.riotgames.com/lol/league/v4/entries/by-summoner/{player_id}'
@@ -35,6 +37,7 @@ def lookup_queue(player_id, api_key):
     return player_response.status_code
   return player_response.json()
 
+#lookup last ten ranked solo duo games summoner played
 def last_ten_games(puuid, api_key):
   region = 'americas'
   url = f'https://{region}.api.riotgames.com/lol/match/v5/matches/by-puuid/{puuid}/ids?type=ranked&start=0&count=10'
@@ -44,6 +47,7 @@ def last_ten_games(puuid, api_key):
     return match_history_response.status_code
   return match_history_response.json()
 
+#return match information
 def match_lookup(matchId, puuid, api_key):
   cnx = mysql.connector.connect(user='root', password='Clol1234', host='localhost', database='league_data')
   cursor = cnx.cursor()
@@ -67,6 +71,7 @@ def match_lookup(matchId, puuid, api_key):
   cnx.close()
   return match_response
 
+#return timeline information of a match
 def timeline_lookup(matchId, puuid, api_key):
   cnx = mysql.connector.connect(user='root', password='Clol1234', host='localhost', database='league_data')
   cursor = cnx.cursor()
@@ -90,19 +95,24 @@ def timeline_lookup(matchId, puuid, api_key):
   cnx.close()
   return match_response
   
+#analysis of match and timeline for laners  
 def laner_analysis(list_of_matches, puuid, lane, api_key):
   cnx = mysql.connector.connect(user='root', password='Clol1234', host='localhost', database='league_data')
   cursor = cnx.cursor()
   cs_diff_at_15 = []
   kda = []
   first_blood = 0
+  #iterate through last 10 matches
   for matchId in list_of_matches:
+    #lookup match
     match = match_lookup(matchId, puuid, api_key)
     part_id = -1
     enemy_laner_id = -1
     first_blood_participation = 0
+    #match_lookup returned error
     if type(match) == int:
       continue
+    #match not in database so returned json file so adds match to teammatches table
     elif type(match) == dict:
       for participant in match["info"]["participants"]:
         if participant["puuid"] == puuid:
@@ -114,14 +124,18 @@ def laner_analysis(list_of_matches, puuid, lane, api_key):
           enemy_laner_id = participant["participantId"]
       cursor.execute("INSERT INTO teammatches (match_id, puuid, participant_id, enemy_laner_id, vision_score, first_blood, team_id, control_wards) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", (matchId, puuid, part_id, enemy_laner_id, "0", first_blood_participation, "0", "0"))
       cnx.commit()
+    #match in teammatches table
     elif type(match) == list:
       part_id = match[0][2]
       enemy_laner_id = match[0][3]
       first_blood += match[0][5]
     
+    #lookup timeline for same match
     timeline = timeline_lookup(matchId, puuid, api_key)
+    #match lookup returned error
     if type(timeline) == int:
       continue
+    #timeline not in database so returned json file and adds timeline to teamtimeline table
     elif type(timeline) == dict:
       kills_and_assists = 0
       deaths = 0
@@ -145,6 +159,7 @@ def laner_analysis(list_of_matches, puuid, lane, api_key):
       cs_diff_at_15.append(part_cs - enemy_cs)
       cursor.execute("INSERT INTO teamtimeline (match_id, puuid, kills_and_assists, deaths, dragon_timer, herald_timer, minions_killed, enemy_laner_minions_killed) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", (matchId, puuid, kills_and_assists, deaths, "0", "0", part_cs, enemy_cs))
       cnx.commit()
+    #timeline in teamtimeline table
     elif type(timeline) == list:
       cs_diff_at_15.append(timeline[0][6] - timeline[0][7])
       if timeline[0][3] == 0:
@@ -160,18 +175,23 @@ def laner_analysis(list_of_matches, puuid, lane, api_key):
   cnx.close()
   return top_stats
 
+#analysis of match and timeline for junglers
 def jungle_analysis(list_of_matches, puuid, api_key):
   cnx = mysql.connector.connect(user='root', password='Clol1234', host='localhost', database='league_data')
   cursor = cnx.cursor()
   first_dragon_timers = []
   first_herald_timers = []
   kda = []
+  #iterate through last 10 matches
   for matchId in list_of_matches:
+    #lookup match
     match = match_lookup(matchId, puuid, api_key)
     part_id = -1
     team_id = -1
+    #match_lookup returned error
     if type(match) == int:
       continue
+    #match not in database so returns json file then adds match to teammatches table
     elif type(match) == dict:
       for participant in match["info"]["participants"]:
         if participant["puuid"] == puuid:
@@ -179,13 +199,17 @@ def jungle_analysis(list_of_matches, puuid, api_key):
           team_id = participant["teamId"]
       cursor.execute("INSERT INTO teammatches (match_id, puuid, participant_id, enemy_laner_id, vision_score, first_blood, team_id, control_wards) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", (matchId, puuid, part_id, "0", "0", "0", team_id, "0"))
       cnx.commit()
+    #match in teammatches table
     elif type(match) == list:
       part_id = match[0][2]
       team_id = match[0][6]
     
+    #lookup timeline
     timeline = timeline_lookup(matchId, puuid, api_key)
+    #timeline_lookup returned error
     if type(timeline) == int:
       continue
+    #timeline not in database so returns json file then adds timeline to teamtimeline table
     elif type(timeline) == dict:
       kills_and_assists = 0
       deaths = 0
@@ -219,6 +243,7 @@ def jungle_analysis(list_of_matches, puuid, api_key):
         kda.append(kills_and_assists / deaths)
       cursor.execute("INSERT INTO teamtimeline (match_id, puuid, kills_and_assists, deaths, dragon_timer, herald_timer, minions_killed, enemy_laner_minions_killed) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", (matchId, puuid, kills_and_assists, deaths, first_drake, first_herald, "0", "0"))
       cnx.commit()
+    #timeline in teamtimeline table
     elif type(timeline) == list:
       if timeline[0][3] == 0:
         kda.append(timeline[0][2])
@@ -246,17 +271,22 @@ def jungle_analysis(list_of_matches, puuid, api_key):
   cnx.close()
   return jungle_stats
 
+#analysis of match and timeline for supports
 def sup_analysis(list_of_matches, puuid, api_key):
   cnx = mysql.connector.connect(user='root', password='Clol1234', host='localhost', database='league_data')
   cursor = cnx.cursor()
   kda = []
   vision_scores = []
   control_wards = []
+  #iterate through last ten matches
   for matchId in list_of_matches:
+    #lookup match
     match = match_lookup(matchId, puuid, api_key)
     part_id = -1
+    #match_lookup returned error
     if type(match) == int:
       continue
+    #match not in database returns json and adds match to teammatches table
     elif type(match) == dict:
       for participant in match["info"]["participants"]:
         if participant["puuid"] == puuid:
@@ -265,14 +295,18 @@ def sup_analysis(list_of_matches, puuid, api_key):
           control_wards.append(participant["detectorWardsPlaced"])
           cursor.execute("INSERT INTO teammatches (match_id, puuid, participant_id, enemy_laner_id, vision_score, first_blood, team_id, control_wards) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", (matchId, puuid, part_id, "0", participant["visionScore"], "0", "0", participant["detectorWardsPlaced"]))
           cnx.commit()
+    #match in teammatches table
     elif type(match) == list:
       part_id = match[0][2]
       vision_scores.append(match[0][4])
       control_wards.append(match[0][7])
     
+    #lookup timeline 
     timeline = timeline_lookup(matchId, puuid, api_key)
+    #timeline_lookup returned error
     if type(timeline) == int:
       continue
+    #timeline not in database returns jason then adds timeline to teamtimeline table
     elif type(timeline) == dict:
       kills_and_assists = 0
       deaths = 0
@@ -293,6 +327,7 @@ def sup_analysis(list_of_matches, puuid, api_key):
         kda.append(kills_and_assists / deaths)
       cursor.execute("INSERT INTO teamtimeline (match_id, puuid, kills_and_assists, deaths, dragon_timer, herald_timer, minions_killed, enemy_laner_minions_killed) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", (matchId, puuid, kills_and_assists, deaths, "0", "0", "0", "0"))
       cnx.commit()
+    #timeline in teamtimeline table
     elif type(timeline) == list:
       if timeline[0][3] == 0:
         kda.append(timeline[0][2])
@@ -307,6 +342,7 @@ def sup_analysis(list_of_matches, puuid, api_key):
   cnx.close()
   return sup_stats
 
+#returns analysis of a laner
 def laner(summoner_name, lane, players, api_key):
   laner_info = summoner_lookup(summoner_name, api_key)
   laner_queue_info = lookup_queue(laner_info["id"], api_key)
@@ -320,6 +356,7 @@ def laner(summoner_name, lane, players, api_key):
       player = i
   players[lane] = player
 
+#returns analysis of a jungler
 def jungler(summoner_name, players, api_key):
   jungle_info = summoner_lookup(summoner_name, api_key)
   jungle_queue_info = lookup_queue(jungle_info["id"], api_key)
@@ -333,6 +370,7 @@ def jungler(summoner_name, players, api_key):
       player = i
   players["JUNGLE"] = player
       
+#returns analysis of a support 
 def support(summoner_name, players, api_key):
   sup_info = summoner_lookup(summoner_name, api_key)
   sup_queue_info = lookup_queue(sup_info["id"], api_key)
@@ -624,14 +662,7 @@ def members(summoner_name):
     cnx.close()
     Sorted_champion_stats = dict(sorted(champion_stats.items(), key=lambda item: (8 * item[1]['wins'] / (item[1]['wins'] + item[1]['losses']) + 2 * item[1]['games']) / 10, reverse=True))
    
-    #return jsonify({"top1":list(Sorted_champion_stats.keys())[0], "bestChamp" : Sorted_champion_stats,"flex":player_data_flex,"player_data":player_data_solo, "matches": [{'match_id': match[0], 'summoner_name': match[1], 'champion_name': match[2], 'kills': match[3], 'deaths': match[4],
-    #    'assists': match[5], 'total_minions_killed': match[6], 'item0': match[7], 'item1': match[8], 'item2': match[9], 'item3': match[10],
-    #    'item4': match[11], 'item5': match[12], "rune0" : runes[0],"rune0" : match[13],"rune1" :match[14],"rune2" :match[15],"rune3" :match[16],"rune4" :match[17],"rune5" :match[18],"spell1" :match[19],"spell2" :match[20],"win" :match[21], "champion_level": match[22], "minions_pm": match[23], "gold_earned": match[24], "gold_pm": match[25], "damage_dealt": match[26], "vision_score": match[27], "lane": match[28]} for match in match_data],"main": [{'match_id': match[0], 'summoner_name': match[1], 'champion_name': match[2], 'kills': match[3], 'deaths': match[4],
-    #    'assists': match[5], 'total_minions_killed': match[6], 'item0': match[7], 'item1': match[8], 'item2': match[9], 'item3': match[10],
-    #    'item4': match[11], 'item5': match[12], "rune0" : match[13],"rune1" :match[14],"rune2" :match[15],"rune3" :match[16],"rune4" :match[17],"rune5" :match[18],"spell1" :match[19],"spell2" :match[20],"win" :match[21], "champion_level": match[22], "minions_pm": match[23], "gold_earned": match[24], "gold_pm": match[25], "damage_dealt": match[26], "vision_score": match[27], "lane": match[28]} for match in main],"gameData": [{'gameWhen': match[0], 'gameMinutes': match[1], 'gameSeconds': match[2], 'gameMod': match[3]} for match in game_data]})
     return jsonify({"top1":list(Sorted_champion_stats.keys())[0], "bestChamp" : Sorted_champion_stats,"flex":player_data_flex,"player_data":player_data_solo,
-                  # "matches": [[{"sum" + str(player): {'match_id': match[player][0], 'summoner_name': match[player][1], 'champion_name': match[player][2], 'kills': match[player][3], 'deaths': match[player][4], 'assists': match[player][5], 'total_minions_killed': match[player][6], 'item0': match[player][7], 'item1': match[player][8], 'item2': match[player][9], 'item3': match[player][10], 'item4': match[player][11], 'item5': match[player][12], "rune0": match[player][13], "rune1": match[player][14], "rune2": match[player][15], "rune3": match[player][16], "rune4": match[player][17], "rune5": match[player][18], "spell1": match[player][19], "spell2": match[player][20], "win":match[player][21], "champion_level": match[player][22], "minions_pm": match[player][23], "gold_earned": match[player][24], "gold_pm": match[player][25], "damage_dealt": match[player][26], "vision_score": match[player][27], "lane": match[player][28]}
-                  #             }for player in range(len(match))] for match in match_data],
                   "matches": [[{'match_id': match[player][0], 'summoner_name': match[player][1], 'champion_name': match[player][2], 'kills': match[player][3], 'deaths': match[player][4], 'assists': match[player][5], 'total_minions_killed': match[player][6], 'item0': match[player][7], 'item1': match[player][8], 'item2': match[player][9], 'item3': match[player][10], 'item4': match[player][11], 'item5': match[player][12], "rune0": match[player][13], "rune1": match[player][14], "rune2": match[player][15], "rune3": match[player][16], "rune4": match[player][17], "rune5": match[player][18], "spell1": match[player][19], "spell2": match[player][20], "win":match[player][21], "champion_level": match[player][22], "minions_pm": match[player][23], "gold_earned": match[player][24], "gold_pm": match[player][25], "damage_dealt": match[player][26], "vision_score": match[player][27], "lane": match[player][28]}
                               for player in range(len(match))] for match in match_data],
                   "main": [{'match_id': match[0], 'summoner_name': match[1], 'champion_name': match[2], 'kills': match[3], 'deaths': match[4],
@@ -680,8 +711,7 @@ def team_analysis(summoner_name_top1, summoner_name_jungle1, summoner_name_mid1,
     team1 = {}
     team2 = {}
     players = {}
-    #players["team_1"] = team(summoner_name_top1, summoner_name_jungle1, summoner_name_mid1, summoner_name_bot1, summoner_name_sup1)
-    #players["team_2"] = team(summoner_name_top2, summoner_name_jungle2, summoner_name_mid2, summoner_name_bot2, summoner_name_sup2)
+    #launch one thread per player and return the analysis results
     t1 = threading.Thread(target=laner, args=(summoner_name_top1,"TOP",team1,api_key,))
     t2 = threading.Thread(target=jungler, args=(summoner_name_jungle1,team1,api_key,))
     t3 = threading.Thread(target=laner, args=(summoner_name_mid1,"MIDDLE",team1,api_key_five ,))
