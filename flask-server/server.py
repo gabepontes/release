@@ -11,11 +11,11 @@ app = Flask(__name__)
 
 
 # API key for the league server
-api_key = "RGAPI-732d43ff-3c7c-400c-9748-926b57e37af6"
-api_key_two = "RGAPI-c730088f-582f-4f5e-8318-4e4628f98aee"
-api_key_three = "RGAPI-1e38fa8e-5f0e-4920-bb45-72451ec2f023"
-api_key_four ="RGAPI-26b33466-246f-4f05-9ae0-bff8a40e0c43"
-api_key_five = "RGAPI-698abb89-ac1b-48de-897a-f6da33aac440"
+api_key = "RGAPI-98f58001-adba-429c-8272-45e784d05863"
+api_key_two = "RGAPI-46d3f482-4be6-4cd2-958b-8d689c399e61"
+api_key_three = "RGAPI-978ce2c8-817c-4ab6-96d0-8e72b8f64fc8"
+api_key_four ="RGAPI-d10e6de2-f3af-491d-954b-8d2e16ba9500"
+api_key_five = "RGAPI-bbeca9d0-d8a0-47c9-891d-ffd11966cb43"
 
 def summoner_lookup(summoner_name, api_key):
   region = "NA1"
